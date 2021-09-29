@@ -1,0 +1,16 @@
+graph ni {
+	node [shape=rarrow]
+	1 [label="Ni!"]
+	2 [label="Ni!"]
+	3 [label="Ni!" shape=egg]
+	4 [label="Ni!" shape=line]
+	node [shape=star]
+	5 [label="Ni!"]
+	6 [label="Ni!"]
+	rankdir=LR
+	1 -- 2
+	2 -- 3
+	3 -- 4
+	4 -- 5
+	5 -- 6
+}

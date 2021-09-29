@@ -1,0 +1,9 @@
+// Round Table
+digraph {
+	A [label="King Sachin"]
+	B [label="Queen Suman"]
+	C [label=Binny]
+	A -> B
+	A -> C
+	B -> C [constraint=true]
+}
