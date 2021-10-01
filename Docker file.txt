@@ -30,7 +30,7 @@ conda activate Research-Project
 
 # test run before training
 conda activate Research-Project
-cd /home/sachin/Research-Project/traial-mode && python traial_run.py
+cd /home/sachin/Research-Project/trial network && python trial_net.py
 cd ..
 python main.py # input requried arguments
 
