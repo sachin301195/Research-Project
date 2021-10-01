@@ -31,21 +31,8 @@ trns = ['t_AB', 't_BA', 't_SA', 't_SB', 't_AE', 't_EA', 't_AC', 't_CA', 't_CE', 
 
 
 class env(gym.GoalEnv):
-    """
-    Parameters
-    ----------
-
-    DESCRIPTION.
-    ------------
-    Generates the Conveyor Network Petri Net.
-
-    Returns
-    -------
-    Network
-
-    """
-
     def __init__(self, jobs, resources, orders):
+        super(env, self).__init__()
         self.fs = jobs
         self.cs = [0 for _ in jobs]
         self.no_of_jobs = len(jobs)
@@ -55,44 +42,45 @@ class env(gym.GoalEnv):
         self.blue = resources[3]
         self.violet = resources[4]
         self.orders = orders
+        self.t_violet = [8 for _ in range(self.violet)]
+        self.t_blue = [4 for _ in range(self.blue)]
+        self.t_green = [2 for _ in range(self.green)]
+        self.t_red = [1 for _ in range(self.red)]
+        self.t_init = []
+        self.token = {}
         if self.no_of_jobs != len(self.orders):
             raise ValueError("length of number of jobs should be same as length of order")
         if sum(self.orders) != self.res:
             raise ValueError("Total sum of orders should be equal to the resource[0]")
 
+    @property
     def tokens(self):
-        self.token = {}
         for i in self.fs:
             self.token[f'job{i}'] = (0, i, 0)
             # exec(f't_job{self.fs[i]} = [self.cs[i], self.fs[i]]')
-        self.t_init = []
         for i in range(self.no_of_jobs):
             for k in range(self.orders[i]):
                 self.t_init.append(self.token[f'job{self.fs[i]}'])
-        self.t_red = [1 for _ in range(self.red)]
-        self.t_green = [2 for _ in range(self.green)]
-        self.t_blue = [4 for _ in range(self.blue)]
-        self.t_violet = [8 for _ in range(self.violet)]
         return self.t_init, self.t_red, self.t_green, self.t_blue, self.t_violet
 
     def network(self, bounds=5, minimum_time=0, maximum_time=5):
         # developing the network
         n = PetriNet('Network')
         # n.globals['source', 'destination'] = [kwargs['source'], kwargs['destination']]
-        self.init, self.r, self.g, self.b, self.v = self.tokens()
+        init, r, g, b, v = self.tokens
 
         # Adding places
         for i in plcs:
             if i == 'S':
-                n.add_place(Place('%s' % i, self.init, bound=(0, None)))
+                n.add_place(Place('%s' % i, init, bound=(0, None)))
             elif i == 'Green':
-                n.add_place(Place('%s' % i, self.g, bound=(0, None)))
+                n.add_place(Place('%s' % i, g, bound=(0, None)))
             elif i == 'Red':
-                n.add_place(Place('%s' % i, self.r, bound=(0, None)))
+                n.add_place(Place('%s' % i, r, bound=(0, None)))
             elif i == 'Blue':
-                n.add_place(Place('%s' % i, self.b, bound=(0, None)))
+                n.add_place(Place('%s' % i, b, bound=(0, None)))
             elif i == 'Violet':
-                n.add_place(Place('%s' % i, self.v, bound=(0, None)))
+                n.add_place(Place('%s' % i, v, bound=(0, None)))
             else:
                 n.add_place(Place('%s' % i, [], bound=bounds))
 

@@ -30,7 +30,7 @@
 # g = StateGraph(pn)
 #
 # pn.reset()
-# print(g.current())
+# print(g.current()
 # clock = 0.0
 # delay = pn.time()
 # modes = pn.transition('t1').modes()
