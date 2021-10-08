@@ -1,7 +1,10 @@
 import sys
+sys.path.append('C:\source\Research Project\Scripts\Research-Project\snakes-master')
 sys.path.append('C:\source\Research Project\Scripts\Research-Project')
 import tpn
 import snakes.plugins
+from snakes.utils.abcd import main
+from snakes.utils.simul import StateSpace
 
 snakes.plugins.load([tpn, 'gv', 'bound'], 'snakes.nets', 'snk')
 from snk import *
@@ -41,6 +44,8 @@ class TrialNet:
     
     def network(self, bounds = 5, minimum_time = 0, maximum_time = 5):
         n = PetriNet('trial net')
+        n.globals.declare('c = 0')
+        n.globals.declare('f = 0')
         self.init, self.r, self.g = self.tokens()
         # adding places
         for i in plcs:
@@ -113,19 +118,38 @@ class TrialNet:
 
 trial_net = TrialNet([1], [7, 5, 5], [7])
 net, t = trial_net.network()
+print(net.get_marking())
+g = StateSpace(net)
+print(g.get())
+m = g.modes(g.get())
+print(g.succ(g.current, 0))
+print(net.get_marking())
+print(g.current)
+m = g.modes(g.get())
+print(m)
+print(net.get_marking())
+print(g.succ(g.current, 0))
+m = g.modes(g.get())
+print(m)
+print(net.get_marking())
+print(g.succ(g.current, slice(0, -1, 5)))
+m = g.modes(g.get())
+print(m)
+print(net.get_marking())
 net.draw('trialnet.png')
 net.reset()
 clock = 0.0
 delay = net.time()
-g = StateGraph(net)
-print(g.current())
+#g = StateSpace(net)
+#print(g.current())
 mode = t['t_SA'].modes()
-print(mode)
+#print(mode)
 clock += delay
-t['t_SA'].fire(mode[0])
+#t['t_SA'].fire(mode[0])
+#print(net.get_marking())
 
 net.draw('first_fire.png')
-print(g.current())
+#print(g.current())
 # g.build()
 # print(list(g.successors))
 
