@@ -6,6 +6,8 @@ Created on Tue Sep 14 12:19:42 2021
 """
 
 import subprocess
+import gym
+from gym import spaces
 import logging
 import multiprocessing
 import time
@@ -28,4 +30,8 @@ def configure_logger():
     return _logger  
 
 logger = configure_logger()
-
+#
+# class Cfms(gym.Env):
+#     metadata = {'render.modes' : ['human']}
+#
+#     def __init__(self, ):
