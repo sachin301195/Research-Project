@@ -16,6 +16,8 @@ import psutil
 import pathlib as Path
 import os
 import sys
+sys.path.append('C:\source\Research Project\Scripts\Research-Project\\trial')
+import trial_net
 
 def configure_logger():
     timestamp = time.strftime("%Y-%m-%d")
