@@ -2,7 +2,7 @@ import sys
 sys.path.append('C:\source\Research Project\Scripts\Research-Project\snakes-master')
 import snakes.plugins
 from snakes.utils.simul import StateSpace
-# from snakes.nets import *
+from snakes.nets import *
 snakes.plugins.load(['gv', 'bound'], 'snakes.nets', 'snk')
 from snk import *
 

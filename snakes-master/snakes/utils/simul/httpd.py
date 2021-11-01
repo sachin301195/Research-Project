@@ -6,7 +6,7 @@ from snakes.utils.simul.html import json, utf8
 try :
     import httplib
 except :
-    import http as httplib
+    import http.server as httplib
 
 try :
     import urlparse
@@ -16,7 +16,7 @@ except :
 try :
     import BaseHTTPServer
 except :
-    import http as BaseHTTPServer
+    import http.server as BaseHTTPServer
 
 ##
 ##
