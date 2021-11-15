@@ -1,5 +1,5 @@
 import sys
-sys.path.append('C:\source\Research Project\Scripts\Research-Project\snakes-master')
+sys.path.append('/snakes-master')
 sys.path.append('C:\source\Research Project\Scripts\Research-Project')
 import tpn
 import snakes.plugins

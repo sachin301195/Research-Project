@@ -19,15 +19,15 @@ trans = ['s1', 'SN1', 'AN1', 'BN1', 'P_A1', 'P_A2', 'P_A3', 'N_A1', 'N_A2', 'N_A
          'P_F3', 'N_F1', 'N_F2', 'N_F3']
 
 
-class Network:
-    def __init__(self, jobs, resources, orders):
+class TrialConveyorNetwork:
+    def __init__(self, jobs, resources, quantity):
         self.fs = jobs
         self.cs = [0 for _ in jobs]
         self.no_of_jobs = len(jobs)
         self.res = resources[0]
         self.red = resources[1]
         self.green = resources[2]
-        self.orders = orders
+        self.orders = quantity
         self.token = {}
         self.t_init = []
         self.t_red = [1 for _ in range(self.red)]
@@ -46,7 +46,7 @@ class Network:
                 self.t_init.append(self.token[f'job{self.fs[i]}'])
         return self.t_init, self.t_red, self.t_green
 
-    def conveyor_environment(self, bounds = 1):
+    def trial_conveyor_petrinet(self, bounds = 1):
         n = PetriNet('trial_net')
         n.globals.declare('c = 0')
         n.globals.declare('f = 0')
@@ -270,12 +270,12 @@ class Network:
         return n, self.transition
 
 
-trial_net = Network([1], [7, 5, 5], [7])
-net, t = trial_net.conveyor_environment()
+trial_net = TrialConveyorNetwork([1, 1], [7, 5, 5], [4, 3])
+net, t = trial_net.trial_conveyor_petrinet()
 # print(net.get_marking())
 g = StateSpace(net)
 print(g.get())
-print(g.current)
+r = [2, 2]
 m = g.modes(g.get())
 print(g.succ(g.current, 0))
 print(g.modes(g.current))
@@ -288,3 +288,21 @@ print(g.succ(g.current, -1))
 print(net.get_marking())
 print(g.modes(g.current))
 net.draw('Updated_Network.png')
+if 'Green' in g.get():
+    print(g.current)
+    net.add_marking(Marking(Red = MultiSet(r)))
+    print(net.get_marking())
+    g.current = g.add(net.get_marking())
+    a = dict(g.get())
+    del a['Red']
+    del a['Green']
+    print(a)
+    length = 0
+    for i in range(len(a)):
+        length += len(list(a.values())[i])
+        print(length)
+    print('final len: ' + str(length))
+    a = list(a.values())[0]
+    print(len(a))
+    print(g.current)
+    print(True)

@@ -30,7 +30,7 @@ trns = ['t_AB', 't_BA', 't_SA', 't_SB', 't_AE', 't_EA', 't_AC', 't_CA', 't_CE', 
         't_VYM', 't_VMY', 't_T']
 
 
-class env(gym.GoalEnv):
+class ConveyorNetwork():
     """
     Parameters
     ----------
@@ -75,7 +75,7 @@ class env(gym.GoalEnv):
         self.t_violet = [8 for _ in range(self.violet)]
         return self.t_init, self.t_red, self.t_green, self.t_blue, self.t_violet
 
-    def network(self, bounds=5, minimum_time=0, maximum_time=5):
+    def conveyor_petrinet(self, bounds=5, minimum_time=0, maximum_time=5):
         # developing the network
         n = PetriNet('Network')
         # n.globals['source', 'destination'] = [kwargs['source'], kwargs['destination']]
@@ -330,8 +330,8 @@ class env(gym.GoalEnv):
         return n, trans
 
 
-environment = env([1], [12, 5, 5, 5, 5], [12])
-net, transitions = environment.network()
-net.draw('network.png')
-print(net.get_marking())
-print(net.node('S'))
+# environment = env([1], [12, 5, 5, 5, 5], [12])
+# net, transitions = environment.network()
+# net.draw('network.png')
+# print(net.get_marking())
+# print(net.node('S'))
