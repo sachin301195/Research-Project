@@ -43,9 +43,9 @@ class Agent:
         self.epsilon = epsilon
         self.eps_dec = eps_dec
         self.eps_min = eps_min
-        self.action_space = [i for i in range(n_actions)]
+        self.action_space = n_actions
 
-        self.Q = LinearDeepQNetwork(self.lr, self.n_actions, self.input_dims)
+        self.Q = LinearDeepQNetwork(self.lr, self.n_actions[0], self.input_dims)
 
     def choose_action(self, obs):
         if np.random.random() > self.epsilon:
@@ -81,13 +81,13 @@ class Agent:
 if __name__ == '__main__':
     env = ConveyorEnv()
 
-    n_games = 10
+    n_episodes = 100000
     scores = []
     eps_history = []
 
-    agent = Agent(input_dims=env.observation_space.shape, n_actions=env.action_space.n)
+    agent = Agent(input_dims=env.observation_space.shape, n_actions=env.action_space.__getitem__(0).n)
 
-    for i in range(n_games):
+    for i in range(n_episodes):
         score = 0
         done = False
         obs = env.reset()

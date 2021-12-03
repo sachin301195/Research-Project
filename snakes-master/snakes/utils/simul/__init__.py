@@ -26,9 +26,8 @@ class StateSpace (dict) :
         for trans in self.net.transition() :
             for mode in trans.modes() :
                 marking.modes.append((trans, mode))
-    def succ (self, state, mode) :
+    def succ (self, state, trans, binding) :
         marking = self[state]
-        trans, binding = marking.modes[mode]
         self.net.set_marking(marking)
         trans.fire(binding)
         self.current = self.add(self.net.get_marking())
