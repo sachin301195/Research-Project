@@ -4,7 +4,7 @@
 """
 
 import gym
-from gym import spaces, logger
+from gym import spaces
 from gym import error
 from gym import utils
 from gym.utils import seeding
@@ -208,7 +208,7 @@ class ConveyorEnv(gym.Env):
                 mask = np.array([1 if TRANSITION[i] in next_trans else 0], dtype=np.int8)
             self.state = {
                 "action_mask" : mask,
-                "avail_actions" : np.ones(self.no_trans)
+                "avail_actions" : np.ones(self.no_trans),
                 "state" : state
             }
         else:
