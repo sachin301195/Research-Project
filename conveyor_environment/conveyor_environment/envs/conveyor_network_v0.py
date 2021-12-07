@@ -101,13 +101,14 @@ def random_resource_generator(seed):
     return res_size
 
 
-class ConveyorEnv(gym.Env):
+class ConveyorEnv_v0(gym.Env):
     metadata = {'render.modes': ['Human']}
 
-    def __init__(self, version='trial', final_reward = 10, mask = True):
-        self.version = version
-        self.final_reward = final_reward
-        self.mask = mask
+    def __init__(self, env_config):
+        self.env_config = env_config
+        self.version = env_config["version"]
+        self.final_reward = env_config["final_reward"]
+        self.mask = env_config["mask"]
         self.seed = seeding.create_seed()
         self.jobs, self.res, self.quantity, self.orders = generate_random_orders(self.version, self.seed)
         if self.version == 'trial':
@@ -324,5 +325,6 @@ class ConveyorEnv(gym.Env):
         return self._RESET()
 
     def render(self, mode = "Human"):
+        pass
 
 
