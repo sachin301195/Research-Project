@@ -5,16 +5,14 @@
 
 import gym
 from gym import spaces
-from gym import error
-from gym import utils
 from gym.utils import seeding
 import numpy as np
 import logging
 import sys
-from or_gym.utils import assign_env_config
-sys.path.append('C:\source\Research Project\Scripts\Research-Project\snakes-master')
-from n_trial.updated_trial_network import TrialConveyorNetwork
-from Conveying_Network import ConveyorNetwork
+
+sys.path.append('../../snakes-master')
+from conveyor_environment.updated_trial_network import TrialConveyorNetwork
+# from Conveying_Network import ConveyorNetwork
 from snakes.utils.simul import StateSpace
 
 logger = logging.getLogger(__name__)
@@ -104,13 +102,15 @@ def random_resource_generator(seed):
 class ConveyorEnv_v0(gym.Env):
     metadata = {'render.modes': ['Human']}
 
-    def __init__(self, env_config):
-        self.env_config = env_config
-        self.version = env_config["version"]
-        self.final_reward = env_config["final_reward"]
-        self.mask = env_config["mask"]
+    def __init__(self, version = "trial", final_reward = 10, mask = True):
+        self.version = version
+        self.final_reward = final_reward
+        self.mask = mask
         self.seed = seeding.create_seed()
         self.jobs, self.res, self.quantity, self.orders = generate_random_orders(self.version, self.seed)
+        self.throughput = []
+        self.avg_throughput = 0
+        self.o_c_time = []
         if self.version == 'trial':
             self.network = TrialConveyorNetwork(self.jobs, self.res, self.quantity)
             self.net, self.trans = self.network.trial_conveyor_petrinet()
@@ -177,6 +177,10 @@ class ConveyorEnv_v0(gym.Env):
             self.step_count = 0
             self.total_time_units = 0
             self._stateSpace.current = self.net.get_marking()
+            self.throughput = []
+            self.avg_throughput = 0
+            self.o_c_time = []
+            self.order_time = 0
 
         return self._next_observation
 
@@ -208,9 +212,9 @@ class ConveyorEnv_v0(gym.Env):
             for i in range(self.no_trans):
                 mask = np.array([1 if TRANSITION[i] in next_trans else 0], dtype=np.int8)
             self.state = {
-                "action_mask" : mask,
-                "avail_actions" : np.ones(self.no_trans),
-                "state" : state
+                "action_mask": mask,
+                "avail_actions": np.ones(self.no_trans),
+                "state": state
             }
         else:
             self.state = state
@@ -300,13 +304,13 @@ class ConveyorEnv_v0(gym.Env):
         for i in range(len(self.reward_marking)):
             self.available_tokens += len(list(self.reward_marking.values())[i])
         if self.available_tokens == self.res[0]:
-            self.reward -= 0.1
+            self.reward = 0.1
             return self.reward
         elif self.res[0] > self.available_tokens > 0:
-            self.reward = self.reward + self.res[0] - self.available_tokens
+            self.reward = self.res[0] - self.available_tokens
             return self.reward
         elif self.available_tokens == 0:
-            self.reward += self.final_reward
+            self.reward = self.final_reward
             return self.reward
 
     def _done_status(self):
@@ -325,6 +329,20 @@ class ConveyorEnv_v0(gym.Env):
         return self._RESET()
 
     def render(self, mode = "Human"):
-        pass
+        self.marking = self._stateSpace.get()
+        order_no = 0
+        if 'T1' in list(self.marking.keys()):
+            self.object = list(self.marking["T1"])
+        s = "object no.: {:2d}, reward: {:2d}, avg_Throughput: {:2f} and order completion time: {}"
+        self.throughput.append(self.object[-1])
+        self.avg_throughput = np.mean(self.throughput)
+        if self.object[1] <= self.orders[order_no]:
+            self.order_time += self.object[-1]
+            if self.object[-1] == self.orders[order_no]:
+                self.o_c_time.append(self.order_time)
+                self.order_time = 0
+                order_no += 1
+        print(s.format(self.object[1]), self.reward, self.avg_throughput, self.o_c_time)
+
 
 

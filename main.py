@@ -17,8 +17,6 @@ from ray.rllib.utils.framework import try_import_torch
 from ray.rllib.utils.test_utils import check_learning_achieved
 from ray.tune.logger import pretty_print
 
-from Conveyor_Network import ConveyorEnv
-
 torch, nn = try_import_torch()
 
 parser = argparse.ArgumentParser()
@@ -61,23 +59,31 @@ parser.add_argument(
 parser.add_argument(
     "--local-mode",
     help="Init Ray in local mode for easier debugging.",
-    # action="store-true"
+    action="store-true"
 )
 
 
 class Torch_Network(TorchModelV2, nn.Module):
-    def __init__(self, obs_space, action_space, num_outputs, model_config, name):
-        TorchModelV2.__init__(self, obs_space, action_space, num_outputs, model_config, name)
-        nn.Module.__init__(self)
-        self.torch_sub_model = TorchFC(obs_space, action_space, num_outputs, model_config, name)
+    def __init__(self, obs_space, action_space, num_outputs, model_config, name, true_obs_shape=(40,),
+                 action_embed_size=82, *args, **kwargs):
+        super(Torch_Network, self).__init__(obs_space, action_space, num_outputs, model_config, name,
+                                            *args, **kwargs)
+        self.action_embed_model = TorchFC(spaces.Box(0, 1, shape=true_obs_shape), action_space,
+                                          action_embed_size, model_config, name + '_action_embedding')
+        self.register_variables(self.action_embed_model.variables())
 
     def forward(self, input_dict, state, seq_lens):
-        input_dict["obs"] = input_dict["obs"].float()
-        fc_out, _ = self.torch_sub_model(input_dict, state, seq_lens)
-        return fc_out, {}
+        avail_actions = input_dict["obs"]["avail_actions"]
+        action_mask = input_dict["obs"]["action_mask"]
+        action_embedding, _ = self.action_embed_model({"obs": input_dict["obs"]["state"]})
+        intent_vector = torch.expand(action_embedding, 1)
+        action_logits = torch.sum(avail_actions * intent_vector, 1)
+        inf_mask = torch.maximum(torch.log(action_mask), torch.float32.min)
+
+        return action_logits + inf_mask, state
 
     def value_function(self):
-        return torch.reshape(self.torch_sub_model.value_function(), [-1])
+        return self.action_embed_model.value_function()
 
 
 CHECKPOINT_ROOT = "tmp/dqn/ConveyorEnv"
@@ -93,11 +99,13 @@ if __name__ == '__main__':
     ray.init(local_mode=args.local_mode)
 
     ModelCatalog.register_custom_model(
-        "my_model", Torch_Network
+        "conveyor_mask", Torch_Network
     )
 
+    env = create_env('conveyor_network_v0')
+
     config = {
-        "env": ConveyorEnv,
+        "env": "ConveyorEnv_v0",
         "env_config": {
             "version": "trial",
             "final_reward": 2,
@@ -105,7 +113,7 @@ if __name__ == '__main__':
         },
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
         "model": {
-            "custom_model": "my_model",
+            "custom_model": "conveyor_mask",
             "vf_share_layers": True
         },
         "num_workers": 1,  # parallelism
