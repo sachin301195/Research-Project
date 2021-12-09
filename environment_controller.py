@@ -6,6 +6,8 @@ Created on Tue Sep 14 12:19:42 2021
 """
 
 import subprocess
+import gym
+from gym import spaces
 import logging
 import multiprocessing
 import time
@@ -14,6 +16,8 @@ import psutil
 import pathlib as Path
 import os
 import sys
+sys.path.append('C:\source\Research Project\Scripts\Research-Project\\trial')
+import trial_net
 
 def configure_logger():
     timestamp = time.strftime("%Y-%m-%d")
@@ -28,4 +32,8 @@ def configure_logger():
     return _logger  
 
 logger = configure_logger()
-
+#
+# class Cfms(gym.Env):
+#     metadata = {'render.modes' : ['human']}
+#
+#     def __init__(self, ):
