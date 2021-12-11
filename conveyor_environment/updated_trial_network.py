@@ -1,5 +1,5 @@
 import sys
-sys.path.append('snakes-master')
+sys.path.append('./snakes_master')
 import snakes.plugins
 from snakes.utils.simul import StateSpace
 from snakes.nets import *

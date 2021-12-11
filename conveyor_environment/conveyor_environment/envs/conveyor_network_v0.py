@@ -10,7 +10,7 @@ import numpy as np
 import logging
 import sys
 
-sys.path.append('../../snakes-master')
+sys.path.append('../../snakes_master')
 from conveyor_environment.updated_trial_network import TrialConveyorNetwork
 # from Conveying_Network import ConveyorNetwork
 from snakes.utils.simul import StateSpace
@@ -31,7 +31,7 @@ PLACES = ['S', 'S1', 'N1', 'A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'N2', 'C1', 'C2',
 NEXT_TRANSITIONS = {'S': ['s1'], 'S1': ['SN1'], 'N1': ['P_A1', 'N_B3'], 'A1': ['AN1', 'P_A2'], 'A2': ['N_A1', 'P_A3'],
                     'A3': ['N_A2', 'AN2'], 'B1': ['BN9', 'P_B2'], 'B2': ['N_B1', 'P_B3'], 'B3': ['N_B2', 'BN1'],
                     'N2': ['N_A3', 'P_C1', 'N_E3'], 'C1': ['CN2', 'P_C2'], 'C2': ['N_C1', 'P_C3'], 'C3':
-                    ['N_C2', 'C2W1', 'C3W1', 'C0W1', 'C1W1'], 'D1': ['P_D2', 'DN4'], 'D2': ['N_D1', 'P_D3'],
+                        ['N_C2', 'C2W1', 'C3W1', 'C0W1', 'C1W1'], 'D1': ['P_D2', 'DN4'], 'D2': ['N_D1', 'P_D3'],
                     'D3': ['N_D2', 'D1W1', 'D0W1', 'D3W1', 'D2W1'], 'E1': ['EN3', 'P_E2'], 'E2': ['P_E3', 'N_E1'],
                     'E3': ['N_E2', 'EN2'], 'F1': ['FN3', 'P_F2'], 'F2': ['N_F1', 'P_F3'], 'F3': ['N_F2', 'FN4'],
                     'J1': ['P_J2', 'JN9'], 'J2': ['P_J3', 'N_J1'], 'J3': ['N_J2', 'JN6'], 'G1': ['P_G2', 'GN6'],
@@ -39,7 +39,6 @@ NEXT_TRANSITIONS = {'S': ['s1'], 'S1': ['SN1'], 'N1': ['P_A1', 'N_B3'], 'A1': ['
                     'K3': ['N_K2', 'KN9'], 'T1': ['T'], 'W1': ['N_D3', 'N_C3'], 'Red': ['D1W1', 'D3W1', 'C1W1', 'C3W1'],
                     'Green': ['C2W1', 'C3W1', 'D2W1', 'D3W1'], 'N3': ['P_E1', 'N_G3', 'P_F1'], 'N4': ['P_D1', 'N_F3'],
                     'N0': ['P_K1', 't1'], 'N6': ['P_G1', 'N_J3'], 'N9': ['P_B1', 'N_K3', 'P_J1']}
-
 
 TRANSITION_TRIAL = ['s1', 'SN1', 'AN1', 'BN1', 'P_A1', 'P_A2', 'P_A3', 'N_A1', 'N_A2', 'N_A3', 'P_B1', 'P_B2', 'P_B3',
                     'N_B1', 'N_B2', 'N_B3', 'BN9', 'JN9', 'KN9', 'P_K1', 'P_K2', 'P_K3', 'N_K1', 'N_K2', 'N_K3', 'KN0',
@@ -67,13 +66,16 @@ def generate_random_orders(version, seed):
     if version == 'trial':
         size = np.random.choice(JOBS_TRIAL)
         jobs = np.random.randint(1, 4, size, dtype=np.int16)
-        red = np.random.randint(100, 5000, 1, dtype=np.int16)
-        green = np.random.randint(100, 5000, 1, dtype=np.int16)
+        quantity = np.zeros(len(jobs), dtype=np.int16)
+        red = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
+        green = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
         for i in range(len(jobs)):
-            quantity[i] = np.random.randint(10, 500, 1, dtype=np.int16)
+            quantity[i] = int(np.random.randint(10, 500, 1, dtype=np.int16)[0])
             orders[f"job_{jobs[i]}"] = quantity[i]
             init += quantity[i]
         resources = [init, red, green]
+
+        print(f'jobs {jobs}, resources {resources}, quantity {quantity}, orders {orders}')
 
         return jobs, resources, quantity, orders
     else:
@@ -102,11 +104,13 @@ def random_resource_generator(seed):
 class ConveyorEnv_v0(gym.Env):
     metadata = {'render.modes': ['Human']}
 
-    def __init__(self, version = "trial", final_reward = 10, mask = True):
+    def __init__(self, env_config, version="trial", final_reward=10, mask=True):
         self.version = version
+        self.env_config = env_config
         self.final_reward = final_reward
         self.mask = mask
-        self.seed = seeding.create_seed()
+        # self.seed = seeding.create_seed()
+        self.seed = 42
         self.jobs, self.res, self.quantity, self.orders = generate_random_orders(self.version, self.seed)
         self.throughput = []
         self.avg_throughput = 0
@@ -117,7 +121,7 @@ class ConveyorEnv_v0(gym.Env):
             self.no_places = len(PLACES_TRIAL)
             self.no_trans = len(TRANSITION_TRIAL)
         else:
-            self.network = ConveyorNetwork(self.jobs, self.res, self.quantity)
+            self.network = TrialConveyorNetwork(self.jobs, self.res, self.quantity)
             self.net, self.trans = self.network.trial_conveyor_petrinet()
             self.no_places = len(PLACES)
             self.no_trans = len(TRANSITION)
@@ -126,21 +130,20 @@ class ConveyorEnv_v0(gym.Env):
         self.marking = self._stateSpace.get()
         self.reward_range = [-1, 1, self.final_reward]
         # Observation space represents the places
-        obs_space = spaces.Box(0, 1, shape=self.no_places)
+        obs_space = spaces.Box(0, 1, shape=(self.no_places,))
         # Action space represents the transitions to get fired
-        self.action_space = spaces.Discrete(self.no_trans, seed = self.seed)
+        self.action_space = spaces.Discrete(self.no_trans)
 
         if self.mask:
             self.observation_space = spaces.Dict({
-                "action_mask" : spaces.Box(0, 1, shape=self.no_trans),
-                "avail_actions" : spaces.Box(0, 1, shape=self.no_trans),
-                "state" : obs_space
+                "action_mask": spaces.Box(0, 1, shape=(self.no_trans,)),
+                "avail_actions": spaces.Box(0, 1, shape=(self.no_trans,)),
+                "state": obs_space
             })
         else:
             self.observation_space = obs_space
 
         self.reset()
-
 
     # def _calculate_possible_actions(self):
     #     self.marking_copy = self._stateSpace.get()
@@ -164,7 +167,7 @@ class ConveyorEnv_v0(gym.Env):
 
     def _RESET(self):
         if self.mask:
-            self.seed = seeding.create_seed()
+            self.seed = self.seed + 1
             np.random.seed(self.seed)
             if self.version == 'trial':
                 self.network = TrialConveyorNetwork(self.jobs, self.res, self.quantity)
@@ -209,8 +212,13 @@ class ConveyorEnv_v0(gym.Env):
                     if j[1] == self.step_count:
                         next_place = self.marking_places[i]
             next_trans = NEXT_TRANSITIONS[next_place]
+            mask = None
             for i in range(self.no_trans):
-                mask = np.array([1 if TRANSITION[i] in next_trans else 0], dtype=np.int8)
+                if mask is None:
+                    mask = np.array([1 if TRANSITION[i] in next_trans else 0], dtype=np.int8)
+                else:
+                    mask = np.concatenate([mask, np.array([1 if TRANSITION[i] in next_trans else 0], dtype=np.int8)])
+            print(f'-------------------------------------------------mask {mask}, mask {len(mask)}')
             self.state = {
                 "action_mask": mask,
                 "avail_actions": np.ones(self.no_trans),
@@ -226,7 +234,7 @@ class ConveyorEnv_v0(gym.Env):
         self.marking = self._stateSpace.get()
         if self.version == 'trial':
             if 'Red' not in self.marking:
-                r_size = random_resource_generator(seed = self.seed)
+                r_size = random_resource_generator(seed=self.seed)
                 r = [1 for _ in range(r_size)]
                 self.net.add_marking(Marking(Red=MultiSet(r)))
                 self._stateSpace.current = self._stateSpace.add(self.net.get_marking())
@@ -282,7 +290,7 @@ class ConveyorEnv_v0(gym.Env):
         done = self._done_status()
         self._next_observation()
 
-        return self.state, self.reward  , done, {}
+        return self.state, self.reward, done, {}
 
     def _get_obs(self):
         return self.state
@@ -319,8 +327,11 @@ class ConveyorEnv_v0(gym.Env):
             if i in RESOURCES:
                 self.status_marking.remove(i)
         if len(self.status_marking) == 0:
+            print(f'Returning done as True')
             return True
-        return False
+        else:
+            print(f'Returning done as False')
+            return False
 
     def step(self, action):
         return self._STEP(action)
@@ -328,7 +339,7 @@ class ConveyorEnv_v0(gym.Env):
     def reset(self):
         return self._RESET()
 
-    def render(self, mode = "Human"):
+    def render(self, mode="Human"):
         self.marking = self._stateSpace.get()
         order_no = 0
         if 'T1' in list(self.marking.keys()):
@@ -342,7 +353,4 @@ class ConveyorEnv_v0(gym.Env):
                 self.o_c_time.append(self.order_time)
                 self.order_time = 0
                 order_no += 1
-        print(s.format(self.object[1]), self.reward, self.avg_throughput, self.o_c_time)
-
-
-
+        print(s.format(self.object[1], self.reward, self.avg_throughput, self.o_c_time))

@@ -1,30 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="784c66cc-369b-4f25-a62d-9e20e2b8bddf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/environment_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/environment_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trial/first_fire.png" beforeDir="false" afterPath="$PROJECT_DIR$/trial/first_fire.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trial/trial_net.py" beforeDir="false" afterPath="$PROJECT_DIR$/trial/trial_net.py" afterDir="false" />
-    </list>
+    <list default="true" id="79432f5a-80b8-4f3c-9cd2-5b16cf67bd2a" name="Changes" comment="environment created as per open-ai gym" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="environment" />
+        <entry key="$PROJECT_DIR$" value="trial-network" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/trial mode/try_pn.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Conveying_Network.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/environment_controller.py" root0="FORCE_HIGHLIGHTING" />
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
-  <component name="ProjectId" id="1yoDmnXEanGcsc5NAEZLnH4R9tw" />
+  <component name="ProjectId" id="209DSV5sTxWv6IY72jlXCGz3FcF" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
@@ -33,14 +39,17 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/snakes-version-0.9.17" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/main.py" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.trial_net">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\source\Research Project\Scripts\Research-Project\conveyor_environment" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.conveyor_network_v1">
     <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Scripts" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -49,11 +58,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Anaconda3/Lib/site-packages/snakes/utils/simul" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/conveyor_environment/snakes_master/snakes" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/Anaconda3/Lib/site-packages/snakes/utils/simul/__init__.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/conveyor_environment/snakes_master/snakes/__init__.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -62,7 +71,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="trial_abcd" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="conveyor_network_v0" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Scripts" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -70,11 +79,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/trial" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/trial/trial_abcd.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v0.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -83,7 +92,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="trial_net" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="conveyor_network_v1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Scripts" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -91,11 +100,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/trial" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/trial/trial_net.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v1.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -104,7 +113,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="version" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="dqn_trainer_pilot" type="PythonConfigurationType" factoryName="Python">
+      <module name="Scripts" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\source\conda\envs\cfms\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="--no-tune=True" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="try" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Scripts" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -112,11 +142,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/snakes-master" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/trial mode" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/snakes-master/version.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/trial mode/try.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -125,39 +155,90 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in test.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="updated_trial_network (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Scripts" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/snakes-version-0.9.17" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/conveyor_environment" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/snakes-version-0.9.17/test.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/conveyor_environment/updated_trial_network.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.dqn_trainer_pilot" />
+      <item itemvalue="Python.conveyor_network_v0" />
+      <item itemvalue="Python.try" />
+      <item itemvalue="Python.updated_trial_network (1)" />
+      <item itemvalue="Python.conveyor_network_v1" />
+      <item itemvalue="Python.__init__" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.trial_net" />
-        <item itemvalue="Python tests.Python tests in test.py" />
-        <item itemvalue="Python.version" />
-        <item itemvalue="Python.trial_abcd" />
+        <item itemvalue="Python.conveyor_network_v1" />
         <item itemvalue="Python.__init__" />
+        <item itemvalue="Python.conveyor_network_v0" />
+        <item itemvalue="Python.updated_trial_network (1)" />
+        <item itemvalue="Python.updated_trial_network (1)" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task id="LOCAL-00001" summary="new updated trial network is developed">
+      <created>1635260671783</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1635260671783</updated>
+    </task>
     <task active="true" id="Default" summary="Default task">
-      <changelist id="784c66cc-369b-4f25-a62d-9e20e2b8bddf" name="Changes" comment="" />
-      <created>1632909209156</created>
+      <changelist id="79432f5a-80b8-4f3c-9cd2-5b16cf67bd2a" name="Changes" comment="new updated trial network is developed" />
+      <created>1635447916842</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1632909209156</updated>
+      <updated>1635447916842</updated>
     </task>
+    <task id="LOCAL-00002" summary="issue BaseHTTPRequestHandler solved by updating the httpd.py file import http changed to import http.server.">
+      <created>1635771302180</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1635771302180</updated>
+    </task>
+    <task id="LOCAL-00003" summary="DQN Agent file updated">
+      <created>1637108520268</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1637108520268</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Conveyor_Network.py updated and completed with little bit changes in statespace plugin from snakes.">
+      <created>1638524359702</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1638524359703</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Corrected one bug in Conveyor_Network.py">
+      <created>1638647293165</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1638647293165</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -165,7 +246,13 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="false" />
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -173,6 +260,11 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="new updated trial network is developed" />
+    <MESSAGE value="issue BaseHTTPRequestHandler solved by updating the httpd.py file import http changed to import http.server." />
+    <MESSAGE value="DQN Agent file updated" />
+    <MESSAGE value="Conveyor_Network.py updated and completed with little bit changes in statespace plugin from snakes." />
+    <MESSAGE value="Corrected one bug in Conveyor_Network.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Corrected one bug in Conveyor_Network.py" />
   </component>
 </project>
