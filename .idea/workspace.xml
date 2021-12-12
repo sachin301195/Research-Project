@@ -1,36 +1,175 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="79432f5a-80b8-4f3c-9cd2-5b16cf67bd2a" name="Changes" comment="environment created as per open-ai gym" />
+    <list default="true" id="79eb0cdf-d14f-4d3a-8f3c-5866498db475" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/conveyor_environment/snakes_master/SNAKES.egg-info/PKG-INFO" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/conveyor_environment/snakes_master/SNAKES.egg-info/SOURCES.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/conveyor_environment/snakes_master/SNAKES.egg-info/dependency_links.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/conveyor_environment/snakes_master/SNAKES.egg-info/top_level.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/application-main-2021-12-12.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/application-utils-2021-12-12.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Research-Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Research-Project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Scripts.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_19_2021_2_20_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_19_2021_2_20_PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Conveyor_Network-checkpoint.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Factory-checkpoint.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v1.py" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/BUGS" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/MANIFEST" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/MANIFEST.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/VERSION" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/bin/abcd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/bin/snkc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/bin/snkd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/COPYING" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/abcd.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/examples/abcd/README" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/examples/abcd/ns/dolev_yao.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/examples/abcd/ns/ns.abcd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/examples/abcd/ns/ns.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/examples/abcd/philo.abcd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/examples/abcd/prod-cons.abcd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/examples/abcd/railroad.abcd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/examples/abcd/railroad.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/queries.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/simple-coloured.pnml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/simple-pt.pnml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/snakes-pnml.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/tutorial.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/doc/tutorial.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/logo/snakes.ai" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/logo/snakes.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/logo/snakes.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/mklang.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/setup.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/compat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/hashables.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/abcd/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/abcd/abcd.asdl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/abcd/abcd.pgen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/abcd/asdl.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/abcd/parser.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/abcd/pgen.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/asdl.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/astjy25.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/astpy25.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/astpypy.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/ctlstar/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/ctlstar/asdl.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/ctlstar/ctlstar.asdl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/ctlstar/ctlstar.pgen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/ctlstar/parser.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/ctlstar/pgen.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/pgen.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/pylib/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/pylib/asdl.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/pylib/spark.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/pylib/unparse.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/python/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/python/asdl.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/python/parser.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/python/pgen.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/python/python.asdl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/python/python.pgen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/lang/unparse.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/nets.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/plugins/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/plugins/bound.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/plugins/clusters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/plugins/gv.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/plugins/hello.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/plugins/labels.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/plugins/let.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/plugins/modules.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/plugins/ops.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/plugins/pids.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/plugins/pos.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/plugins/query.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/plugins/status.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/plugins/synchro.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/pnml.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/typing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/build.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/checker.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/html.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/about.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/alive.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/css/bootstrap-theme.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/css/bootstrap-theme.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/css/bootstrap.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/css/bootstrap.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/css/docs.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/d3.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/fonts/glyphicons-halflings-regular.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/fonts/glyphicons-halflings-regular.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/fonts/glyphicons-halflings-regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/fonts/glyphicons-halflings-regular.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/jquery.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/jquery.periodic.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/js/bootstrap.file-input.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/js/bootstrap.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/js/petri.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/model.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/model.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/model.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/simulator.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/resources/simulator.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/simul.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/abcd/transform.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/apidoc.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/ctlstar/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/ctlstar/build.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/html.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/httpd.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/logger.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/resources/about.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/resources/about.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/resources/about.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/resources/alive.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/resources/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/resources/jquery.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/resources/jquery.periodic.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/resources/model.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/resources/model.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/resources/model.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/resources/simulator.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/resources/simulator.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/resources/trace.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/snakes/utils/simul/resources/trace.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/test-scripts/test-abcd.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/utils/abcd-mode.el" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/utils/abcd-mode.elc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/utils/pgen2dot.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/utils/pgen2min.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes-master/version.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/updated_trial_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor_environment/updated_trial_network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="trial-network" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
-  </component>
-  <component name="ProjectId" id="209DSV5sTxWv6IY72jlXCGz3FcF" />
+  <component name="ProjectId" id="229QvMCMnE7Js7JHCSeMMTF1SW9" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
@@ -39,52 +178,25 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/main.py" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\source\Research Project\Scripts\Research-Project\conveyor_environment" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Python.conveyor_network_v1">
-    <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Scripts" />
+  <component name="RunManager" selected="Python.main">
+    <configuration name="cmfs_main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Research-Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/conveyor_environment/snakes_master/snakes" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/conveyor_environment/snakes_master/snakes/__init__.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="conveyor_network_v0" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Scripts" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v0.py" />
-      <option name="PARAMETERS" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cmfs_main.py" />
+      <option name="PARAMETERS" value="--no-tune = True" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -93,7 +205,7 @@
       <method v="2" />
     </configuration>
     <configuration name="conveyor_network_v1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Scripts" />
+      <module name="Research-Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -113,40 +225,19 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="dqn_trainer_pilot" type="PythonConfigurationType" factoryName="Python">
-      <module name="Scripts" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="C:\source\conda\envs\cfms\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="--no-tune=True" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="try" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Scripts" />
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Research-Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/trial mode" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/trial mode/try.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -155,8 +246,8 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="updated_trial_network (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Scripts" />
+    <configuration name="updated_trial_network" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Research-Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -177,68 +268,29 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.dqn_trainer_pilot" />
-      <item itemvalue="Python.conveyor_network_v0" />
-      <item itemvalue="Python.try" />
-      <item itemvalue="Python.updated_trial_network (1)" />
+      <item itemvalue="Python.cmfs_main" />
       <item itemvalue="Python.conveyor_network_v1" />
-      <item itemvalue="Python.__init__" />
+      <item itemvalue="Python.updated_trial_network" />
+      <item itemvalue="Python.main" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.cmfs_main" />
         <item itemvalue="Python.conveyor_network_v1" />
-        <item itemvalue="Python.__init__" />
-        <item itemvalue="Python.conveyor_network_v0" />
-        <item itemvalue="Python.updated_trial_network (1)" />
-        <item itemvalue="Python.updated_trial_network (1)" />
+        <item itemvalue="Python.updated_trial_network" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task id="LOCAL-00001" summary="new updated trial network is developed">
-      <created>1635260671783</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1635260671783</updated>
-    </task>
     <task active="true" id="Default" summary="Default task">
-      <changelist id="79432f5a-80b8-4f3c-9cd2-5b16cf67bd2a" name="Changes" comment="new updated trial network is developed" />
-      <created>1635447916842</created>
+      <changelist id="79eb0cdf-d14f-4d3a-8f3c-5866498db475" name="Changes" comment="" />
+      <created>1639247556323</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1635447916842</updated>
+      <updated>1639247556323</updated>
     </task>
-    <task id="LOCAL-00002" summary="issue BaseHTTPRequestHandler solved by updating the httpd.py file import http changed to import http.server.">
-      <created>1635771302180</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1635771302180</updated>
-    </task>
-    <task id="LOCAL-00003" summary="DQN Agent file updated">
-      <created>1637108520268</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1637108520268</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Conveyor_Network.py updated and completed with little bit changes in statespace plugin from snakes.">
-      <created>1638524359702</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1638524359703</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Corrected one bug in Conveyor_Network.py">
-      <created>1638647293165</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1638647293165</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -246,25 +298,13 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="CUSTOM_BOOLEAN_PROPERTIES">
-                <map>
-                  <entry key="Show.Git.Branches" value="false" />
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="new updated trial network is developed" />
-    <MESSAGE value="issue BaseHTTPRequestHandler solved by updating the httpd.py file import http changed to import http.server." />
-    <MESSAGE value="DQN Agent file updated" />
-    <MESSAGE value="Conveyor_Network.py updated and completed with little bit changes in statespace plugin from snakes." />
-    <MESSAGE value="Corrected one bug in Conveyor_Network.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Corrected one bug in Conveyor_Network.py" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

@@ -222,8 +222,8 @@ class ConveyorEnv_v1(gym.Env):
                 self._stateSpace.current = self._stateSpace.add(self.net.get_marking())
 
         # Calculating the epsilon time instances
-        self.marking_places = list(self.marking.keys())
         if self.step_count == 0:
+            self.marking_places = list(self.marking.keys())
             if self.version == 'trial':
                 self.marking_places.remove("Red")
                 self.marking_places.remove("Green")
@@ -236,7 +236,11 @@ class ConveyorEnv_v1(gym.Env):
             self.current_marking = self.marking_places
 
         # Execute 1 time step within the environment
-        self._take_action(action, self.current_marking[self.eps_times])
+        self._take_action(action, self.current_marking[self.step_count])
+        print(self.current_marking)
+        print(self.step_count)
+        print('eps', self.eps_times)
+
         self.step_count += 1
 
         if self.step_count == self.eps_times:
@@ -254,12 +258,14 @@ class ConveyorEnv_v1(gym.Env):
 
     def _take_action(self, action, place):
         trans_fire = NEXT_TRANSITIONS[place][action]
+        print(trans_fire)
         self.error = False
         if trans_fire is not 'Nan':
             self.error = False
             for mode in self._stateSpace.modes(self._stateSpace.current):
                 trans, binding = mode
-                if trans == trans_fire:
+                if str(trans) == trans_fire:
+                    print(trans, 'if the if trans == trans_fire')
                     try:
                         self._stateSpace.succ(self._stateSpace.current, trans, binding)
                     except ConstraintError:
@@ -271,6 +277,7 @@ class ConveyorEnv_v1(gym.Env):
                     finally:
                         print(f'{place} and {trans}, something went wrong!!!')
                         self.error = True
+                    break
         else:
             self.error = True
 

@@ -276,9 +276,19 @@ class TrialConveyorNetwork:
 
 # trial_net = TrialConveyorNetwork([1, 1], [7, 5, 5], [4, 3])
 # net, t = trial_net.trial_conveyor_petrinet()
-# # print(net.get_marking())
+# print(net.get_marking())
 # g = StateSpace(net)
 # print(g.get())
+# m = list(g.get().keys())
+# mode = g.modes(g.current)
+# print(mode)
+# for t, b in mode:
+#     print(str(t))
+#     if str(t) == 's1':
+#         print(t, b)
+# # t, b = mode
+# print(t, b)
+
 # for i in g.modes(g.current):
 #     t, b = i
 # print(b['sq_no'])

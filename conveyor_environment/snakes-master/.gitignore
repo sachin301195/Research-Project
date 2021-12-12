@@ -1,9 +1,0 @@
-dist/*
-build/
-dput.sh
-*.pyc
-*~
-,*
-*.class
-*.bak
-__pycache__
