@@ -1,0 +1,19 @@
+# IDE
+.idea
+
+# Logs
+logs
+*.log
+
+#Backup files
+*bak
+
+#Python Files
+__pycache__
+
+#Output
+results
+experiment_runs
+
+#other
+Docker
