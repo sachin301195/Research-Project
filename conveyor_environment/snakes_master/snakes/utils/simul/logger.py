@@ -135,7 +135,9 @@ class TerminalController:
         # these, so strip them out.
         import curses
         cap = curses.tigetstr(cap_name) or ''
-        return re.sub(r'\$<\d+>[/*]?'.decode('utf-8'), '', cap)
+        tryy = r'\$<\d+>[/*]?'
+        tryy = tryy.encode('utf-8')
+        return re.sub(tryy, '', cap)
 
 
     def render(self, template):
