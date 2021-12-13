@@ -1,6 +1,8 @@
 name: cfms
 channels:
   - conda-forge
+  - bioconda
+  - bokeh
   - defaults
 dependencies:
   - absl-py=0.10.0=py36h9f0ad1d_1
