@@ -216,7 +216,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print(f"Running with following CLI options: {args}")
 
-    ray.init(local_mode=args.local_mode)
+    ray.init(local_mode=args.local_mode, object_store_memory=30000000000)
 
     ModelCatalog.register_custom_model(
         "conveyor_mask", TorchParametricActionModel
