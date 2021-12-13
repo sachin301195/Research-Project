@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79eb0cdf-d14f-4d3a-8f3c-5866498db475" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/conveyor_environment/snakes_master/snakes/utils/simul/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor_environment/snakes_master/snakes/utils/simul/logger.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -111,15 +112,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Doctests in TerminalController" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
+      <module name="Research-Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/conveyor_environment/snakes_master/snakes/utils/simul" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/conveyor_environment/snakes_master/snakes/utils/simul/logger.py" />
+      <option name="CLASS_NAME" value="TerminalController" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_CLASS" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.cmfs_main" />
       <item itemvalue="Python.conveyor_network_v1" />
       <item itemvalue="Python.updated_trial_network" />
       <item itemvalue="Python.main" />
+      <item itemvalue="Python tests.Doctests in TerminalController" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.cmfs_main" />
+        <item itemvalue="Python tests.Doctests in TerminalController" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.conveyor_network_v1" />
         <item itemvalue="Python.updated_trial_network" />
