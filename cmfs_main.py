@@ -236,7 +236,7 @@ if __name__ == '__main__':
             "custom_model": "conveyor_mask",
             "vf_share_layers": True
         },
-        "num_workers": 3,  # parallelism
+        "num_workers": 1,  # parallelism
         "framework": args.framework
     }
     stop = {
