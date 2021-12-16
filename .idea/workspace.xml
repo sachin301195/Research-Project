@@ -137,10 +137,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.cmfs_main" />
-        <item itemvalue="Python tests.Doctests in TerminalController" />
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.conveyor_network_v1" />
         <item itemvalue="Python.updated_trial_network" />
+        <item itemvalue="Python tests.Doctests in TerminalController" />
+        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
@@ -169,5 +169,16 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

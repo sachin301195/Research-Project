@@ -236,12 +236,12 @@ class ConveyorEnv_v1(gym.Env):
             self.current_marking = self.marking_places
 
         # Execute 1 time step within the environment
-        self._take_action(action, self.current_marking[self.step_count])
+        self._take_action(action, self.current_marking[-1-self.step_count])
         print(self.current_marking)
         print(self.step_count)
         print('eps', self.eps_times)
-
-        self.step_count += 1
+        if not self.error:
+            self.step_count += 1
 
         if self.step_count == self.eps_times:
             self.total_time_units += 1
@@ -262,24 +262,31 @@ class ConveyorEnv_v1(gym.Env):
         self.error = False
         if trans_fire is not 'Nan':
             self.error = False
-            for mode in self._stateSpace.modes(self._stateSpace.current):
-                trans, binding = mode
+            # if self.step_count == 0:
+            #     transition_substitution = self._substitution()
+            for trans, binding in self._stateSpace.modes(self._stateSpace.current):
                 if str(trans) == trans_fire:
                     print(trans, 'if the if trans == trans_fire')
                     try:
                         self._stateSpace.succ(self._stateSpace.current, trans, binding)
+                        print(f"token no: {binding('sq_no')}")
                     except ConstraintError:
                         print(f'{place} holding the object')
                         self.error = True
                     except ValueError:
                         print(f'{trans} is not provided with valid substitution.')
                         self.error = True
-                    finally:
+                    except:
                         print(f'{place} and {trans}, something went wrong!!!')
                         self.error = True
                     break
         else:
             self.error = True
+
+    # def _substitution(self):
+    #     point = {}
+    #     for trans, binding in self._stateSpace.modes(self._stateSpace.current):
+    #         point
 
     def _calculate_reward(self):
         self.reward_marking_keys = list(self._stateSpace.get().keys())

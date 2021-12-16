@@ -279,6 +279,17 @@ class TrialConveyorNetwork:
 # print(net.get_marking())
 # g = StateSpace(net)
 # print(g.get())
+# mode = g.modes(g.current)
+# print(mode[0])
+# point = {}
+# step=0
+
+# for trns, binding in mode:
+#     #print(trns)
+#     #print(binding)
+#     point[trns] = binding
+#     print(binding('sq_no') == 2)
+# print(point)
 # m = list(g.get().keys())
 # mode = g.modes(g.current)
 # print(mode)

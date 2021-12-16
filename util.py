@@ -55,6 +55,47 @@ class TorchParametricActionModel(DQNTorchModel):
         return self.action_model.value_function()
 
 
+class TorchParametricActionsModelv1(DQNTorchModel):
+    def __init__(self,
+                 obs_space,
+                 action_space,
+                 num_outputs,
+                 model_config,
+                 name,
+                 true_obs_shape=(40, ),
+                 action_embed_size=5,
+                 **kw):
+        DQNTorchModel.__init__(self, obs_space, action_space, num_outputs,
+                               model_config, name, **kw)
+
+        self.action_model = TorchFC(
+            obs_space = Box(0, 1, shape=true_obs_shape), # oder Box(0, 1, ...) wie im medium Artikel
+            action_space = action_space,
+            num_outputs = action_embed_size,
+            model_config = model_config,
+            name = name + "_action_embed")
+
+    def forward(self, input_dict, state, seq_lens):
+        # Extract the available actions tensor from the observation.
+        action_mask = input_dict["obs"]["action_mask"]
+        # print('action_mask', action_mask)
+
+        # Mask out invalid actions (use -inf to tag invalid).
+        # These are then recognized by the EpsilonGreedy exploration component
+        # as invalid actions that are not to be chosen.
+        inf_mask = torch.clamp(torch.log(action_mask), FLOAT_MIN, FLOAT_MAX)
+
+        # Compute the predicted action embedding
+        action_embed, _ = self.action_model({"obs": input_dict["obs"]["state"]})
+
+        # state is empty
+        return action_embed + inf_mask, state
+
+    def value_function(self):
+        return self.action_model.value_function()
+
+
+
 class CustomPlot:
 
     @staticmethod
@@ -168,3 +209,4 @@ def plot_learning_curve(x, scores, epsilon, filename):
     ax2.tick_params(axis='y', colors='C1')
 
     plt.savefig(filename)
+
