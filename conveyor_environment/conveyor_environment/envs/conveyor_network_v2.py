@@ -123,6 +123,8 @@ class ConveyorEnv_v2(gym.Env):
         self.throughput = []
         self.avg_throughput = 0
         self.o_c_time = []
+        self.count = 0
+        self.pass_this = False
         if self.version == 'trial':
             self.network = TrialConveyorNetwork(self.jobs, self.res, self.quantity)
             self.net, self.trans = self.network.trial_conveyor_petrinet()
@@ -170,8 +172,9 @@ class ConveyorEnv_v2(gym.Env):
         self.avg_throughput = 0
         self.o_c_time = []
         self.order_time = 0
+        self.count = 0
         self.done = False
-
+        self.pass_this = False
         self._next_observation('S')
 
         return self.state
@@ -255,13 +258,14 @@ class ConveyorEnv_v2(gym.Env):
             self.current_marking = self.marking_places
 
         # Execute 1 time step within the environment
-        current_place = self.current_marking[-1-self.step_count]
+        current_place = self.current_marking[-1 - self.step_count]
         self._take_action(action, current_place)
         print(self.current_marking)
         print(self.step_count)
         print('eps', self.eps_times)
-        if not self.error:
+        if not self.error or self.pass_this:
             self.step_count += 1
+            self.count = 0
 
         if self.step_count == self.eps_times:
             self.total_time_units += 1
@@ -292,13 +296,22 @@ class ConveyorEnv_v2(gym.Env):
                         print(f"token no: {binding('sq_no')}")
                     except ConstraintError:
                         print(f'{place} holding the object')
+                        self.count += 1
                         self.error = True
+                        if self.count >= 5:
+                            self.pass_this = True
                     except ValueError:
+                        self.count += 1
                         print(f'{trans} is not provided with valid substitution.')
                         self.error = True
+                        if self.count >= 5:
+                            self.pass_this = True
                     except:
+                        self.count += 1
                         print(f'{place} and {trans}, something went wrong!!!')
                         self.error = True
+                        if self.count >= 5:
+                            self.pass_this = True
                     break
         else:
             self.error = True
@@ -330,6 +343,7 @@ class ConveyorEnv_v2(gym.Env):
         else:
             self.reward = -1
             return self.reward
+        print(f'Reward: {self.reward}.... toltal time units : {self.total_time_units}')
 
     def _done_status(self):
         self.status_marking = list(self._stateSpace.get().keys())
