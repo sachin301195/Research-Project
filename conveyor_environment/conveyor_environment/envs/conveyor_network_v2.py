@@ -272,6 +272,7 @@ class ConveyorEnv_v2(gym.Env):
             self.step_count = 0
 
         self._calculate_reward()
+        print(f'Reward: {self.reward}.... toltal time units : {self.total_time_units}')
         self.done = self._done_status()
         self._next_observation(current_place)
 
@@ -343,7 +344,6 @@ class ConveyorEnv_v2(gym.Env):
         else:
             self.reward = -1
             return self.reward
-        print(f'Reward: {self.reward}.... toltal time units : {self.total_time_units}')
 
     def _done_status(self):
         self.status_marking = list(self._stateSpace.get().keys())
