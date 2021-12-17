@@ -9,6 +9,7 @@ from gym.utils import seeding
 import numpy as np
 import logging
 import sys
+import time
 
 sys.path.append('../../snakes_master')
 from conveyor_environment.updated_trial_network import TrialConveyorNetwork
@@ -77,7 +78,7 @@ def generate_random_orders(version, seed):
         red = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
         green = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
         for i in range(len(jobs)):
-            quantity[i] = int(np.random.randint(10, 500, 1, dtype=np.int16)[0])
+            quantity[i] = int(np.random.randint(1, 5, 1, dtype=np.int16)[0])
             orders[f"job_{jobs[i]}"] = quantity[i]
             init += quantity[i]
         resources = [init, red, green]
@@ -291,11 +292,15 @@ class ConveyorEnv_v2(gym.Env):
             self.error = False
             # if self.step_count == 0:
             #     transition_substitution = self._substitution()
+            for_begin = time.time()
             for trans, binding in self._stateSpace.modes(self._stateSpace.current):
                 if str(trans) == trans_fire:
                     print(trans, 'if the if trans == trans_fire')
                     try:
+                        succ_begin = time.time()
                         self._stateSpace.succ(self._stateSpace.current, trans, binding)
+                        succ_end = time.time()
+                        print(f'succ_time_diff: {succ_end - succ_begin}')
                         print(f"token no: {binding('sq_no')}")
                     except ConstraintError:
                         print(f'{place} holding the object')
@@ -315,7 +320,10 @@ class ConveyorEnv_v2(gym.Env):
                         self.error = True
                         if self.count >= 5:
                             self.pass_this = True
-                    break
+                    finally:
+                        break
+            for_end = time.time()
+            print(f'for_loop time: {for_end - for_begin}')
         else:
             self.error = True
 

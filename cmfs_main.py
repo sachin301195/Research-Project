@@ -250,7 +250,7 @@ if __name__ == '__main__':
         **cfg)
 
     stop = {
-        "training_iterations": args.stop_iters,
+        "training_iteration": 1,
         "timesteps_total": args.stop_timesteps,
         "episode_reward_mean": args.stop_reward,
     }
