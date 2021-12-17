@@ -173,7 +173,7 @@ class ConveyorEnv_v0(gym.Env):
                 self.network = TrialConveyorNetwork(self.jobs, self.res, self.quantity)
                 self.net, self.trans = self.network.trial_conveyor_petrinet()
             else:
-                self.network = ConveyorNetwork(self.jobs, self.res, self.quantity)
+                self.network = TrialConveyorNetwork(self.jobs, self.res, self.quantity)
                 self.net, self.trans = self.network.trial_conveyor_petrinet()
             self._stateSpace = StateSpace(self.net)
             self.reward = 0

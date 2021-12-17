@@ -7,9 +7,10 @@ sys.path.append('./conveyor_environment/snakes_master')
 
 import ray
 from ray.rllib import agents
-from util import CustomPlot, TorchParametricActionModel
+from util import CustomPlot, TorchParametricActionModel, TorchParametricActionsModelv1
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v1 import ConveyorEnv_v1
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v0 import ConveyorEnv_v0
+from conveyor_environment.conveyor_environment.envs.conveyor_network_v2 import ConveyorEnv_v2
 
 import numpy as np
 from pathlib import Path
@@ -29,6 +30,7 @@ from ray.rllib.models.torch.fcnet import FullyConnectedNetwork as TorchFC
 from ray.rllib.utils.framework import try_import_tf, try_import_torch
 from ray.rllib.utils.test_utils import check_learning_achieved
 from ray.tune.logger import pretty_print
+from ray.tune.registry import register_env
 
 
 def configure_logger():
@@ -188,12 +190,12 @@ parser.add_argument(
 parser.add_argument(
     "--stop-iters",
     type=int,
-    default=50,
+    default=5000,
     help="Number of iterations to train")
 parser.add_argument(
     "--stop-timesteps",
     type=int,
-    default=100000,
+    default=100000000,
     help="Number of timesteps to train.")
 parser.add_argument(
     "--stop-reward",
@@ -217,32 +219,38 @@ if __name__ == '__main__':
     print(f"Running with following CLI options: {args}")
 
     ray.init(local_mode=args.local_mode, object_store_memory=9000000000)
+    register_env("env_cfms", lambda _:ConveyorEnv_v2({}))
 
     ModelCatalog.register_custom_model(
-        "conveyor_mask", TorchParametricActionModel
+        "env_cfms", TorchParametricActionsModelv1
     )
 
-    # env = create_env('conveyor_network_v0')
+    if args.run == 'DQN':
+        cfg = {
+            "hiddens": [],
+            "dueling": False,
+        }
+    else:
+        cfg = {}
 
-    config = {
-        "env": ConveyorEnv_v1,
+    config = dict({
+        "env": "env_cfms",
+        "model": {
+            "custom_model": "env_cfms",
+        },
         "env_config": {
             "version": "trial",
             "final_reward": 2,
             "mask": True
         },
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-        "model": {
-            "custom_model": "conveyor_mask",
-            "vf_share_layers": True
-        },
         "num_workers": 1,  # parallelism
         "framework": args.framework
-    }
+        },
+        **cfg)
+
     stop = {
-        "training_iterations": args.stop_iters,
-        "timesteps_total": args.stop_timesteps,
-        "episode_reward_mean": args.stop_reward
+        "training_iterations": args.stop_iters
     }
 
     if args.no_tune:

@@ -77,6 +77,7 @@ class TorchParametricActionsModelv1(DQNTorchModel):
 
     def forward(self, input_dict, state, seq_lens):
         # Extract the available actions tensor from the observation.
+        # avail_actions = input_dict["obs"]["avail_action"]
         action_mask = input_dict["obs"]["action_mask"]
         # print('action_mask', action_mask)
 
@@ -93,7 +94,6 @@ class TorchParametricActionsModelv1(DQNTorchModel):
 
     def value_function(self):
         return self.action_model.value_function()
-
 
 
 class CustomPlot:

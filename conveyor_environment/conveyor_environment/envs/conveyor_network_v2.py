@@ -108,10 +108,10 @@ def random_resource_generator(seed):
     return res_size
 
 
-class ConveyorEnv_v1(gym.Env):
+class ConveyorEnv_v2(gym.Env):
     metadata = {'render.modes': ['Human']}
 
-    def __init__(self, env_config, version="trial", final_reward=10, mask=False):
+    def __init__(self, env_config, version="trial", final_reward=10, mask=True):
         self.version = version
         self.env_config = env_config
         self.final_reward = final_reward
@@ -138,9 +138,17 @@ class ConveyorEnv_v1(gym.Env):
         self.marking = self._stateSpace.get()
         self.reward_range = [-1, 1, self.final_reward]
         # Observation space represents the places
-        self.observation_space = spaces.Box(0, 1, shape=(self.no_places,))
+        obs_space = spaces.Box(0, 1, shape=(self.no_places,))
         # Action space represents the transitions to get fired
         self.action_space = spaces.Discrete(5)
+        if self.mask:
+            self.observation_space = spaces.Dict({
+                "action_mask": spaces.Box(0, 1, shape=(5,)),
+                "avail_actions": spaces.Box(0, 1, shape=(5,)),
+                "state": obs_space
+            })
+        else:
+            self.observation_space = obs_space
 
         self.reset()
 
@@ -164,11 +172,11 @@ class ConveyorEnv_v1(gym.Env):
         self.order_time = 0
         self.done = False
 
-        self._next_observation()
+        self._next_observation('S')
 
         return self.state
 
-    def _next_observation(self):
+    def _next_observation(self, current_place):
         self.marking = self._stateSpace.get()
         state = None
         if self.version == 'trial':
@@ -185,7 +193,16 @@ class ConveyorEnv_v1(gym.Env):
                 else:
                     state = np.concatenate((state, np.array([1 if i in list(self.marking.keys()) else 0],
                                                             dtype=np.int8)), axis=None)
-        self.state = state
+        if self.mask:
+            transition = np.array(NEXT_TRANSITIONS[current_place])
+            mask = np.where(transition == 'Nan', 0, 1)
+            self.state = {
+                "action_mask": mask,
+                "avail_actions": np.ones(5),
+                "state": state
+            }
+        else:
+            self.state = state
 
     def _STEP(self, action):
         # check for the resources, if not present add resources randomly
@@ -238,7 +255,8 @@ class ConveyorEnv_v1(gym.Env):
             self.current_marking = self.marking_places
 
         # Execute 1 time step within the environment
-        self._take_action(action, self.current_marking[-1-self.step_count])
+        current_place = self.current_marking[-1-self.step_count]
+        self._take_action(action, current_place)
         print(self.current_marking)
         print(self.step_count)
         print('eps', self.eps_times)
@@ -251,7 +269,7 @@ class ConveyorEnv_v1(gym.Env):
 
         self._calculate_reward()
         self.done = self._done_status()
-        self._next_observation()
+        self._next_observation(current_place)
 
         return self.state, self.reward, self.done, {}
 
