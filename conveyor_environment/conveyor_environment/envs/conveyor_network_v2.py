@@ -125,6 +125,7 @@ class ConveyorEnv_v2(gym.Env):
         self.o_c_time = []
         self.count = 0
         self.pass_this = False
+        self.error = False
         if self.version == 'trial':
             self.network = TrialConveyorNetwork(self.jobs, self.res, self.quantity)
             self.net, self.trans = self.network.trial_conveyor_petrinet()
@@ -175,6 +176,7 @@ class ConveyorEnv_v2(gym.Env):
         self.count = 0
         self.done = False
         self.pass_this = False
+        self.error = False
         self._next_observation('S')
 
         return self.state
