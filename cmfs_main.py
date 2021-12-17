@@ -200,7 +200,7 @@ parser.add_argument(
 parser.add_argument(
     "--stop-reward",
     type=float,
-    default=0.1,
+    default=10,
     help="Reward at which we stop training.")
 parser.add_argument(
     "--no-tune",
@@ -250,7 +250,9 @@ if __name__ == '__main__':
         **cfg)
 
     stop = {
-        "training_iterations": args.stop_iters
+        "training_iterations": args.stop_iters,
+        "timesteps_total": args.stop_timesteps,
+        "episode_reward_mean": args.stop_reward,
     }
 
     if args.no_tune:
