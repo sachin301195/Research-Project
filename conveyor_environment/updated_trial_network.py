@@ -12,7 +12,7 @@ places = ['S', 'S1', 'N1', 'A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'N2', 'C1', 'C2',
 
 trans = ['s1', 'SN1', 'AN1', 'BN1', 'P_A1', 'P_A2', 'P_A3', 'N_A1', 'N_A2', 'N_A3', 'P_B1', 'P_B2', 'P_B3',
          'N_B1', 'N_B2', 'N_B3', 'BN9', 'JN9', 'KN9', 'P_K1', 'P_K2', 'P_K3', 'N_K1', 'N_K2', 'N_K3', 'KN0',
-         'N_T1', 'P_T1', 'T', 'P_J1', 'P_J2', 'P_J3', 'N_J1', 'N_J2', 'N_J3', 'JN6', 'GN6', 'P_G1', 'P_G2', 'P_G3',
+         't1', 'T', 'P_J1', 'P_J2', 'P_J3', 'N_J1', 'N_J2', 'N_J3', 'JN6', 'GN6', 'P_G1', 'P_G2', 'P_G3',
          'N_G1', 'N_G2', 'N_G3', 'GN3', 'FN3', 'EN3', 'P_E1', 'P_E2', 'P_E3', 'N_E1', 'N_E2', 'N_E3', 'AN2',
          'EN2', 'CN2', 'P_C1', 'P_C2', 'P_C3', 'N_C1', 'N_C2', 'N_C3', 'C0W1', 'C1W1', 'C2W1', 'C3W1', 'D0W1',
          'D1W1', 'D2W1', 'D3W1', 'P_D1', 'P_D2', 'P_D3', 'N_D1', 'N_D2', 'N_D3', 'DN4', 'FN4', 'P_F1', 'P_F2',
@@ -69,7 +69,7 @@ class TrialConveyorNetwork:
 
         # adding transitions
         for i in trans:
-            if i == 'T':
+            if i == 't1':
                 self.transition.update({i : Transition('%s' % i, Expression('c == f'))})
             else:
                 self.transition.update({i : Transition('%s' % i)})
@@ -267,18 +267,15 @@ class TrialConveyorNetwork:
         n.add_output('N2', 'CN2', Tuple([Value(-1), Variable('sq_no'), Variable('c'), Variable('f'), Expression('count + 1')]))
 
         # Conveyor T
-        n.add_input('N0', 'N_T1', Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_output('T1', 'N_T1', Tuple([Value(-1), Variable('sq_no'), Variable('c'), Variable('f'), Expression('count + 1')]))
-        n.add_input('T1', 'P_T1', Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_output('N0', 'P_T1', Tuple([Value(-1), Variable('sq_no'), Variable('c'), Variable('f'), Expression('count + 1')]))
-        n.add_input('T1', 'T', Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
+        n.add_input('N0', 't1', Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
+        n.add_output('T1', 't1', Tuple([Value(-1), Variable('sq_no'), Variable('c'), Variable('f'), Expression('count + 1')]))
+        n.add_input('T1', 'T', Tuple([Flush('dir'), Flush('sq_no'), Flush('c'), Flush('f'), Flush('count')]))
 
         return n, self.transition
 
 
 trial_net = TrialConveyorNetwork([1, 1], [7, 5, 5], [4, 3])
 net, t = trial_net.trial_conveyor_petrinet()
-print(t)
 print(net.get_marking())
 # g = StateSpace(net)
 # print(g.get())
