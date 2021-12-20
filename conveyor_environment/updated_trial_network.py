@@ -329,7 +329,7 @@ class TrialConveyorNetwork:
 # print(g.succ(g.current, -1))
 # print(net.get_marking())
 # print(g.modes(g.current))
-net.draw('Updated_Network.png')
+# net.draw('Updated_Network.png')
 # if 'Green' in g.get():
 #     print(g.current)
 #     net.add_marking(Marking(Red = MultiSet(r)))

@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="79eb0cdf-d14f-4d3a-8f3c-5866498db475" name="Changes" comment="" />
+    <list default="true" id="79eb0cdf-d14f-4d3a-8f3c-5866498db475" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/Updated_Network.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmfs_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmfs_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/updated_trial_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor_environment/updated_trial_network.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -74,7 +79,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="conveyor_network_v2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Research-Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -82,11 +87,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v2.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -138,16 +143,16 @@
       <item itemvalue="Python.cmfs_main" />
       <item itemvalue="Python.conveyor_network_v1" />
       <item itemvalue="Python.updated_trial_network" />
-      <item itemvalue="Python.main" />
       <item itemvalue="Python tests.Doctests in TerminalController" />
+      <item itemvalue="Python.conveyor_network_v2" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.cmfs_main" />
-        <item itemvalue="Python.conveyor_network_v1" />
+        <item itemvalue="Python.conveyor_network_v2" />
         <item itemvalue="Python.updated_trial_network" />
+        <item itemvalue="Python.conveyor_network_v1" />
         <item itemvalue="Python tests.Doctests in TerminalController" />
-        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
