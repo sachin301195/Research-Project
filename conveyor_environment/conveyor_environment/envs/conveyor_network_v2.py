@@ -211,6 +211,10 @@ class ConveyorEnv_v2(gym.Env):
                                                             dtype=np.int8)), axis=None)
         if self.mask:
             transition = np.array(NEXT_TRANSITIONS[current_place])
+            for idx, i in enumerate(transition):
+                if i != 'Nan':
+                    if str(self.net.post(i)) in list(self.marking.keys()):
+                        transition[idx] = 'Nan'
             mask = np.where(transition == 'Nan', 0, 1)
             self.state = {
                 "action_mask": mask,
