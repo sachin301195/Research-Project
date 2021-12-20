@@ -274,16 +274,19 @@ class TrialConveyorNetwork:
         return n, self.transition
 
 
-trial_net = TrialConveyorNetwork([1, 1], [7, 5, 5], [4, 3])
-net, t = trial_net.trial_conveyor_petrinet()
-print(net.get_marking())
+# trial_net = TrialConveyorNetwork([1, 1], [7, 5, 5], [4, 3])
+# net, t = trial_net.trial_conveyor_petrinet()
+# print(net.get_marking())
+# modes = net.transition('s1').modes()
+# net.transition('s1').fire(modes[0])
+# m = net.get_marking()
 # g = StateSpace(net)
 # print(g.get())
 # mode = g.modes(g.current)
 # print(mode[0])
 # point = {}
 # step=0
-print(net.transition('s1').modes())
+# print(list(m['S1'])[0][-1])
 
 # for trns, binding in mode:
 #     #print(trns)

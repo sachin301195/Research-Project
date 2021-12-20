@@ -10,6 +10,7 @@ import numpy as np
 import logging
 import sys
 import time
+from collections import defaultdict
 
 sys.path.append('../../snakes_master')
 from conveyor_environment.updated_trial_network import TrialConveyorNetwork
@@ -77,9 +78,10 @@ def generate_random_orders(version, seed):
         quantity = np.zeros(len(jobs), dtype=np.int16)
         red = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
         green = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
+        orders = defaultdict(list)
         for i in range(len(jobs)):
             quantity[i] = int(np.random.randint(1, 5, 1, dtype=np.int16)[0])
-            orders[f"job_{jobs[i]}"] = quantity[i]
+            orders[f"job_{jobs[i]}"].append(quantity[i])
             init += quantity[i]
         resources = [init, red, green]
 
@@ -127,6 +129,11 @@ class ConveyorEnv_v2(gym.Env):
         self.count = 0
         self.pass_this = False
         self.error = False
+        self.object_no = 0
+        self.completed_orders = np.zeros(len(self.jobs))
+        self.o_c_time = np.zeros(len(self.jobs))
+        self.order_throughput = np.zeros(len(self.jobs))
+        self.order_complete = False
         if self.version == 'trial':
             self.network = TrialConveyorNetwork(self.jobs, self.res, self.quantity)
             self.net, self.trans = self.network.trial_conveyor_petrinet()
@@ -172,13 +179,16 @@ class ConveyorEnv_v2(gym.Env):
         self._stateSpace.current = self.net.get_marking()
         self.throughput = []
         self.avg_throughput = 0
-        self.o_c_time = []
+        self.o_c_time = np.zeros(len(self.jobs))
+        self.order_throughput = np.zeros(len(self.jobs))
         self.order_time = 0
         self.count = 0
         self.done = False
         self.pass_this = False
         self.error = False
         self._next_observation('S')
+        self.object_no = 0
+        self.order_complete = False
 
         return self.state
 
@@ -302,15 +312,15 @@ class ConveyorEnv_v2(gym.Env):
                         succ_end = time.time()
                         print(f'succ_time_diff: {succ_end - succ_begin}')
                         print(f"token no: {binding('sq_no')}")
-                    except ConstraintError:
-                        print(f'{place} holding the object')
+                    except ConstraintError as e1:
+                        print(f'{e1}: {place} holding the object')
                         self.count += 1
                         self.error = True
                         if self.count >= 5:
                             self.pass_this = True
-                    except ValueError:
+                    except ValueError as e2:
                         self.count += 1
-                        print(f'{trans} is not provided with valid substitution.')
+                        print(f'{e2}: {trans} is not provided with valid substitution.')
                         self.error = True
                         if self.count >= 5:
                             self.pass_this = True
@@ -346,8 +356,12 @@ class ConveyorEnv_v2(gym.Env):
                 self.reward = -0.1
                 return self.reward
             elif self.res[0] > self.available_tokens > 0:
-                self.reward = self.res[0] - self.available_tokens
-                return self.reward
+                if self.order_complete:
+                    self.reward = 1
+                    return self.reward
+                else:
+                    self.reward = (self.res[0] - self.available_tokens) * 0.5
+                    return self.reward
             elif self.available_tokens == 0:
                 self.reward = self.final_reward
                 return self.reward
@@ -375,16 +389,21 @@ class ConveyorEnv_v2(gym.Env):
 
     def render(self, mode="Human"):
         self.marking = self._stateSpace.get()
-        order_no = 0
+        s = "object no.: {:2d}, reward: {:2d}, avg_Throughput: {:2f}"
+        s1 = "Order no.: {:2d}, Order Throughput: {:2f}, Avg. System Throughput: {:2f}"
         if 'T1' in list(self.marking.keys()):
-            self.object = list(self.marking["T1"])
-        s = "object no.: {:2d}, reward: {:2d}, avg_Throughput: {:2f} and order completion time: {}"
-        self.throughput.append(self.object[-1])
-        self.avg_throughput = np.mean(self.throughput)
-        if self.object[1] <= self.orders[order_no]:
-            self.order_time += self.object[-1]
-            if self.object[-1] == self.orders[order_no]:
-                self.o_c_time.append(self.order_time)
-                self.order_time = 0
-                order_no += 1
-        print(s.format(self.object[1], self.reward, self.avg_throughput, self.o_c_time))
+            self.throughput.append(list(self.marking['T1'])[0][-1])
+            self.avg_throughput = np.sum(self.completed_orders) / np.mean(self.throughput)
+            order_no = list(self.marking['T1'])[0][2]
+            for idx, num in enumerate(self.jobs):
+                if num == order_no:
+                    if self.completed_orders[idx] < self.quantity[idx]:
+                        self.completed_orders[idx] += 1
+                        self.o_c_time[idx] += list(self.marking['T1'])[0][-1]
+                        self.order_throughput = self.completed_orders[idx] / self.o_c_time[idx]
+                        if self.completed_orders[idx] == self.quantity[idx]:
+                            self.order_complete = True
+                            print(s1.format(order_no, self.order_throughput[idx], self.avg_throughput))
+                        break
+        print(s.format(list(self.marking['T1'])[0][1], self.reward, self.avg_throughput))
+
