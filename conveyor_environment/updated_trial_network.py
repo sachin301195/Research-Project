@@ -279,15 +279,18 @@ class TrialConveyorNetwork:
 # print(net.get_marking())
 # modes = net.transition('s1').modes()
 # net.transition('s1').fire(modes[0])
+# modes = net.transition('s1').modes()
 # m = net.get_marking()
+# print(modes)
+# print(modes[0]['sq_no'])
 # print(list(m['S1'])[0][-1])
 # print(net.post('SN1'))
-
-
+#
+#
 # g = StateSpace(net)
 # print(g.get())
 # mode = g.modes(g.current)
-# print(mode[0])
+# print(mode)
 # point = {}
 # step=0
 
