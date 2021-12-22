@@ -11,6 +11,7 @@ from util import CustomPlot, TorchParametricActionModel, TorchParametricActionsM
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v1 import ConveyorEnv_v1
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v0 import ConveyorEnv_v0
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v2 import ConveyorEnv_v2
+from conveyor_environment.conveyor_environment.envs.conveyor_network_v3 import ConveyorEnv_v3
 
 import numpy as np
 from pathlib import Path
@@ -219,7 +220,7 @@ if __name__ == '__main__':
     print(f"Running with following CLI options: {args}")
 
     ray.init(local_mode=args.local_mode, object_store_memory=1000000000)
-    register_env("env_cfms", lambda _:ConveyorEnv_v2({}))
+    register_env("env_cfms", lambda _: ConveyorEnv_v3({}))
 
     ModelCatalog.register_custom_model(
         "env_cfms", TorchParametricActionsModelv1
@@ -244,7 +245,7 @@ if __name__ == '__main__':
             "mask": True
         },
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-        "num_workers": 5,  # parallelism
+        "num_workers": 1,  # parallelism
         "framework": args.framework
         },
         **cfg)

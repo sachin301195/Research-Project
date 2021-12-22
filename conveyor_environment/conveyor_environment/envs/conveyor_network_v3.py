@@ -80,7 +80,7 @@ def generate_random_orders(version, seed):
         green = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
         orders = defaultdict(list)
         for i in range(len(jobs)):
-            quantity[i] = int(np.random.randint(1, 5, 1, dtype=np.int16)[0])
+            quantity[i] = int(np.random.randint(100, 5000, 1, dtype=np.int16)[0])
             orders[f"job_{jobs[i]}"].append(quantity[i])
             init += quantity[i]
         resources = [init, red, green]
@@ -267,9 +267,9 @@ class ConveyorEnv_v3(gym.Env):
         # Execute 1 time step within the environment
         current_place = self.current_marking[-1 - self.step_count]
         self._take_action(action, current_place)
-        print(self.current_marking)
-        print(self.step_count)
-        print('eps', self.eps_times)
+        # print(self.current_marking)
+        # print(self.step_count)
+        # print('eps', self.eps_times)
         if not self.error or self.pass_this:
             self.step_count += 1
             self.count = 0
@@ -294,7 +294,7 @@ class ConveyorEnv_v3(gym.Env):
         self.error = False
         if trans_fire is not 'Nan':
             self.error = False
-            modes = self.net.translate(trans_fire).modes()
+            modes = self.net.transition(trans_fire).modes()
             print(f'modes: {modes}')
             try:
                 self.net.transition(trans_fire).fire(modes[0])
