@@ -295,7 +295,7 @@ class ConveyorEnv_v3(gym.Env):
         if trans_fire is not 'Nan':
             self.error = False
             modes = self.net.transition(trans_fire).modes()
-            print(f'modes: {modes}')
+            # print(f'modes: {modes}')
             try:
                 self.net.transition(trans_fire).fire(modes[0])
                 print(f"token no.: {modes[0]['sq_no']}")
