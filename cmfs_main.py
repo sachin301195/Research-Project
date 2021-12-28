@@ -7,7 +7,7 @@ sys.path.append('./conveyor_environment/snakes_master')
 
 import ray
 from ray.rllib import agents
-from util import CustomPlot, TorchParametricActionModel, TorchParametricActionsModelv1
+from util import CustomPlot, TorchParametricActionModel, TorchParametricActionsModelv1, TorchParametricActionsModelv2
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v1 import ConveyorEnv_v1
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v0 import ConveyorEnv_v0
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v2 import ConveyorEnv_v2
@@ -55,121 +55,6 @@ REWARD_RESULTS_PATH = '/reward-results/'
 AVG_OVR_EP_PATH = '/avg_over_ep-results/'
 
 torch, nn = try_import_torch()
-
-
-# def parse_args():
-#     """
-#     Parse the arguments from shell.
-#     :return: args object
-#     """
-#     if platform.system() == 'Windows':
-#         default_base_dir = BASE_PATH
-#     else:
-#         if getpass.getuser() == 'sachin':
-#             default_base_dir = r"/home/sachin/Research-Project"
-#         else:
-#             default_base_dir = BASE_PATH
-#
-#     parser = argparse.ArgumentParser()
-#
-#     parser.add_argument('--base-dir',
-#                         type=str,
-#                         required=False,
-#                         default=default_base_dir,
-#                         help="BASE_DIR for agents, envs etc(Git-Repo)", )
-#     parser.add_argument('--env',
-#                         type=str,
-#                         required=False,
-#                         default=ConveyorEnv_v1,
-#                         help="env to train or evaluate an agent. default=ConveyorEnv_v1",
-#                         choices=['ConveyorEnv_v1', 'ConveyorEnv_v0'])
-#     parser.add_argument('--memory',
-#                         type=int,
-#                         required=False,
-#                         default=30000000000,
-#                         help="ray.init(object_store_memory=memory), default=30gb.")
-#     # parser.add_argument('--use-action-masking',
-#     #                     type=bool,
-#     #                     required=False,
-#     #                     default=False,
-#     #                     help="Whether to mask out unallowed actions or not. default=False")
-#     # parser.add_argument('--docker',
-#     #                     type=bool,
-#     #                     required=False,
-#     #                     default=False,
-#     #                     help="Determining whether the script runs inside a docker. default=False")
-#
-#     subparsers = parser.add_subparsers(dest='modes',
-#                                        help="train, evaluate, visualize, tune, or export")
-#
-#     subp_train = subparsers.add_parser('train', help='train a single or multiple agents')
-#
-#     subp_train.add_argument('--algo',
-#                             type=str, required=False, default='APEX',
-#                             choices=['DQN', 'APEX', 'PPO', 'A3C', 'IMPALA', 'SAC'],
-#                             help="Algorithm to train the agent. default=DQN")
-#     subp_train.add_argument('--algo-id', type=str, required=False, default='last',
-#                             help="ID to choose the parameters for algorithm in corresponding config-file. default=last")
-#     subp_train.add_argument('--test-mode', type=str, required=False,
-#                             default='no_test', help="mode whether and when to test the agent",
-#                             choices=['no_test', 'during_train_test', 'after_train_test', 'both_test'])
-#     subp_train.add_argument('--checkpoint-nr', type=int, required=False, default=0,
-#                             help="Whether to continue training with given checkpoint nr or not (=0). Default=0.", )
-#     subp_train.add_argument('--debug_metrics', type=bool, required=False, default=False,
-#                             help="Print metric values inside environment. default=False")
-#
-#     subp_train.add_argument('--exp-dir', type=str, required=False, default="",
-#                             help="This is to provide custom path to load restore point from.")
-#
-#     subp_evaluate = subparsers.add_parser('evaluate', help="evaluate agents")
-#
-#     subp_evaluate.add_argument('--algo',
-#                                type=str, action='append',
-#                                required=False,
-#                                help="Algorithm to evaluate the agent."
-#                                     "Choices are from 'DQN', 'APEX', 'PPO', 'A3C', 'IMPALA', 'SAC'")
-#     subp_evaluate.add_argument('--non-rl-algos', type=str, action='append', required=False,
-#                                help="List of Non-RL-controllers as baseline. Choices are from"
-#                                     "'greedy','greedy-wave', 'fixed', 'random', 'adaptive', 'fixed-pattern'")
-#     subp_evaluate.add_argument('--checkpoint-nr', type=int, required=False, action='append',
-#                                help="Which checkpoint-nr number from trained agents to use.", )
-#     subp_evaluate.add_argument('--episodes', type=int, required=False, default=1,
-#                                help="Number of episodes for which we want "
-#                                     "to run the simulation for evaluation. default = 1")
-#     subp_evaluate.add_argument('--verbose', type=bool, required=False, default=False,
-#                                help="Plots graph of each episode separately. default = False")
-#     subp_evaluate.add_argument('--debug_metrics', type=bool, required=False, default=False,
-#                                help="Print metric values inside environment. default=False")
-#     subp_evaluate.add_argument('--ci', type=bool, required=False, default=False,
-#                                help="Plots Confidence Interval of the evaluation graphs. default=False")
-#     subp_evaluate.add_argument('--exp-dir', type=str, required=False, default="",
-#                                help="Directory path to load experiment trials from.")
-#     subp_evaluate.add_argument('--skip-trials', type=str, action='append', required=False, default=None,
-#                                help="Trials to be skipped while evaluating.")
-#     subp_evaluate.add_argument('--exp-name', type=str, required=False, default="",
-#                                help="Name of the directory to be used to store evaluation results.")
-#
-#     subp_export = subparsers.add_parser('export', help='export the model of a trained agent')
-#     subp_export.add_argument('--algo',
-#                              type=str, required=False, default='PPO',
-#                              choices=['DQN', 'APEX', 'PPO', 'A3C', 'IMPALA', 'SAC'],
-#                              help="Algorithm used for training the agent. default=PPO")
-#     subp_export.add_argument('--path-to-checkpoint-and-config', type=str, required=True,
-#                              help="The path must contain the checkpoint and config file.", )
-#     subp_export.add_argument('--checkpoint-nr', type=int, required=True,
-#                              help="Checkpoint number.")
-#     subp_export.add_argument('--export-dir', type=str, required=False, default='',
-#                              help="The path where to store the policy model.", )
-#     subp_export.add_argument('--debug_metrics', type=bool, required=False, default=False,
-#                              help="Print metric values inside environment. default=False")
-#
-#     args = parser.parse_args()
-#     args_dict = vars(args)
-#     args_dict['algo_config'] = None
-#     if not args.modes:
-#         parser.print_help()
-#         exit(1)
-#     return args
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -223,7 +108,7 @@ if __name__ == '__main__':
     register_env("env_cfms", lambda _: ConveyorEnv_v3({}))
 
     ModelCatalog.register_custom_model(
-        "env_cfms", TorchParametricActionsModelv1
+        "env_cfms", TorchParametricActionsModelv2
     )
 
     if args.run == 'DQN':
@@ -240,12 +125,12 @@ if __name__ == '__main__':
             "custom_model": "env_cfms",
         },
         "env_config": {
-            "version": "trial",
+            "version": "trial1",
             "final_reward": 2,
             "mask": True
         },
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-        "num_workers": 1,  # parallelism
+        "num_workers": 5,  # parallelism
         "framework": args.framework
         },
         **cfg)

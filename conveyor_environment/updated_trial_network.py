@@ -4,6 +4,7 @@ import snakes.plugins
 from snakes.utils.simul import StateSpace
 from snakes.nets import *
 snakes.plugins.load(['gv', 'bound'], 'snakes.nets', 'snk')
+import random
 from snk import *
 
 places = ['S', 'S1', 'N1', 'A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'N2', 'C1', 'C2', 'C3', 'D1', 'D2', 'D3',
@@ -72,11 +73,11 @@ class TrialConveyorNetwork:
             if i == 't1':
                 self.transition.update({i: Transition('%s' % i, Expression('c == f'))})
             elif i == 'C1W1' or i == 'D1W1':
-                self.transition.update({i: Transition('%s' % i, Expression('f in [1, 5, 9, 13]'))})
+                self.transition.update({i: Transition('%s' % i, Expression('f in [1, 5, 9, 13] and c < f'))})
             elif i == 'C2W1' or i == 'D2W1':
-                self.transition.update({i: Transition('%s' % i, Expression('f in [2, 6, 10, 14]'))})
+                self.transition.update({i: Transition('%s' % i, Expression('f in [2, 6, 10, 14] and c < f'))})
             elif i == 'C3W1' or i == 'D3W1':
-                self.transition.update({i: Transition('%s' % i, Expression('f in [3, 7, 11, 15]'))})
+                self.transition.update({i: Transition('%s' % i, Expression('f in [3, 7, 11, 15] and c < f'))})
             else:
                 self.transition.update({i: Transition('%s' % i)})
             n.add_transition(self.transition[i])
@@ -437,14 +438,74 @@ class TrialConveyorNetwork:
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
         n.add_output('T1', 't1',
                      Tuple([Value(-1), Variable('sq_no'), Variable('c'), Variable('f'), Expression('count + 1')]))
-        n.add_input('T1', 'T', Tuple([Flush('dir'), Flush('sq_no'), Flush('c'), Flush('f'), Flush('count')]))
+        n.add_input('T1', 'T',
+                    Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
 
         return n, self.transition
 
 
-# trial_net = TrialConveyorNetwork([1, 1], [7, 5, 5], [4, 3])
+# NEXT_TRANSITIONS_TRIAL = {'S': ['s1'], 'S1': ['SN1'], 'N1': ['P_A1', 'N_B3'], 'A1': ['AN1', 'P_A2'],
+#                           'A2': ['N_A1', 'P_A3'], 'A3': ['N_A2', 'AN2'], 'B1': ['BN9', 'P_B2'], 'B2': ['N_B1', 'P_B3'],
+#                           'B3': ['N_B2', 'BN1'], 'N2': ['N_A3', 'P_C1', 'N_E3'], 'C1': ['CN2', 'P_C2'],
+#                           'C2': ['N_C1', 'P_C3'], 'C3': ['N_C2', 'C2W1', 'C3W1', 'C0W1', 'C1W1'], 'D1': ['P_D2', 'DN4'],
+#                           'D2': ['N_D1', 'P_D3'], 'D3': ['N_D2', 'D1W1', 'D0W1', 'D3W1', 'D2W1'], 'E1': ['EN3', 'P_E2'],
+#                           'E2': ['P_E3', 'N_E1'], 'E3': ['N_E2', 'EN2'], 'F1': ['FN3', 'P_F2'], 'F2': ['N_F1', 'P_F3'],
+#                           'F3': ['N_F2', 'FN4'], 'J1': ['P_J2', 'JN9'], 'J2': ['P_J3', 'N_J1'], 'J3': ['N_J2', 'JN6'],
+#                           'G1': ['P_G2', 'GN6'], 'G2': ['P_G3', 'N_G1'], 'G3': ['N_G2', 'GN3'], 'K1': ['P_K2', 'KN0'],
+#                           'K2': ['P_K3', 'N_K1'], 'K3': ['N_K2', 'KN9'], 'T1': ['T'], 'W1': ['N_D3', 'N_C3'],
+#                           'Red': ['D1W1', 'D3W1', 'C1W1', 'C3W1'], 'Green': ['C2W1', 'C3W1', 'D2W1', 'D3W1'],
+#                           'N3': ['P_E1', 'N_G3', 'P_F1'], 'N4': ['P_D1', 'N_F3'], 'N0': ['P_K1', 't1'],
+#                           'N6': ['P_G1', 'N_J3'], 'N9': ['P_B1', 'N_K3', 'P_J1'], }
+# #
+# trial_net = TrialConveyorNetwork([1], [5, 6, 6], [5])
 # net, t = trial_net.trial_conveyor_petrinet()
 # print(net.get_marking())
+# modes = net.transition('s1').modes()
+# print(modes)
+# n = [(0, 0, 0, 2, 0)]
+# net.add_marking(Marking(S1=MultiSet(n)))
+# print(net.get_marking())
+# done = False
+# while not done:
+#     place = list(net.get_marking().keys())
+#     place.remove('Green')
+#     place.remove('Red')
+#     print(place)
+#     current_place = place[0]
+#     if len(place) == 0:
+#         done = True
+#         break
+#     trans = NEXT_TRANSITIONS_TRIAL[place[0]]
+#
+#     trans_fire = random.choice(trans)
+#
+#     modes = net.transition(trans_fire).modes()
+#     if place[-1] == 'T1':
+#         print(place)
+#         print(trans)
+#         print(trans_fire)
+#         print(modes)
+#         print(net.get_marking())
+#     if len(modes) != 0:
+#         try:
+#             token = [(modes[0]['dir'], modes[0]['sq_no'], modes[0]['c'], modes[0]['f'], modes[0]['count'])]
+#             net.transition(trans_fire).fire(modes[0])
+#         except:
+#             print('------------------------------ERROR--------------------------------------')
+#             # net.add_marking(Marking(S=MultiSet(token)))
+#             net.place(current_place).add(token)
+#     else:
+#         continue
+#     print(current_place)
+#     print(token)
+#     print(place)
+#     print(trans)
+#     print(trans_fire)
+#     print(modes)
+#     print(net.get_marking())
+#     done = True
+
+
 # modes = net.transition('s1').modes()
 # net.transition('s1').fire(modes[0])
 # modes = net.transition('s1').modes()
