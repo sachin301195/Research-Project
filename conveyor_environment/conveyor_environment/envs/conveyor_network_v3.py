@@ -401,11 +401,11 @@ class ConveyorEnv_v3(gym.Env):
                     self.net.place(place).add(token)
                     if self.count >= 5:
                         self.pass_this = True
+                return trans_fire
             else:
                 self.error = True
                 if self.count >= 5:
                     self.pass_this = True
-            return trans_fire
         else:
             self.error = True
 
