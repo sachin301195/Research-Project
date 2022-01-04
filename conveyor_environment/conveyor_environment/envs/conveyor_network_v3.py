@@ -361,8 +361,6 @@ class ConveyorEnv_v3(gym.Env):
         return self.state
 
     def _take_action(self, action, place):
-        if self.start:
-
         self.start = False
         if self.version == 'trial':
             trans_fire = NEXT_TRANSITIONS_TRIAL[place][action]
