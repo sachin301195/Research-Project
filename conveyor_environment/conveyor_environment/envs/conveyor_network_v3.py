@@ -345,11 +345,11 @@ class ConveyorEnv_v3(gym.Env):
                 # print(f'modes: {modes}')
                 if trans_fire == 't1':
                     self.termination = True
-                    # print(f'\n Termination of token ',
-                    #       f'\n token : {modes[0]["sq_no"]}, c: {modes[0]["c"]}, f: {modes[0]["f"]}')
+                    print(f'\n Termination of token ',
+                          f'\n token : {modes[0]["sq_no"]}, c: {modes[0]["c"]}, f: {modes[0]["f"]}')
                 try:
                     self.net.transition(trans_fire).fire(modes[0])
-                    print(f'\n token : {modes[0]["sq_no"]}, c: {modes[0]["c"]}, f: {modes[0]["f"]}')
+                    # print(f'\n token : {modes[0]["sq_no"]}, c: {modes[0]["c"]}, f: {modes[0]["f"]}')
                 except ConstraintError as e1:
                     print(f'{e1}')
                     self.count += 1
@@ -441,5 +441,5 @@ class ConveyorEnv_v3(gym.Env):
                             self.order_complete = True
                             print(s1.format(order_no, self.order_throughput[idx], self.avg_throughput))
                         break
-        print(s.format(list(self.marking['T1'])[0][1], self.reward, self.avg_throughput))
+            print(s.format(list(self.marking['T1'])[0][1], self.reward, self.avg_throughput))
 
