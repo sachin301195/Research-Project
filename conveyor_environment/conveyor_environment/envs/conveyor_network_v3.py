@@ -234,11 +234,11 @@ class ConveyorEnv_v3(gym.Env):
         state = None
         if len(self.modes) != 0:
             self.current_token = self.modes[0]
-        if current_transition != 'Nan' and self.error is False:
-            self.next_place = str(self.net.post(current_transition))
+        # if current_transition != 'Nan' and self.error is False:
+        #     self.next_place = str(self.net.post(current_transition))
 
-        if self.pass_this:
-            self.next_place = str(self.net.post(current_transition))
+        # if self.pass_this:
+        #     self.next_place = str(self.net.post(current_transition))
 
         if self.version == 'trial':
             for i in PLACES_TRIAL:
