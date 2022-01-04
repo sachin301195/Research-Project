@@ -134,7 +134,7 @@ if __name__ == '__main__':
             "mask": True
         },
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-        "num_workers": 1,  # parallelism
+        "num_workers": 15,  # parallelism
         "framework": args.framework
         },
         **cfg)
