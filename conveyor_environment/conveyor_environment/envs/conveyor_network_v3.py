@@ -132,7 +132,7 @@ def generate_random_orders(version, seed):
         violet = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
         orders = defaultdict(list)
         for i in range(len(jobs)):
-            quantity[i] = int(np.random.randint(10, 15, 1, dtype=np.int16)[0])
+            quantity[i] = int(np.random.randint(1, 4, 1, dtype=np.int16)[0])
             orders[f"job_{jobs[i]}"].append(quantity[i])
             init += quantity[i]
         resources = [init, red, green, blue, violet]
@@ -226,40 +226,53 @@ class ConveyorEnv_v3(gym.Env):
 
         return self.state
 
-    def _next_observation(self, current_place):
+    def _next_observation(self, current_transition):
         self.marking = self.net.get_marking()
         state = None
+
+        if state is not None and current_transition != 'Nan' and self.error is False:
+            t = self.net.transition(current_transition).modes()[0]
+            self.next_place = self.net.post(current_transition)
+
         if self.version == 'trial':
             for i in PLACES_TRIAL:
                 if state is None:
-                    state = np.array([1 if i in list(self.marking.keys()) else 0], dtype=np.int8)
+                    state = np.array([1 if i in list(self.marking.keys()) else 0], 0, 0, 0, dtype=np.int8)
                 else:
-                    state = np.concatenate((state, np.array([1 if i in list(self.marking.keys()) else 0],
-                                                            dtype=np.int8)), axis=None)
+                    state = np.concatenate((state, np.array([1 if i in list(self.marking.keys()) else 0], t['dir'],
+                                                            t['c'], t['f'], dtype=np.int8)), axis=None)
         else:
             for i in PLACES:
                 if state is None:
-                    state = np.array([1 if i in list(self.marking.keys()) else 0], dtype=np.int8)
+                    state = np.array([1 if i in list(self.marking.keys()) else 0], 0, 0, 0, dtype=np.int8)
                 else:
-                    state = np.concatenate((state, np.array([1 if i in list(self.marking.keys()) else 0],
-                                                            dtype=np.int8)), axis=None)
+                    state = np.concatenate((state, np.array([1 if i in list(self.marking.keys()) else 0], t['dir'],
+                                                            t['c'], t['f'], dtype=np.int8)), axis=None)
         if self.mask:
-            if self.version == 'trial':
-                transition = np.array(NEXT_TRANSITIONS_TRIAL[current_place])
+            if state is not None:
+                if self.version == 'trial':
+                    transition = np.array(NEXT_TRANSITIONS_TRIAL[self.next_place])
+                else:
+                    transition = np.array(NEXT_TRANSITIONS[self.next_place])
+                for idx, i in enumerate(transition):
+                    if i != 'Nan':
+                        if str(self.net.post(i)) in list(self.marking.keys()):
+                            transition[idx] = 'Nan'
+                mask = np.where(transition == 'Nan', 0, 1)
+                self.state = {
+                    "action_mask": mask,
+                    "avail_actions": np.ones(5),
+                    "state": state
+                }
             else:
-                transition = np.array(NEXT_TRANSITIONS[current_place])
-            for idx, i in enumerate(transition):
-                if i != 'Nan':
-                    if str(self.net.post(i)) in list(self.marking.keys()):
-                        transition[idx] = 'Nan'
-            mask = np.where(transition == 'Nan', 0, 1)
-            self.state = {
-                "action_mask": mask,
-                "avail_actions": np.ones(5),
-                "state": state
-            }
+                self.state = {
+                    "action_mask": np.ones(5),
+                    "avail_actions": np.ones(5),
+                    "state": state
+                }
         else:
             self.state = state
+        return self.state
 
     def _STEP(self, action):
         # check for the resources, if not present add resources randomly
@@ -310,7 +323,7 @@ class ConveyorEnv_v3(gym.Env):
         print(self.net.get_marking().keys())
         print(self.step_count)
         print('eps', self.eps_times)
-        self._take_action(action, current_place)
+        current_transition = self._take_action(action, current_place)
         if not self.error or self.pass_this:
             self.step_count += 1
             self.count = 0
@@ -319,12 +332,12 @@ class ConveyorEnv_v3(gym.Env):
             self.total_time_units += 1
             self.step_count = 0
 
-        self._calculate_reward()
+        reward = self._calculate_reward()
         print(f'Reward: {self.reward}.... total time units : {self.total_time_units}')
-        self.done = self._done_status()
-        self._next_observation(current_place)
+        done = self._done_status()
+        state = self._next_observation(current_transition)
 
-        return self.state, self.reward, self.done, {}
+        return state, reward, done, {}
 
     def _get_obs(self):
         return self.state
@@ -375,6 +388,7 @@ class ConveyorEnv_v3(gym.Env):
                 self.error = True
                 if self.count >= 5:
                     self.pass_this = True
+            return trans_fire
         else:
             self.error = True
 
