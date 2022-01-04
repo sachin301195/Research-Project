@@ -307,9 +307,9 @@ class ConveyorEnv_v3(gym.Env):
 
         # Execute 1 time step within the environment
         current_place = self.current_marking[-1 - self.step_count]
-        print(self.net.get_marking().keys())
-        print(self.step_count)
-        print('eps', self.eps_times)
+        # print(self.net.get_marking().keys())
+        # print(self.step_count)
+        # print('eps', self.eps_times)
         self._take_action(action, current_place)
         if not self.error or self.pass_this:
             self.step_count += 1
@@ -320,7 +320,7 @@ class ConveyorEnv_v3(gym.Env):
             self.step_count = 0
 
         self._calculate_reward()
-        print(f'Reward: {self.reward}.... total time units : {self.total_time_units}')
+        # print(f'Reward: {self.reward}.... total time units : {self.total_time_units}')
         self.done = self._done_status()
         self._next_observation(current_place)
 
@@ -334,7 +334,7 @@ class ConveyorEnv_v3(gym.Env):
             trans_fire = NEXT_TRANSITIONS_TRIAL[place][action]
         else:
             trans_fire = NEXT_TRANSITIONS[place][action]
-        print(trans_fire)
+        # print(trans_fire)
         self.error = False
         if trans_fire is not 'Nan':
             self.error = False
@@ -345,13 +345,13 @@ class ConveyorEnv_v3(gym.Env):
                 # print(f'modes: {modes}')
                 if trans_fire == 't1':
                     self.termination = True
-                    print(f'\n Termination of token ',
-                          f'\n token : {modes[0]["sq_no"]}, c: {modes[0]["c"]}, f: {modes[0]["f"]}')
+                    # print(f'\n Termination of token ',
+                    #       f'\n token : {modes[0]["sq_no"]}, c: {modes[0]["c"]}, f: {modes[0]["f"]}')
                 try:
                     self.net.transition(trans_fire).fire(modes[0])
                     print(f'\n token : {modes[0]["sq_no"]}, c: {modes[0]["c"]}, f: {modes[0]["f"]}')
                 except ConstraintError as e1:
-                    print(f'{e1}: {place} holding the object')
+                    print(f'{e1}')
                     self.count += 1
                     self.error = True
                     self.net.place(place).add(token)
