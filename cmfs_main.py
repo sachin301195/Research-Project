@@ -149,9 +149,12 @@ if __name__ == '__main__':
         dqn_config = dqn.DEFAULT_CONFIG.copy()
         dqn_config.update(config)
         dqn_config["lr"] = 1e-3
-        dqn_config['num_sgd_iter'] = 30
-        dqn_config['sgd_minibatch_size'] = 128
-        dqn_config['model']['fcnet_hiddens'] = [100, 100]
+        # dqn_config['num_sgd_iter'] = 30
+        # dqn_config['sgd_minibatch_size'] = 128
+        dqn_config['model']['fcnet_hiddens'] = [256, 128]
+        dqn_config['model']['fcnet_activation'] = 'relu'
+        dqn_config['model']['render_env'] = True
+        dqn_config['timesteps_per_iteration'] = 200000
         trainer = dqn.DQNTrainer(config=dqn_config, env=ConveyorEnv_v3)
         results = []
         episode_data = []
