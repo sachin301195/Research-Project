@@ -334,7 +334,7 @@ class ConveyorEnv_v3(gym.Env):
             trans_fire = NEXT_TRANSITIONS_TRIAL[place][action]
         else:
             trans_fire = NEXT_TRANSITIONS[place][action]
-        # print(trans_fire)
+        print(trans_fire)
         self.error = False
         if trans_fire is not 'Nan':
             self.error = False
@@ -342,7 +342,7 @@ class ConveyorEnv_v3(gym.Env):
             modes = self.net.transition(trans_fire).modes()
             if len(modes) != 0:
                 token = [(modes[0]['dir'], modes[0]['sq_no'], modes[0]['c'], modes[0]['f'], modes[0]['count'])]
-                print(f'modes: {modes}')
+                # print(f'modes: {modes}')
                 if trans_fire == 't1':
                     self.termination = True
                     print(f'\n Termination of token ',
