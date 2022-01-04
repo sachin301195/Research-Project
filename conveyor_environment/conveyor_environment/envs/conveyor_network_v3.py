@@ -221,6 +221,7 @@ class ConveyorEnv_v3(gym.Env):
         self.pass_this = False
         self.error = False
         self.termination = False
+        self.modes = self.net.transition('S').modes()
         self.start = True
         self._next_observation('s1', 'S')
         self.object_no = 0
@@ -231,14 +232,12 @@ class ConveyorEnv_v3(gym.Env):
     def _next_observation(self, current_transition, current_place):
         self.marking = self.net.get_marking()
         state = None
+        if len(self.modes) != 0:
+            self.current_token = self.modes[0]
         if current_transition != 'Nan' and self.error is False:
-            mode = self.net.transition(current_transition).modes()
-            if len(mode) != 0:
-                self.current_token = mode[0]
             self.next_place = str(self.net.post(current_transition))
 
         if self.pass_this:
-            self.current_token = self.net.transition(current_transition).modes()[0]
             self.next_place = str(self.net.post(current_transition))
 
         if self.version == 'trial':
@@ -371,17 +370,18 @@ class ConveyorEnv_v3(gym.Env):
         if trans_fire is not 'Nan':
             self.error = False
             self.termination = False
-            modes = self.net.transition(trans_fire).modes()
-            if len(modes) != 0:
-                token = [(modes[0]['dir'], modes[0]['sq_no'], modes[0]['c'], modes[0]['f'], modes[0]['count'])]
-                # print(f'modes: {modes}')
+            self.modes = self.net.transition(trans_fire).modes()
+            if len(self.modes) != 0:
+                token = [(self.modes[0]['dir'], self.modes[0]['sq_no'], self.modes[0]['c'], self.modes[0]['f'],
+                          self.modes[0]['count'])]
+                # print(f'modes: {self.modes}')
                 if trans_fire == 't1':
                     self.termination = True
                     print(f'\n Termination of token ',
-                          f'\n token : {modes[0]["sq_no"]}, c: {modes[0]["c"]}, f: {modes[0]["f"]}')
+                          f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, f: {self.modes[0]["f"]}')
                 try:
-                    self.net.transition(trans_fire).fire(modes[0])
-                    # print(f'\n token : {modes[0]["sq_no"]}, c: {modes[0]["c"]}, f: {modes[0]["f"]}')
+                    self.net.transition(trans_fire).fire(self.modes[0])
+                    # print(f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, f: {self.modes[0]["f"]}')
                 except ConstraintError as e1:
                     print(f'{e1}')
                     self.count += 1
