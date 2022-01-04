@@ -53,6 +53,7 @@ BASE_PATH = '.'
 RESULTS_PATH = './results/'
 REWARD_RESULTS_PATH = '/reward-results/'
 AVG_OVR_EP_PATH = '/avg_over_ep-results/'
+CHECKPOINT_ROOT = './checkpoints'
 
 torch, nn = try_import_torch()
 
@@ -90,6 +91,7 @@ parser.add_argument(
     help="Reward at which we stop training.")
 parser.add_argument(
     "--no-tune",
+    default=True,
     type=bool,
     help="Run without Tune using a manual train loop instead. In this case,"
          "use DQN without grid search and no TensorBoard.")
@@ -136,9 +138,7 @@ if __name__ == '__main__':
         **cfg)
 
     stop = {
-        "training_iteration": 1,
-        "timesteps_total": args.stop_timesteps,
-        "episode_reward_mean": args.stop_reward,
+        "training_iteration": 5000
     }
 
     if args.no_tune:
@@ -149,7 +149,7 @@ if __name__ == '__main__':
         dqn_config = dqn.DEFAULT_CONFIG.copy()
         dqn_config.update(config)
         dqn_config["lr"] = 1e-3
-        trainer = dqn.DQNTrainer(config=dqn_config, env=ConveyorEnv_v0)
+        trainer = dqn.DQNTrainer(config=dqn_config, env=ConveyorEnv_v3)
 
         for _ in range(args.stop_iters):
             result = trainer.train()
@@ -158,10 +158,10 @@ if __name__ == '__main__':
             result.save(CHECKPOINT_ROOT)
 
             # stop training of the target train steps or reward are reached
-            if result["timesteps_total"] >= args.stop_timesteps or \
-                    result["episode_reward_mean"] >= args.stop_reward:
-                trainer.stop()
-                break
+            # if result["timesteps_total"] >= args.stop_timesteps or \
+            #         result["episode_reward_mean"] >= args.stop_reward:
+            #     trainer.stop()
+            #     break
 
     else:
         # automated run with tune and grid search and Tensorboard

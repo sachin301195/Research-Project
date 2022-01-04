@@ -33,6 +33,9 @@ torch, nn = try_import_torch()
 
 
 class TorchParametricActionModel(DQNTorchModel):
+    """
+    : This network to be used without action_masking
+    """
     def __init__(self,
                  obs_space,
                  action_space,
@@ -56,6 +59,9 @@ class TorchParametricActionModel(DQNTorchModel):
 
 
 class TorchParametricActionsModelv1(DQNTorchModel):
+    """
+    : This network to be used with action_masking and trial env version
+    """
     def __init__(self,
                  obs_space,
                  action_space,
@@ -95,7 +101,11 @@ class TorchParametricActionsModelv1(DQNTorchModel):
     def value_function(self):
         return self.action_model.value_function()
 
+
 class TorchParametricActionsModelv2(DQNTorchModel):
+    """
+    : This network to be used with action_masking
+    """
     def __init__(self,
                  obs_space,
                  action_space,
