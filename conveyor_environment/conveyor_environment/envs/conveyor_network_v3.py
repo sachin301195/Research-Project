@@ -221,7 +221,7 @@ class ConveyorEnv_v3(gym.Env):
         self.pass_this = False
         self.error = False
         self.termination = False
-        self.modes = self.net.transition('S').modes()
+        self.modes = self.net.transition('s1').modes()
         self.start = True
         self._next_observation('s1', 'S')
         self.object_no = 0
