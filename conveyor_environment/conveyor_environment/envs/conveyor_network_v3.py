@@ -220,7 +220,7 @@ class ConveyorEnv_v3(gym.Env):
         self.pass_this = False
         self.error = False
         self.termination = False
-        self._next_observation('S')
+        self._next_observation('s1')
         self.object_no = 0
         self.order_complete = False
 
@@ -245,7 +245,7 @@ class ConveyorEnv_v3(gym.Env):
         else:
             for i in PLACES:
                 if state is None:
-                    state = np.array([1 if i in list(self.marking.keys()) else 0], 0, 0, 0, dtype=np.int8)
+                    state = np.array([1 if i in list(self.marking.keys()) else 0], dtype=np.int8)
                     state = np.concatenate((state, 0, 0, 0), axis=None)
                 else:
                     state = np.concatenate((state, np.array([1 if i in list(self.marking.keys()) else 0], t['dir'],
