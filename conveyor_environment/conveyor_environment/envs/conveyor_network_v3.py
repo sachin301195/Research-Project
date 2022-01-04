@@ -184,7 +184,8 @@ class ConveyorEnv_v3(gym.Env):
 
         self.reward_range = [-1, 1, self.final_reward]
         # Observation space represents the places
-        obs_space = spaces.Box(0, 1, shape=(self.no_places + 3,))
+        place = self.no_places + 3
+        obs_space = spaces.Box(0, 1, shape=(place,))
         # Action space represents the transitions to get fired
         self.action_space = spaces.Discrete(5)
         if self.mask:
