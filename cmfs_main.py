@@ -130,11 +130,11 @@ if __name__ == '__main__':
         },
         "env_config": {
             "version": "trial1",
-            "final_reward": 2,
+            "final_reward": 10,
             "mask": True
         },
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-        "num_workers": 15,  # parallelism
+        "num_workers": 1,  # parallelism
         "framework": args.framework
         },
         **cfg)
