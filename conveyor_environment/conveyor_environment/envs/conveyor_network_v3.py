@@ -366,9 +366,9 @@ class ConveyorEnv_v3(gym.Env):
         else:
             trans_fire = NEXT_TRANSITIONS[place][action]
         print(trans_fire)
+        self.pass_this = False
         self.error = False
         if trans_fire is not 'Nan':
-            self.error = False
             self.termination = False
             self.modes = self.net.transition(trans_fire).modes()
             if len(self.modes) != 0:
