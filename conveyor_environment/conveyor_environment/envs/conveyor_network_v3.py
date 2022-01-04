@@ -237,7 +237,8 @@ class ConveyorEnv_v3(gym.Env):
         if self.version == 'trial':
             for i in PLACES_TRIAL:
                 if state is None:
-                    state = np.array([1 if i in list(self.marking.keys()) else 0], 0, 0, 0, dtype=np.int8)
+                    state = np.array([1 if i in list(self.marking.keys()) else 0], dtype=np.int8)
+                    state = np.concatenate((state, 0, 0, 0), axis=None)
                 else:
                     state = np.concatenate((state, np.array([1 if i in list(self.marking.keys()) else 0], t['dir'],
                                                             t['c'], t['f'], dtype=np.int8)), axis=None)
@@ -245,6 +246,7 @@ class ConveyorEnv_v3(gym.Env):
             for i in PLACES:
                 if state is None:
                     state = np.array([1 if i in list(self.marking.keys()) else 0], 0, 0, 0, dtype=np.int8)
+                    state = np.concatenate((state, 0, 0, 0), axis=None)
                 else:
                     state = np.concatenate((state, np.array([1 if i in list(self.marking.keys()) else 0], t['dir'],
                                                             t['c'], t['f'], dtype=np.int8)), axis=None)
