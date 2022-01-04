@@ -236,7 +236,7 @@ class ConveyorEnv_v3(gym.Env):
 
         if self.pass_this:
             self.current_token = self.net.transition(current_transition).modes()[0]
-            self.next_place = self.net.post(current_transition)
+            self.next_place = str(self.net.post(current_transition))
 
         if self.version == 'trial':
             for i in PLACES_TRIAL:
