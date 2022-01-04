@@ -266,7 +266,7 @@ class ConveyorEnv_v3(gym.Env):
                 state = np.concatenate((state, self.current_token['dir'], self.current_token['c'],
                                         self.current_token['f']), axis = None)
         if self.mask:
-            if start is not None:
+            if not start:
                 if self.version == 'trial':
                     transition = np.array(NEXT_TRANSITIONS_TRIAL[self.next_place])
                 else:
