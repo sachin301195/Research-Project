@@ -221,6 +221,7 @@ class ConveyorEnv_v3(gym.Env):
         self.pass_this = False
         self.error = False
         self.termination = False
+        self.start = True
         self._next_observation('s1')
         self.object_no = 0
         self.order_complete = False
@@ -245,11 +246,10 @@ class ConveyorEnv_v3(gym.Env):
                 if state is None:
                     state = np.array([1 if i in list(self.marking.keys()) else 0], dtype=np.int8)
                     state = np.concatenate((state, 0, 0, 0), axis=None)
-                    start = None
                 else:
                     state = np.concatenate((state, np.array([1 if i in list(self.marking.keys()) else 0],
                                                             dtype=np.int8)), axis=None)
-            if start:
+            if self.start:
                 state = np.concatenate((state, 0, 0, 0), axis = None)
             else:
                 state = np.concatenate((state, self.current_token['dir'], self.current_token['c'],
@@ -258,17 +258,16 @@ class ConveyorEnv_v3(gym.Env):
             for i in PLACES:
                 if state is None:
                     state = np.array([1 if i in list(self.marking.keys()) else 0], dtype=np.int8)
-                    start = True
                 else:
                     state = np.concatenate((state, np.array([1 if i in list(self.marking.keys()) else 0],
                                                             dtype=np.int8)), axis=None)
-            if start:
+            if self.start:
                 state = np.concatenate((state, 0, 0, 0), axis = None)
             else:
                 state = np.concatenate((state, self.current_token['dir'], self.current_token['c'],
                                         self.current_token['f']), axis = None)
         if self.mask:
-            if not start:
+            if not self.start:
                 if self.version == 'trial':
                     transition = np.array(NEXT_TRANSITIONS_TRIAL[self.next_place])
                 else:
@@ -362,6 +361,7 @@ class ConveyorEnv_v3(gym.Env):
         return self.state
 
     def _take_action(self, action, place):
+        self.start = False
         if self.version == 'trial':
             trans_fire = NEXT_TRANSITIONS_TRIAL[place][action]
         else:
