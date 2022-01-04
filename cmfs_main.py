@@ -149,13 +149,30 @@ if __name__ == '__main__':
         dqn_config = dqn.DEFAULT_CONFIG.copy()
         dqn_config.update(config)
         dqn_config["lr"] = 1e-3
+        dqn_config['num_sgd_iter'] = 30
+        dqn_config['sgd_minibatch_size'] = 128
+        dqn_config['model']['fcnet_hiddens'] = [100, 100]
         trainer = dqn.DQNTrainer(config=dqn_config, env=ConveyorEnv_v3)
-
-        for _ in range(args.stop_iters):
+        results = []
+        episode_data = []
+        for n in range(2):
             result = trainer.train()
+            results.append(result)
             print(pretty_print(result))
+            episode = {
+                'n': n,
+                'episode_reward_min': result['episode_reward_min'],
+                'episode_reward_mean': result['episode_reward_mean'],
+                'episode_reward_max': result['episode_reward_max'],
+                'episode_len_mean': result['episode_len_mean']}
 
-            result.save(CHECKPOINT_ROOT)
+            episode_data.append(episode)
+            print(
+                f'{n:3d}: Min/Mean/Max reward: {result["episode_reward_min"]:8.4f}/'
+                f'{result["episode_reward_mean"]:8.4f}/'
+                f'{result["episode_reward_max"]:8.4f}')
+
+            trainer.save(CHECKPOINT_ROOT)
 
             # stop training of the target train steps or reward are reached
             # if result["timesteps_total"] >= args.stop_timesteps or \
