@@ -220,7 +220,6 @@ class ConveyorEnv_v3(gym.Env):
         self.pass_this = False
         self.error = False
         self.termination = False
-        self.current_token = None
         self._next_observation('s1')
         self.object_no = 0
         self.order_complete = False
@@ -230,16 +229,20 @@ class ConveyorEnv_v3(gym.Env):
     def _next_observation(self, current_transition):
         self.marking = self.net.get_marking()
         state = None
-        if state is not None and current_transition != 'Nan' and self.error is False:
-            t = self.net.transition(current_transition).modes()[0]
+        if current_transition != 'Nan' and self.error is False:
+            self.current_token = self.net.transition(current_transition).modes()[0]
             self.next_place = self.net.post(current_transition)
-            self.current_token = t
+
+        if self.pass_this:
+            self.current_token = self.net.transition(current_transition).modes()[0]
+            self.next_place = self.net.post(current_transition)
 
         if self.version == 'trial':
             for i in PLACES_TRIAL:
                 if state is None:
                     state = np.array([1 if i in list(self.marking.keys()) else 0], dtype=np.int8)
                     state = np.concatenate((state, 0, 0, 0), axis=None)
+                    start = None
                 else:
                     state = np.concatenate((state, np.array([1 if i in list(self.marking.keys()) else 0],
                                                             self.current_token['dir'], self.current_token['c'],
@@ -249,12 +252,13 @@ class ConveyorEnv_v3(gym.Env):
                 if state is None:
                     state = np.array([1 if i in list(self.marking.keys()) else 0], dtype=np.int8)
                     state = np.concatenate((state, 0, 0, 0), axis=None)
+                    start = None
                 else:
                     state = np.concatenate((state, np.array([1 if i in list(self.marking.keys()) else 0],
                                                             self.current_token['dir'], self.current_token['c'],
                                                             self.current_token['f'], dtype=np.int8)), axis=None)
         if self.mask:
-            if state is not None:
+            if start is not None:
                 if self.version == 'trial':
                     transition = np.array(NEXT_TRANSITIONS_TRIAL[self.next_place])
                 else:
