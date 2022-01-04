@@ -14,7 +14,9 @@ from conveyor_environment.conveyor_environment.envs.conveyor_network_v2 import C
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v3 import ConveyorEnv_v3
 
 import numpy as np
+import pandas as pd
 from pathlib import Path
+import matplotlib.pyplot as plt
 import time
 import os
 import random
@@ -174,14 +176,25 @@ if __name__ == '__main__':
                 f'{n:3d}: Min/Mean/Max reward: {result["episode_reward_min"]:8.4f}/'
                 f'{result["episode_reward_mean"]:8.4f}/'
                 f'{result["episode_reward_max"]:8.4f}')
-
             trainer.save(CHECKPOINT_ROOT)
 
-            # stop training of the target train steps or reward are reached
-            # if result["timesteps_total"] >= args.stop_timesteps or \
-            #         result["episode_reward_mean"] >= args.stop_reward:
-            #     trainer.stop()
-            #     break
+        df = pd.DataFrame(data=episode_data)
+        df.columns.tolist()
+        df.plot(x="n", y=["episode_reward_mean", "episode_reward_min", "episode_reward_max"], secondary_y=True)
+        plt.savefig('output.png')
+        episode_rewards = results[-1]['hist_stats']['episode_reward']
+        df_episode_rewards = pd.DataFrame(data={'episode': range(len(episode_rewards)), 'reward': episode_rewards})
+
+        df_episode_rewards.plot(x="episode", y="reward")
+        plt.savefig('episode_reward.png')
+
+
+
+        # stop training of the target train steps or reward are reached
+        # if result["timesteps_total"] >= args.stop_timesteps or \
+        #         result["episode_reward_mean"] >= args.stop_reward:
+        #     trainer.stop()
+        #     break
 
     else:
         # automated run with tune and grid search and Tensorboard
