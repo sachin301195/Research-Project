@@ -231,7 +231,9 @@ class ConveyorEnv_v3(gym.Env):
         self.marking = self.net.get_marking()
         state = None
         if current_transition != 'Nan' and self.error is False:
-            self.current_token = self.net.transition(current_transition).modes()[0]
+            mode = self.net.transition(current_transition).modes()
+            if len(mode) != 0:
+                self.current_token = mode[0]
             self.next_place = self.net.post(current_transition)
 
         if self.pass_this:
