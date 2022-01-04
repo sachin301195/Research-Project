@@ -222,7 +222,7 @@ class ConveyorEnv_v3(gym.Env):
         self.error = False
         self.termination = False
         self.start = True
-        self._next_observation('s1')
+        self._next_observation('s1', 'S')
         self.object_no = 0
         self.order_complete = False
 
