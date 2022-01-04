@@ -228,7 +228,7 @@ class ConveyorEnv_v3(gym.Env):
 
         return self.state
 
-    def _next_observation(self, current_transition):
+    def _next_observation(self, current_transition, current_place):
         self.marking = self.net.get_marking()
         state = None
         if current_transition != 'Nan' and self.error is False:
@@ -269,9 +269,9 @@ class ConveyorEnv_v3(gym.Env):
         if self.mask:
             if not self.start:
                 if self.version == 'trial':
-                    transition = np.array(NEXT_TRANSITIONS_TRIAL[self.next_place])
+                    transition = np.array(NEXT_TRANSITIONS_TRIAL[current_place])
                 else:
-                    transition = np.array(NEXT_TRANSITIONS[self.next_place])
+                    transition = np.array(NEXT_TRANSITIONS[current_place])
                 for idx, i in enumerate(transition):
                     if i != 'Nan':
                         if str(self.net.post(i)) in list(self.marking.keys()):
@@ -353,7 +353,7 @@ class ConveyorEnv_v3(gym.Env):
         reward = self._calculate_reward()
         print(f'Reward: {self.reward}.... total time units : {self.total_time_units}')
         done = self._done_status()
-        state = self._next_observation(current_transition)
+        state = self._next_observation(current_transition, current_place)
 
         return state, reward, done, {}
 
@@ -361,6 +361,8 @@ class ConveyorEnv_v3(gym.Env):
         return self.state
 
     def _take_action(self, action, place):
+        if self.start:
+
         self.start = False
         if self.version == 'trial':
             trans_fire = NEXT_TRANSITIONS_TRIAL[place][action]
