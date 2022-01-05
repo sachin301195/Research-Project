@@ -11,6 +11,7 @@ import logging
 import sys
 import time
 from collections import defaultdict
+import matplotlib.pyplot as plt
 
 sys.path.append('../../snakes_master')
 from conveyor_environment.updated_trial_network import TrialConveyorNetwork
@@ -132,10 +133,12 @@ def generate_random_orders(version, seed):
         violet = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
         orders = defaultdict(list)
         for i in range(len(jobs)):
-            quantity[i] = int(np.random.randint(1, 4, 1, dtype=np.int16)[0])
+            quantity[i] = int(np.random.randint(1, 2, 1, dtype=np.int16)[0])
             orders[f"job_{jobs[i]}"].append(quantity[i])
             init += quantity[i]
         resources = [init, red, green, blue, violet]
+
+        print(f'jobs {jobs}, resources {resources}, quantity {quantity}, orders {orders}')
 
         return jobs, resources, quantity, orders
 
@@ -476,4 +479,21 @@ class ConveyorEnv_v3(gym.Env):
                             print(s1.format(order_no, self.order_throughput[idx], self.avg_throughput))
                         break
             print(s.format(list(self.marking['T1'])[0][1], self.reward, self.avg_throughput))
+            fig = plt.figure()
+            ax = fig.add_subplot(111, label='1')
+            ax2 = fig.add_subplot(111, label='2', frame_on=False)
+
+            ax.plot(order_no, self.avg_throughput, color='C0')
+            ax.set_xlabel('orders', color='C0')
+            ax.set_ylabel('average throughput', color='C0')
+            ax.tick_params(axis='x', colors='C0')
+            ax.tick_params(axis='y', colors='C0')
+
+            ax2.plot(order_no, self.reward)
+            ax.set_xlabel('orders', color='C0')
+            ax.set_ylabel('average throughput', color='C0')
+            ax.tick_params(axis='x', colors='C0')
+            ax.tick_params(axis='y', colors='C0')
+
+            plt.savefig('render_results.png')
 
