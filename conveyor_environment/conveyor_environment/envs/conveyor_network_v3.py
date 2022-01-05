@@ -381,7 +381,7 @@ class ConveyorEnv_v3(gym.Env):
                           f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, f: {self.modes[0]["f"]}')
                 try:
                     self.net.transition(trans_fire).fire(self.modes[0])
-                    # print(f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, f: {self.modes[0]["f"]}')
+                    print(f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, f: {self.modes[0]["f"]}')
                 except ConstraintError as e1:
                     print(f'{e1}')
                     self.count += 1

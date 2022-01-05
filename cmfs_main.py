@@ -134,7 +134,7 @@ if __name__ == '__main__':
             "mask": True
         },
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-        "num_workers": 15,  # parallelism
+        "num_workers": 32,  # parallelism
         "framework": args.framework
         },
         **cfg)
@@ -176,7 +176,7 @@ if __name__ == '__main__':
                 f'{n:3d}: Min/Mean/Max reward: {result["episode_reward_min"]:8.4f}/'
                 f'{result["episode_reward_mean"]:8.4f}/'
                 f'{result["episode_reward_max"]:8.4f}')
-            trainer.save(CHECKPOINT_ROOT)
+            check_point = trainer.save(CHECKPOINT_ROOT)
 
         df = pd.DataFrame(data=episode_data)
         df.columns.tolist()
