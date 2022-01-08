@@ -93,7 +93,7 @@ parser.add_argument(
     help="Reward at which we stop training.")
 parser.add_argument(
     "--no-tune",
-    default=True,
+    default=False,
     type=bool,
     help="Run without Tune using a manual train loop instead. In this case,"
          "use DQN without grid search and no TensorBoard.")
