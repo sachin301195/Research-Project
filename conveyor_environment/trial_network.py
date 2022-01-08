@@ -1,8 +1,10 @@
 import sys
+
 sys.path.append('./snakes_master')
 import snakes.plugins
 from snakes.utils.simul import StateSpace
 from snakes.nets import *
+
 snakes.plugins.load(['gv', 'bound'], 'snakes.nets', 'snk')
 from snk import *
 
@@ -54,13 +56,13 @@ class ConveyorNetwork:
             self.token[f'job{i}'] = (0, 0, 0, i, 0)
         for i in range(self.no_of_jobs):
             for k in range(self.orders[i]):
-                self.token[f'job{self.fs[i]}'] = self.token[f'job{self.fs[i]}'][:1] + (self.object_no, ) + \
-                                                    self.token[f'job{self.fs[i]}'][2:]
+                self.token[f'job{self.fs[i]}'] = self.token[f'job{self.fs[i]}'][:1] + (self.object_no,) + \
+                                                 self.token[f'job{self.fs[i]}'][2:]
                 self.object_no += 1
                 self.t_init.append(self.token[f'job{self.fs[i]}'])
         return self.t_init, self.t_red, self.t_green, self.t_blue, self.t_violet
 
-    def conveyor_petrinet(self, bounds = 1):
+    def conveyor_petrinet(self, bounds=1):
         n = PetriNet('trial_net')
         n.globals.declare('c = 0')
         n.globals.declare('f = 0')
@@ -87,17 +89,24 @@ class ConveyorNetwork:
             if i == 't1':
                 self.transition.update({i: Transition('%s' % i, Expression('c == f'))})
             elif i == 'C1W1' or i == 'D1W1':
-                self.transition.update({i: Transition('%s' % i, Expression('f in [1, 5, 9, 13]'))})
+                self.transition.update \
+                    ({i: Transition('%s' % i,
+                                    Expression('f in [1, 5, 9, 13] and c<f and c!=1 and c!=5 and c!=9 and c!=13'))})
             elif i == 'C2W1' or i == 'D2W1':
-                self.transition.update({i: Transition('%s' % i, Expression('f in [2, 6, 10, 14]'))})
+                self.transition.update({i: Transition('%s' % i,
+                                    Expression('f in [2, 6, 10, 14] and c<f and c!=2 and c!=6 and c!=10 and c!=14'))})
             elif i == 'C3W1' or i == 'D3W1':
-                self.transition.update({i: Transition('%s' % i, Expression('f in [3, 7, 11, 15]'))})
+                self.transition.update({i: Transition('%s' % i,
+                                    Expression('f in [3, 7, 11, 15] and c<f and c!=3 and c!=7 and c!=11 and c!=15'))})
             elif i == 'L4W2' or i == 'M4W2':
-                self.transition.update({i: Transition('%s' % i, Expression('f in [4, 5, 6, 7]'))})
+                self.transition.update({i: Transition('%s' % i,
+                                    Expression('f in [4, 5, 6, 7] and c<f and c!=4 and c!=5 and c!=6 and c!=7'))})
             elif i == 'L8W2' or i == 'M8W2':
-                self.transition.update({i: Transition('%s' % i, Expression('f in [8, 9, 10, 11]'))})
+                self.transition.update({i: Transition('%s' % i,
+                                    Expression('f in [8, 9, 10, 11] and c<f and c!=8 and c!=9 and c!=10 and c!=11'))})
             elif i == 'L12W2' or i == 'M12W2':
-                self.transition.update({i: Transition('%s' % i, Expression('f in [12, 13, 14, 15]'))})
+                self.transition.update({i: Transition('%s' % i,
+                                Expression('f in [12, 13, 14, 15] and c<f and c!=12 and c!=13 and c!=14 and c!=15'))})
             else:
                 self.transition.update({i: Transition('%s' % i)})
             n.add_transition(self.transition[i])
@@ -371,21 +380,21 @@ class ConveyorNetwork:
                      Tuple([Value(-1), Variable('sq_no'), Variable('c'), Variable('f'), Expression('count + 1')]))
         n.add_input('C3', 'C1W1',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Red', 'C1W1', Variable('x'))
+        # n.add_input('Red', 'C1W1', Variable('x'))
         n.add_output('W1', 'C1W1',
-                     Tuple([Value(-1), Variable('sq_no'), Expression('c + x'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(-1), Variable('sq_no'), Expression('c + 1'), Variable('f'), Expression('count + 1')]))
         n.add_input('C3', 'C2W1',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Green', 'C2W1', Variable('y'))
+        # n.add_input('Green', 'C2W1', Variable('y'))
         n.add_output('W1', 'C2W1',
-                     Tuple([Value(-1), Variable('sq_no'), Expression('c + y'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(-1), Variable('sq_no'), Expression('c + 2'), Variable('f'), Expression('count + 1')]))
         n.add_input('C3', 'C3W1',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Red', 'C3W1',
-                    Variable('x'))
-        n.add_input('Green', 'C3W1', Variable('y'))
+        # n.add_input('Red', 'C3W1',
+        #             Variable('x'))
+        # n.add_input('Green', 'C3W1', Variable('y'))
         n.add_output('W1', 'C3W1',
-                     Tuple([Value(-1), Variable('sq_no'), Expression('c+x+y'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(-1), Variable('sq_no'), Expression('c + 3'), Variable('f'), Expression('count + 1')]))
         # W1 to D
         n.add_input('W1', 'N_D3',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
@@ -422,20 +431,20 @@ class ConveyorNetwork:
                      Tuple([Value(1), Variable('sq_no'), Variable('c'), Variable('f'), Expression('count + 1')]))
         n.add_input('D3', 'D1W1',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Red', 'D1W1', Variable('x'))
+        # n.add_input('Red', 'D1W1', Variable('x'))
         n.add_output('W1', 'D1W1',
-                     Tuple([Value(1), Variable('sq_no'), Expression('c + x'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(1), Variable('sq_no'), Expression('c + 1'), Variable('f'), Expression('count + 1')]))
         n.add_input('D3', 'D2W1',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Green', 'D2W1', Variable('y'))
+        # n.add_input('Green', 'D2W1', Variable('y'))
         n.add_output('W1', 'D2W1',
-                     Tuple([Value(1), Variable('sq_no'), Expression('c + y'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(1), Variable('sq_no'), Expression('c + 2'), Variable('f'), Expression('count + 1')]))
         n.add_input('D3', 'D3W1',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Red', 'D3W1', Variable('x'))
-        n.add_input('Green', 'D3W1', Variable('y'))
+        # n.add_input('Red', 'D3W1', Variable('x'))
+        # n.add_input('Green', 'D3W1', Variable('y'))
         n.add_output('W1', 'D3W1',
-                     Tuple([Value(1), Variable('sq_no'), Expression('c+x+y'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(1), Variable('sq_no'), Expression('c + 3'), Variable('f'), Expression('count + 1')]))
         # W1 to C
         n.add_input('W1', 'N_C3',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
@@ -644,21 +653,21 @@ class ConveyorNetwork:
                      Tuple([Value(-1), Variable('sq_no'), Variable('c'), Variable('f'), Expression('count + 1')]))
         n.add_input('M3', 'M4W2',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Blue', 'M4W2', Variable('x'))
+        # n.add_input('Blue', 'M4W2', Variable('x'))
         n.add_output('W2', 'M4W2',
-                     Tuple([Value(-1), Variable('sq_no'), Expression('c + x'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(-1), Variable('sq_no'), Expression('c + 4'), Variable('f'), Expression('count + 1')]))
         n.add_input('M3', 'M8W2',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Violet', 'M8W2', Variable('y'))
+        # n.add_input('Violet', 'M8W2', Variable('y'))
         n.add_output('W2', 'M8W2',
-                     Tuple([Value(-1), Variable('sq_no'), Expression('c + y'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(-1), Variable('sq_no'), Expression('c + 8'), Variable('f'), Expression('count + 1')]))
         n.add_input('M3', 'M12W2',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Blue', 'M12W2',
-                    Variable('x'))
-        n.add_input('Violet', 'M12W2', Variable('y'))
+        # n.add_input('Blue', 'M12W2',
+        #             Variable('x'))
+        # n.add_input('Violet', 'M12W2', Variable('y'))
         n.add_output('W2', 'M12W2',
-                     Tuple([Value(-1), Variable('sq_no'), Expression('c+x+y'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(-1), Variable('sq_no'), Expression('c +12'), Variable('f'), Expression('count + 1')]))
         # W2 to L
         n.add_input('W2', 'P_L1',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
@@ -695,20 +704,20 @@ class ConveyorNetwork:
                      Tuple([Value(1), Variable('sq_no'), Variable('c'), Variable('f'), Expression('count + 1')]))
         n.add_input('L1', 'L4W2',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Blue', 'L4W2', Variable('x'))
+        # n.add_input('Blue', 'L4W2', Variable('x'))
         n.add_output('W2', 'L4W2',
-                     Tuple([Value(1), Variable('sq_no'), Expression('c + x'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(1), Variable('sq_no'), Expression('c + 4'), Variable('f'), Expression('count + 1')]))
         n.add_input('L1', 'L8W2',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Violet', 'L8W2', Variable('y'))
+        # n.add_input('Violet', 'L8W2', Variable('y'))
         n.add_output('W2', 'L8W2',
-                     Tuple([Value(1), Variable('sq_no'), Expression('c + y'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(1), Variable('sq_no'), Expression('c + 8'), Variable('f'), Expression('count + 1')]))
         n.add_input('L1', 'L12W2',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Blue', 'L12W2', Variable('x'))
-        n.add_input('Violet', 'L12W2', Variable('y'))
+        # n.add_input('Blue', 'L12W2', Variable('x'))
+        # n.add_input('Violet', 'L12W2', Variable('y'))
         n.add_output('W2', 'L12W2',
-                     Tuple([Value(1), Variable('sq_no'), Expression('c+x+y'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(1), Variable('sq_no'), Expression('c+12'), Variable('f'), Expression('count + 1')]))
         # W2 to M
         n.add_input('W2', 'N_M3',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
@@ -736,7 +745,6 @@ class ConveyorNetwork:
                     Tuple([Flush('dir'), Flush('sq_no'), Flush('c'), Flush('f'), Flush('count')]))
 
         return n, self.transition
-
 
 # trial_net = ConveyorNetwork([1, 1], [7, 5, 5, 5, 5], [4, 3])
 # net, t = trial_net.conveyor_petrinet()

@@ -351,20 +351,20 @@ class TrialConveyorNetwork:
                      Tuple([Value(-1), Variable('sq_no'), Variable('c'), Variable('f'), Expression('count + 1')]))
         n.add_input('C3', 'C1W1',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Red', 'C1W1', Variable('x'))
+        # n.add_input('Red', 'C1W1', Variable('x'))
         n.add_output('W1', 'C1W1',
-                     Tuple([Value(-1), Variable('sq_no'), Expression('c + x'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(-1), Variable('sq_no'), Expression('c + 1'), Variable('f'), Expression('count + 1')]))
         n.add_input('C3', 'C2W1',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Green', 'C2W1', Variable('y'))
+        # n.add_input('Green', 'C2W1', Variable('y'))
         n.add_output('W1', 'C2W1',
-                     Tuple([Value(-1), Variable('sq_no'), Expression('c + y'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(-1), Variable('sq_no'), Expression('c + 2'), Variable('f'), Expression('count + 1')]))
         n.add_input('C3', 'C3W1',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Red', 'C3W1', Variable('x'))
-        n.add_input('Green', 'C3W1', Variable('y'))
+        # n.add_input('Red', 'C3W1', Variable('x'))
+        # n.add_input('Green', 'C3W1', Variable('y'))
         n.add_output('W1', 'C3W1',
-                     Tuple([Value(-1), Variable('sq_no'), Expression('c+x+y'), Variable('f'), Expression('count+1')]))
+                     Tuple([Value(-1), Variable('sq_no'), Expression('c+3'), Variable('f'), Expression('count+1')]))
         # W1 to D
         n.add_input('W1', 'N_D3',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
@@ -401,20 +401,20 @@ class TrialConveyorNetwork:
                      Tuple([Value(1), Variable('sq_no'), Variable('c'), Variable('f'), Expression('count + 1')]))
         n.add_input('D3', 'D1W1',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Red', 'D1W1', Variable('x'))
+        # n.add_input('Red', 'D1W1', Variable('x'))
         n.add_output('W1', 'D1W1',
-                     Tuple([Value(1), Variable('sq_no'), Expression('c + x'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(1), Variable('sq_no'), Expression('c + 1'), Variable('f'), Expression('count + 1')]))
         n.add_input('D3', 'D2W1',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Green', 'D2W1', Variable('y'))
+        # n.add_input('Green', 'D2W1', Variable('y'))
         n.add_output('W1', 'D2W1',
-                     Tuple([Value(1), Variable('sq_no'), Expression('c + y'), Variable('f'), Expression('count + 1')]))
+                     Tuple([Value(1), Variable('sq_no'), Expression('c + 2'), Variable('f'), Expression('count + 1')]))
         n.add_input('D3', 'D3W1',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
-        n.add_input('Red', 'D3W1', Variable('x'))
-        n.add_input('Green', 'D3W1', Variable('y'))
+        # n.add_input('Red', 'D3W1', Variable('x'))
+        # n.add_input('Green', 'D3W1', Variable('y'))
         n.add_output('W1', 'D3W1',
-                     Tuple([Value(1), Variable('sq_no'), Expression('c+x+y'), Variable('f'), Expression('count+1')]))
+                     Tuple([Value(1), Variable('sq_no'), Expression('c+3'), Variable('f'), Expression('count+1')]))
         # W1 to C
         n.add_input('W1', 'N_C3',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
