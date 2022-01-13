@@ -462,7 +462,7 @@ class ConveyorEnv_v3(gym.Env):
 
     def render(self, mode="Human"):
         self.marking = self.net.get_marking()
-        s = "object no.: {:2d}, reward: {:2d}, avg_Throughput: {:2f}"
+        s = "object no.: {:2d}, reward: {:2f}, avg_Throughput: {:2f}"
         s1 = "Order no.: {:2d}, Order Throughput: {:2f}, Avg. System Throughput: {:2f}"
         if 'T1' in list(self.marking.keys()):
             self.throughput.append(list(self.marking['T1'])[0][-1])
@@ -473,7 +473,7 @@ class ConveyorEnv_v3(gym.Env):
                     if self.completed_orders[idx] < self.quantity[idx]:
                         self.completed_orders[idx] += 1
                         self.o_c_time[idx] += list(self.marking['T1'])[0][-1]
-                        self.order_throughput = self.completed_orders[idx] / self.o_c_time[idx]
+                        self.order_throughput[idx] = self.completed_orders[idx] / self.o_c_time[idx]
                         if self.completed_orders[idx] == self.quantity[idx]:
                             self.order_complete = True
                             print(s1.format(order_no, self.order_throughput[idx], self.avg_throughput))
@@ -497,3 +497,6 @@ class ConveyorEnv_v3(gym.Env):
 
             plt.savefig('render_results.png')
 
+            return self.avg_throughput, self.order_throughput
+
+        return 0, 0

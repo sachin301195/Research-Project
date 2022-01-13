@@ -742,7 +742,7 @@ class ConveyorNetwork:
         n.add_output('T1', 't1',
                      Tuple([Value(-1), Variable('sq_no'), Variable('c'), Variable('f'), Expression('count + 1')]))
         n.add_input('T1', 'T',
-                    Tuple([Flush('dir'), Flush('sq_no'), Flush('c'), Flush('f'), Flush('count')]))
+                    Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
 
         return n, self.transition
 
