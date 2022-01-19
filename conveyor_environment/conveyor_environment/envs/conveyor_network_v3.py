@@ -106,13 +106,13 @@ def generate_random_orders(version, seed):
     orders = {}
     if version == 'trial':
         size = np.random.choice(JOBS_TRIAL)
-        jobs = np.random.randint(1, 2, size, dtype=np.int16)
+        jobs = np.random.randint(1, 4, size, dtype=np.int16)
         quantity = np.zeros(len(jobs), dtype=np.int16)
         red = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
         green = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
         orders = defaultdict(list)
         for i in range(len(jobs)):
-            quantity[i] = int(np.random.randint(1, 2, 1, dtype=np.int16)[0])
+            quantity[i] = int(np.random.randint(1, 100, 1, dtype=np.int16)[0])
             orders[f"job_{jobs[i]}"].append(quantity[i])
             init += quantity[i]
         resources = [init, red, green]
@@ -130,7 +130,7 @@ def generate_random_orders(version, seed):
         violet = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
         orders = defaultdict(list)
         for i in range(len(jobs)):
-            quantity[i] = int(np.random.randint(1, 2, 1, dtype=np.int16)[0])
+            quantity[i] = int(np.random.randint(1, 20, 1, dtype=np.int16)[0])
             orders[f"job_{jobs[i]}"].append(quantity[i])
             init += quantity[i]
         resources = [init, red, green, blue, violet]
@@ -222,6 +222,7 @@ class ConveyorEnv_v3(gym.Env):
         state = self._next_observation('S')
         self.object_no = 0
         self.order_complete = False
+        self.terminating_in_middle = False
 
         return state
 
@@ -371,7 +372,7 @@ class ConveyorEnv_v3(gym.Env):
                                 self.info['avg_order_throughput'] = self.avg_order_throughput
                                 self.info['avg_total_time_units'] = self.avg_time_units
                                 self.info['avg_throughput'] = self.avg_throughput
-                    break
+                        break
 
         return self.info
 
@@ -406,7 +407,6 @@ class ConveyorEnv_v3(gym.Env):
                             print(f'\n Termination of token ',
                                   f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, '
                                   f'f: {self.modes[0]["f"]}, count: {self.modes[0]["count"]}')
-                        # print(f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, f: {self.modes[0]["f"]}')
                     except ConstraintError as e1:
                         # print(f'{e1}')
                         self.count += 1
@@ -448,9 +448,12 @@ class ConveyorEnv_v3(gym.Env):
         for i in range(len(self.reward_marking)):
             self.available_tokens += len(list(self.reward_marking.values())[i])
         if not self.error:
-            if self.termination:
+            if self.terminating_in_middle:
+                self.reward = -100
+                return self.reward
+            elif self.termination:
                 if self.available_tokens == 0:
-                    self.reward = self.final_reward
+                    self.reward = 1000
                     return self.reward
                 elif self.order_complete:
                     self.reward = 1
@@ -480,7 +483,8 @@ class ConveyorEnv_v3(gym.Env):
             return True
         else:
             # print(f'Returning done as False')
-            if self.total_time_units >= (self.res[0]*1000):
+            if self.total_time_units >= (self.res[0]*1500):
+                self.terminating_in_middle = True
                 return True
             return False
 
