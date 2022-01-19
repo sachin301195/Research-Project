@@ -17,8 +17,6 @@ sys.path.append('../../snakes_master')
 from conveyor_environment.updated_trial_network import TrialConveyorNetwork
 from conveyor_environment.trial_network import ConveyorNetwork
 
-# from Conveying_Network import ConveyorNetwork, Value
-from snakes.utils.simul import StateSpace
 from snakes import ConstraintError, ModeError
 
 logger = logging.getLogger(__name__)
@@ -28,13 +26,12 @@ JOBS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 RESOURCES = ['Red', 'Green', 'Blue', 'Violet']
 PLACES_TRIAL = ['S', 'S1', 'N1', 'A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'N2', 'C1', 'C2', 'C3', 'D1', 'D2', 'D3',
                 'E1', 'E2', 'E3', 'F1', 'F2', 'F3', 'J1', 'J2', 'J3', 'G1', 'G2', 'G3', 'K1', 'K2', 'K3', 'T1',
-                'W1', 'Red', 'Green', 'N3', 'N4', 'N0', 'N6', 'N9']
+                'W1', 'N3', 'N4', 'N0', 'N6', 'N9']
 
 PLACES = ['S', 'S1', 'N1', 'A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'N2', 'C1', 'C2', 'C3', 'D1', 'D2', 'D3',
           'E1', 'E2', 'E3', 'F1', 'F2', 'F3', 'J1', 'J2', 'J3', 'G1', 'G2', 'G3', 'K1', 'K2', 'K3', 'T1',
-          'W1', 'Red', 'Green', 'N3', 'N4', 'N0', 'N6', 'N9', 'I1', 'I2', 'I3', 'H1', 'H2', 'H3', 'L1',
-          'L2', 'L3', 'M1', 'M2', 'M3', 'O1', 'O2', 'O3', 'P1', 'P2', 'P3', 'Q1', 'Q2', 'Q3', 'N5', 'N7',
-          'N8', 'W2', 'Blue', 'Violet']
+          'W1', 'N3', 'N4', 'N0', 'N6', 'N9', 'I1', 'I2', 'I3', 'H1', 'H2', 'H3', 'L1', 'L2', 'L3', 'M1',
+          'M2', 'M3', 'O1', 'O2', 'O3', 'P1', 'P2', 'P3', 'Q1', 'Q2', 'Q3', 'N5', 'N7', 'N8', 'W2']
 
 NEXT_TRANSITIONS = {'S': ['s1'], 'S1': ['SN1'], 'N1': ['P_A1', 'N_B3'], 'A1': ['AN1', 'P_A2'], 'A2': ['N_A1', 'P_A3'],
                     'A3': ['N_A2', 'AN2'], 'B1': ['BN9', 'P_B2'], 'B2': ['N_B1', 'P_B3'], 'B3': ['N_B2', 'BN1'],
@@ -153,42 +150,26 @@ def random_resource_generator(seed):
 class ConveyorEnv_v3(gym.Env):
     metadata = {'render.modes': ['Human']}
 
-    def __init__(self, env_config, version="trial1", final_reward=10, mask=True):
-        self.version = version
+    def __init__(self, env_config: dict):
         self.env_config = env_config
-        self.final_reward = final_reward
-        self.mask = mask
+        self.version = env_config["version"]
+        self.final_reward = env_config["final_reward"]
+        self.mask = env_config["mask"]
         self.done = False
-        # self.seed = seeding.create_seed()
-        self.seed = 42
-        self.jobs, self.res, self.quantity, self.orders = generate_random_orders(self.version, self.seed)
-        self.throughput = []
-        self.avg_throughput = 0
-        self.o_c_time = []
-        self.count = 0
-        self.pass_this = False
-        self.error = False
-        self.termination = False
-        self.object_no = 0
-        self.completed_orders = np.zeros(len(self.jobs))
-        self.o_c_time = np.zeros(len(self.jobs))
-        self.order_throughput = np.zeros(len(self.jobs))
-        self.order_complete = False
+        self.start = True
+        # self.seed = 42
+
         if self.version == 'trial':
-            self.network = TrialConveyorNetwork(self.jobs, self.res, self.quantity)
-            self.net, self.trans = self.network.trial_conveyor_petrinet()
             self.no_places = len(PLACES_TRIAL)
             self.no_trans = len(TRANSITION_TRIAL)
         else:
-            self.network = ConveyorNetwork(self.jobs, self.res, self.quantity)
-            self.net, self.trans = self.network.conveyor_petrinet()
             self.no_places = len(PLACES)
             self.no_trans = len(TRANSITION)
 
         self.reward_range = [-1, 1, self.final_reward]
         # Observation space represents the places
         place = self.no_places + 3
-        obs_space = spaces.Box(-1, 16, shape=(place,))
+        obs_space = spaces.Box(-1, 1, shape=(place,))
         # Action space represents the transitions to get fired
         self.action_space = spaces.Discrete(5)
         if self.mask:
@@ -200,11 +181,10 @@ class ConveyorEnv_v3(gym.Env):
         else:
             self.observation_space = obs_space
 
-        self.reset()
-
     def _RESET(self):
-        self.seed = self.seed + 1
+        self.seed = seeding.create_seed(max_bytes=4)
         np.random.seed(self.seed)
+        self.jobs, self.res, self.quantity, self.orders = generate_random_orders(self.version, self.seed)
         if self.version == 'trial':
             self.network = TrialConveyorNetwork(self.jobs, self.res, self.quantity)
             self.net, self.trans = self.network.trial_conveyor_petrinet()
@@ -214,10 +194,13 @@ class ConveyorEnv_v3(gym.Env):
         self.reward = 0
         self.step_count = 0
         self.total_time_units = 0
-        self.throughput = []
+        self.time_units = np.zeros(self.res[0])
         self.avg_throughput = 0
+        self.avg_time_units = 0
         self.o_c_time = np.zeros(len(self.jobs))
-        self.order_throughput = np.zeros(len(self.jobs))
+        self.avg_order_complete_time = np.zeros(len(self.jobs))
+        self.avg_order_throughput = np.zeros(len(self.jobs))
+        self.completed_orders = np.zeros(len(self.jobs))
         self.order_time = 0
         self.count = 0
         self.done = False
@@ -226,67 +209,77 @@ class ConveyorEnv_v3(gym.Env):
         self.termination = False
         self.modes = self.net.transition('s1').modes()
         self.start = True
-        self._next_observation('s1', 'S')
+        self.next_place = None
+        self.info = {'jobs': self.jobs,
+                     'quantity': self.quantity,
+                     'next_place': self.next_place,
+                     'time_units_each_object': self.time_units,
+                     'total_order_completion_time': self.o_c_time,
+                     'avg_order_completion_time': self.avg_order_complete_time,
+                     'avg_order_throughput': self.avg_order_throughput,
+                     'avg_total_time_units': self.avg_time_units,
+                     'avg_throughput': self.avg_throughput}
+        state = self._next_observation('S')
         self.object_no = 0
         self.order_complete = False
 
-        return self.state
+        return state
 
-    def _next_observation(self, current_transition, current_place):
-        self.marking = self.net.get_marking()
+    def _next_observation(self, next_place):
+        marking = self.net.get_marking()
         state = None
+        total_time = float(str(self.total_time_units) + "." + str(self.step_count))
         if len(self.modes) != 0:
             self.current_token = self.modes[0]
-        # if current_transition != 'Nan' and self.error is False:
-        #     self.next_place = str(self.net.post(current_transition))
-
-        # if self.pass_this:
-        #     self.next_place = str(self.net.post(current_transition))
 
         if self.version == 'trial':
             for i in PLACES_TRIAL:
                 if state is None:
-                    state = np.array([1 if i in list(self.marking.keys()) else 0], dtype=np.int8)
-                    state = np.concatenate((state, 0, 0, 0), axis=None)
+                    state = np.array([1 if i in list(marking.keys()) else 0], dtype=np.int8)
                 else:
-                    state = np.concatenate((state, np.array([1 if i in list(self.marking.keys()) else 0],
+                    state = np.concatenate((state, np.array([1 if i in list(marking.keys()) else 0],
                                                             dtype=np.int8)), axis=None)
-            if self.start:
-                state = np.concatenate((state, 0, 0, 0), axis = None)
-            else:
-                state = np.concatenate((state, self.current_token['dir'], self.current_token['c'],
-                                        self.current_token['f']), axis = None)
+            state = np.concatenate((state, total_time), axis=None)
+            # if self.start:
+            #     # state = np.concatenate((state, 0, 0, 0), axis = None)
+            # else:
+            #     # state = np.concatenate((state, self.current_token['dir'], self.current_token['c'],
+            #     #                         self.current_token['f']), axis = None)
         else:
             for i in PLACES:
                 if state is None:
-                    state = np.array([1 if i in list(self.marking.keys()) else 0], dtype=np.int8)
+                    state = np.array([1 if i in list(marking.keys()) else 0], dtype=np.int8)
                 else:
-                    state = np.concatenate((state, np.array([1 if i in list(self.marking.keys()) else 0],
+                    state = np.concatenate((state, np.array([1 if i in list(marking.keys()) else 0],
                                                             dtype=np.int8)), axis=None)
             if self.start:
                 state = np.concatenate((state, 0, 0, 0), axis = None)
             else:
                 state = np.concatenate((state, self.current_token['dir'], self.current_token['c'],
                                         self.current_token['f']), axis = None)
+        norm = np.linalg.norm(state)
+        state = state/norm
         if self.mask:
-            if not self.start:
-                if self.version == 'trial':
-                    transition = np.array(NEXT_TRANSITIONS_TRIAL[current_place])
-                else:
-                    transition = np.array(NEXT_TRANSITIONS[current_place])
-                for idx, i in enumerate(transition):
-                    if i != 'Nan':
-                        if str(self.net.post(i)) in list(self.marking.keys()):
-                            transition[idx] = 'Nan'
-                mask = np.where(transition == 'Nan', 0, 1)
+            if (self.start is True) or (next_place is None):
+                mask = np.ones(1)
+                mask = np.concatenate((mask, 0, 0, 0, 0), axis=None)
                 self.state = {
                     "action_mask": mask,
                     "avail_actions": np.ones(5),
                     "state": state
                 }
-            else:
+            elif not self.start:
+                if self.version == 'trial':
+                    transition = np.array(NEXT_TRANSITIONS_TRIAL[next_place])
+                else:
+                    transition = np.array(NEXT_TRANSITIONS[next_place])
+                # for idx, i in enumerate(transition):
+                #     if i != 'Nan':
+                #         if str(self.net.post(i)) in list(marking.keys()):
+                #             transition[idx] = 'Nan'
+                mask = np.where(transition == 'Nan', 0, 1)
                 self.state = {
-                    "action_mask": np.ones(5),
+                    "action_mask": mask,
                     "avail_actions": np.ones(5),
                     "state": state
                 }
@@ -297,32 +290,6 @@ class ConveyorEnv_v3(gym.Env):
     def _STEP(self, action):
         # check for the resources, if not present add resources randomly
         self.marking = self.net.get_marking()
-        if self.version == 'trial':
-            if 'Red' not in self.marking:
-                r_size = random_resource_generator(seed=self.seed)
-                r = [1 for _ in range(r_size)]
-                self.net.add_marking(Marking(Red=MultiSet(r)))
-            elif 'Green' not in self.marking:
-                r_size = random_resource_generator(seed=self.seed)
-                g = [2 for _ in range(r_size)]
-                self.net.add_marking(Marking(Green=MultiSet(g)))
-        else:
-            if 'Red' not in self.marking:
-                r_size = random_resource_generator(seed=self.seed)
-                r = [1 for _ in range(r_size)]
-                self.net.add_marking(Marking(Red=MultiSet(r)))
-            elif 'Green' not in self.marking:
-                r_size = random_resource_generator(seed=self.seed)
-                g = [2 for _ in range(r_size)]
-                self.net.add_marking(Marking(Green=MultiSet(g)))
-            elif 'Blue' not in self.marking:
-                r_size = random_resource_generator(seed=self.seed)
-                b = [4 for _ in range(r_size)]
-                self.net.add_marking(Marking(Blue=MultiSet(b)))
-            elif 'Violet' not in self.marking:
-                r_size = random_resource_generator(seed=self.seed)
-                v = [8 for _ in range(r_size)]
-                self.net.add_marking(Marking(Violet=MultiSet(v)))
 
         # Calculating the epsilon time instances
         if self.step_count == 0:
@@ -339,11 +306,16 @@ class ConveyorEnv_v3(gym.Env):
             self.current_marking = self.marking_places
 
         # Execute 1 time step within the environment
-        current_place = self.current_marking[-1 - self.step_count]
-        print(self.net.get_marking().keys())
-        print(self.step_count)
-        print('eps', self.eps_times)
-        current_transition = self._take_action(action, current_place)
+        current_place = None
+        self.next_place = None
+        if len(self.current_marking) != 0:
+            current_place = self.current_marking[-1 - self.step_count]
+            idx_next_place = self.current_marking.index(current_place) - 1
+            self.next_place = self.current_marking[idx_next_place]
+        # print(self.net.get_marking().keys())
+        # print(self.step_count)
+        # print('eps', self.eps_times)
+        self._take_action(action, current_place)
         if not self.error or self.pass_this:
             self.step_count += 1
             self.count = 0
@@ -351,69 +323,119 @@ class ConveyorEnv_v3(gym.Env):
         if self.step_count == self.eps_times:
             self.total_time_units += 1
             self.step_count = 0
+            marking = list(self.net.get_marking().keys())
+            if self.version == 'trial':
+                marking.remove("Red")
+                marking.remove("Green")
+            else:
+                marking.remove("Red")
+                marking.remove("Green")
+                marking.remove("Blue")
+                marking.remove("Violet")
+            if len(marking) != 0:
+                self.next_place = marking[-1]
+            else:
+                self.next_place = None
 
+        info = self._data(self.next_place)
         reward = self._calculate_reward()
-        print(f'Reward: {self.reward}.... total time units : {self.total_time_units}')
+        # print(f'Reward: {self.reward}.... total time units : {self.total_time_units}')
         done = self._done_status()
-        state = self._next_observation(current_transition, current_place)
+        state = self._next_observation(self.next_place)
 
-        return state, reward, done, {}
+        return state, reward, done, info
+
+    def _data(self, next_place):
+        self.info['next_place'] = next_place
+        if self.termination:
+            order = self.modes[0]['f']
+            object_no = self.modes[0]['sq_no']
+            time_units = self.modes[0]['count']
+            self.order_complete = False
+            for idx, job in enumerate(self.jobs):
+                if job == order:
+                    if self.completed_orders[idx] < self.quantity[idx]:
+                        self.completed_orders[idx] += 1
+                        self.o_c_time[idx] += time_units
+                        self.time_units[object_no] += time_units
+                        if self.completed_orders[idx] == self.quantity[idx]:
+                            self.order_complete = True
+                            self.avg_order_complete_time[idx] += self.o_c_time[idx] / self.quantity[idx]
+                            self.avg_order_throughput[idx] += 1/self.avg_order_complete_time[idx]
+                            if next_place is None:
+                                self.avg_time_units = sum(self.time_units)/self.res[0]
+                                self.avg_throughput = 1/self.avg_time_units
+                                self.info['time_units_each_object'] = self.time_units
+                                self.info['total_order_completion_time'] = self.o_c_time
+                                self.info['avg_order_completion_time'] = self.avg_order_complete_time
+                                self.info['avg_order_throughput'] = self.avg_order_throughput
+                                self.info['avg_total_time_units'] = self.avg_time_units
+                                self.info['avg_throughput'] = self.avg_throughput
+                    break
+
+        return self.info
 
     def _get_obs(self):
         return self.state
 
     def _take_action(self, action, place):
         self.start = False
-        if self.version == 'trial':
-            trans_fire = NEXT_TRANSITIONS_TRIAL[place][action]
-        else:
-            trans_fire = NEXT_TRANSITIONS[place][action]
-        print(trans_fire)
-        self.pass_this = False
-        self.error = False
-        if trans_fire is not 'Nan':
-            self.termination = False
-            self.modes = self.net.transition(trans_fire).modes()
-            if len(self.modes) != 0:
-                token = [(self.modes[0]['dir'], self.modes[0]['sq_no'], self.modes[0]['c'], self.modes[0]['f'],
-                          self.modes[0]['count'])]
-                # print(f'modes: {self.modes}')
-                if trans_fire == 't1':
-                    self.termination = True
-                    print(f'\n Termination of token ',
-                          f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, f: {self.modes[0]["f"]}')
-                try:
-                    self.net.transition(trans_fire).fire(self.modes[0])
-                    print(f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, f: {self.modes[0]["f"]}')
-                except ConstraintError as e1:
-                    print(f'{e1}')
-                    self.count += 1
+        if place is not None:
+            if self.version == 'trial':
+                trans_fire = NEXT_TRANSITIONS_TRIAL[place][action]
+            else:
+                trans_fire = NEXT_TRANSITIONS[place][action]
+            # print(trans_fire)
+            self.pass_this = False
+            self.error = False
+            if trans_fire is not 'Nan':
+                final_transition = None
+                self.termination = False
+                self.modes = self.net.transition(trans_fire).modes()
+                if len(self.modes) != 0:
+                    token = [(self.modes[0]['dir'], self.modes[0]['sq_no'], self.modes[0]['c'], self.modes[0]['f'],
+                              self.modes[0]['count'])]
+                    # print(f'modes: {self.modes}')
+
+                    try:
+                        self.net.transition(trans_fire).fire(self.modes[0])
+                        if trans_fire == 't1':
+                            self.termination = True
+                            self.modes = self.net.transition('T').modes()
+                            self.net.transition('T').fire(self.modes[0])
+                            print(f'\n Termination of token ',
+                                  f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, '
+                                  f'f: {self.modes[0]["f"]}, count: {self.modes[0]["count"]}')
+                        # print(f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, f: {self.modes[0]["f"]}')
+                    except ConstraintError as e1:
+                        # print(f'{e1}')
+                        self.count += 1
+                        self.error = True
+                        self.net.place(place).add(token)
+                        if self.count >= 5:
+                            self.pass_this = True
+                    except ValueError as e2:
+                        self.count += 1
+                        # print(f'{e2}: {trans_fire} is not provided with valid substitution.')
+                        self.error = True
+                        self.net.place(place).add(token)
+                        if self.count >= 5:
+                            self.pass_this = True
+                    except:
+                        self.count += 1
+                        # print(f'{place} and {trans_fire}, something went wrong!!!')
+                        self.error = True
+                        self.net.place(place).add(token)
+                        if self.count >= 5:
+                            self.pass_this = True
+                else:
                     self.error = True
-                    self.net.place(place).add(token)
-                    if self.count >= 5:
-                        self.pass_this = True
-                except ValueError as e2:
-                    self.count += 1
-                    print(f'{e2}: {trans_fire} is not provided with valid substitution.')
-                    self.error = True
-                    self.net.place(place).add(token)
-                    if self.count >= 5:
-                        self.pass_this = True
-                except:
-                    self.count += 1
-                    print(f'{place} and {trans_fire}, something went wrong!!!')
-                    self.error = True
-                    self.net.place(place).add(token)
                     if self.count >= 5:
                         self.pass_this = True
             else:
                 self.error = True
-                if self.count >= 5:
-                    self.pass_this = True
         else:
-            self.error = True
-
-        return trans_fire
+            self.termination = False
 
     def _calculate_reward(self):
         self.reward_marking_keys = list(self.net.get_marking().keys())
@@ -422,19 +444,20 @@ class ConveyorEnv_v3(gym.Env):
         for i in self.reward_marking_keys:
             if i in RESOURCES:
                 del self.reward_marking[i]
+        self.available_tokens = 0
         for i in range(len(self.reward_marking)):
             self.available_tokens += len(list(self.reward_marking.values())[i])
         if not self.error:
             if self.termination:
-                if self.order_complete:
+                if self.available_tokens == 0:
+                    self.reward = self.final_reward
+                    return self.reward
+                elif self.order_complete:
                     self.reward = 1
                     return self.reward
                 else:
                     self.reward = 0.5
                     return self.reward
-            elif self.available_tokens == 0:
-                self.reward = self.final_reward
-                return self.reward
             else:
                 self.reward = -0.1
                 return self.reward
@@ -443,15 +466,22 @@ class ConveyorEnv_v3(gym.Env):
             return self.reward
 
     def _done_status(self):
-        self.status_marking = list(self.net.get_marking().keys())
-        for i in self.status_marking:
-            if i in RESOURCES:
-                self.status_marking.remove(i)
-        if len(self.status_marking) == 0:
+        status_marking = list(self.net.get_marking().keys())
+        if self.version == 'trial':
+            status_marking.remove("Red")
+            status_marking.remove("Green")
+        else:
+            status_marking.remove("Red")
+            status_marking.remove("Green")
+            status_marking.remove("Blue")
+            status_marking.remove("Violet")
+        if len(status_marking) == 0:
             # print(f'Returning done as True')
             return True
         else:
             # print(f'Returning done as False')
+            if self.total_time_units >= (self.res[0]*1000):
+                return True
             return False
 
     def step(self, action):
@@ -461,42 +491,16 @@ class ConveyorEnv_v3(gym.Env):
         return self._RESET()
 
     def render(self, mode="Human"):
-        self.marking = self.net.get_marking()
-        s = "object no.: {:2d}, reward: {:2f}, avg_Throughput: {:2f}"
-        s1 = "Order no.: {:2d}, Order Throughput: {:2f}, Avg. System Throughput: {:2f}"
-        if 'T1' in list(self.marking.keys()):
-            self.throughput.append(list(self.marking['T1'])[0][-1])
-            self.avg_throughput = np.sum(self.completed_orders) / np.mean(self.throughput)
-            order_no = list(self.marking['T1'])[0][2]
-            for idx, num in enumerate(self.jobs):
-                if num == order_no:
-                    if self.completed_orders[idx] < self.quantity[idx]:
-                        self.completed_orders[idx] += 1
-                        self.o_c_time[idx] += list(self.marking['T1'])[0][-1]
-                        self.order_throughput[idx] = self.completed_orders[idx] / self.o_c_time[idx]
-                        if self.completed_orders[idx] == self.quantity[idx]:
-                            self.order_complete = True
-                            print(s1.format(order_no, self.order_throughput[idx], self.avg_throughput))
-                        break
-            print(s.format(list(self.marking['T1'])[0][1], self.reward, self.avg_throughput))
-            fig = plt.figure()
-            ax = fig.add_subplot(111, label='1')
-            ax2 = fig.add_subplot(111, label='2', frame_on=False)
-
-            ax.plot(order_no, self.avg_throughput, color='C0')
-            ax.set_xlabel('orders', color='C0')
-            ax.set_ylabel('average throughput', color='C0')
-            ax.tick_params(axis='x', colors='C0')
-            ax.tick_params(axis='y', colors='C0')
-
-            ax2.plot(order_no, self.reward)
-            ax.set_xlabel('orders', color='C0')
-            ax.set_ylabel('average throughput', color='C0')
-            ax.tick_params(axis='x', colors='C0')
-            ax.tick_params(axis='y', colors='C0')
-
-            plt.savefig('render_results.png')
-
-            return self.avg_throughput, self.order_throughput
-
-        return 0, 0
+        """
+        : jobs: self.jobs (list),
+        : quantity: self.quantity (list),
+        : next_place: self.next_place (list),
+        : time_units_each_object: self.time_units (list),
+        : total_order_completion_time: self.o_c_time (list),
+        : avg_order_completion_time: self.avg_order_complete_time (list),
+        : avg_order_throughput: self.avg_order_throughput (list),
+        : avg_total_time_units: self.avg_time_units (int),
+        : avg_throughput: self.avg_throughput (float)
+        """
+        info = self._data(self.next_place)
+        return info.values()
