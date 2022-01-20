@@ -112,7 +112,7 @@ def generate_random_orders(version, seed):
         green = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
         orders = defaultdict(list)
         for i in range(len(jobs)):
-            quantity[i] = int(np.random.randint(1, 100, 1, dtype=np.int16)[0])
+            quantity[i] = int(np.random.randint(1, 6, 1, dtype=np.int16)[0])
             orders[f"job_{jobs[i]}"].append(quantity[i])
             init += quantity[i]
         resources = [init, red, green]
@@ -130,7 +130,7 @@ def generate_random_orders(version, seed):
         violet = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
         orders = defaultdict(list)
         for i in range(len(jobs)):
-            quantity[i] = int(np.random.randint(1, 20, 1, dtype=np.int16)[0])
+            quantity[i] = int(np.random.randint(1, 6, 1, dtype=np.int16)[0])
             orders[f"job_{jobs[i]}"].append(quantity[i])
             init += quantity[i]
         resources = [init, red, green, blue, violet]
