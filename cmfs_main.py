@@ -144,7 +144,7 @@ if __name__ == '__main__':
             "mask": True
         },
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-        "num_workers": 5,  # parallelism
+        "num_workers": 32,  # parallelism
         "framework": 'torch',
         "num_atoms": 1,
         "v_min": -10,
@@ -161,7 +161,7 @@ if __name__ == '__main__':
             "initial_epsilon": 1,
             "final_epsilon": 0.02,
             "epsilon_timesteps": 1000,
-            "temperature": None
+            # "temperature": None
         },
         "buffer_size": 50000,
         "prioritized_replay": True,
@@ -170,7 +170,7 @@ if __name__ == '__main__':
         "final_prioritized_replay_beta": 0.4,
         "prioritized_replay_beta_annealing_timesteps": 20000,
         "prioritized_replay_eps": 1.00E-06,
-        "compress_observation": False,
+        # "compress_observation": False,
         "before_learn_on_batch": None,
         "training_intensity": None,
         "lr": 5.00E-04,
@@ -213,7 +213,7 @@ if __name__ == '__main__':
         agent = dqn.DQNTrainer(config=dqn_config, env=ConveyorEnv_v3)
         results = []
         episode_data = []
-        MAX_TRAINING_EPISODES = 2
+        MAX_TRAINING_EPISODES = 100
         # TIMESTEPS_PER_EPISODE = 5400/5
         run = 1
         best_reward_cum = -10000000

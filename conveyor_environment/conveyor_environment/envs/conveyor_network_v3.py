@@ -449,23 +449,23 @@ class ConveyorEnv_v3(gym.Env):
             self.available_tokens += len(list(self.reward_marking.values())[i])
         if not self.error:
             if self.terminating_in_middle:
-                self.reward = -100
+                self.reward = -50
                 return self.reward
             elif self.termination:
-                if self.available_tokens == 0:
-                    self.reward = 1000
-                    return self.reward
-                elif self.order_complete:
-                    self.reward = 1
+                # if self.available_tokens == 0:
+                #     self.reward = 1000
+                #     return self.reward
+                if self.order_complete:
+                    self.reward = 100
                     return self.reward
                 else:
-                    self.reward = 0.5
+                    self.reward = 10
                     return self.reward
             else:
-                self.reward = -0.1
+                self.reward = -0.01
                 return self.reward
         else:
-            self.reward = -1
+            self.reward = -0.5
             return self.reward
 
     def _done_status(self):
