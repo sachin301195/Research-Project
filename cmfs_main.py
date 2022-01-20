@@ -41,7 +41,7 @@ def configure_logger():
     _logger = logging.getLogger(__name__)
     _logger.setLevel(logging.INFO)
     Path("./logs").mkdir(parents=True, exist_ok=True)
-    file_handler = logging.FileHandler('./logs/application-main-' + timestamp + '.log')
+    file_handler = logging.FileHandler('./logs/application-dqn_main-' + timestamp + '.log')
     file_handler.setLevel(logging.INFO)
     _logger.addHandler(file_handler)
     formatter = logging.Formatter('%(asctime)s  %(name)s  %(levelname)s: %(message)s')
@@ -221,7 +221,7 @@ if __name__ == '__main__':
         time_begin = time.time()
         episode_save_counter = 0
         while True:
-            print('I am in while')
+            # print('I am in while')
             logger.info(f"Runs #: {run}")
             run += 1
             results = agent.train()
