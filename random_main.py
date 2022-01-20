@@ -36,7 +36,7 @@ REWARD_RESULTS_PATH = '/reward-results/'
 AVG_OVR_EP_PATH = '/avg_over_ep-results/'
 CHECKPOINT_ROOT = './checkpoints'
 
-NUM_EPISODES = 2000
+NUM_EPISODES = 1000
 REWARDS = []
 AVG_THROUGHPUT = []
 ORDER_THROUGHPUT = []
