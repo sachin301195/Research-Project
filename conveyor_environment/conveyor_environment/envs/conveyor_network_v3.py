@@ -341,7 +341,7 @@ class ConveyorEnv_v3(gym.Env):
         info = self._data(self.next_place)
         done = self._done_status()
         reward = self._calculate_reward()
-        # print(f'Reward: {self.reward}.... total time units : {self.total_time_units}')
+        # print(f'Reward: {reward}.... total time units : {self.total_time_units}')
         state = self._next_observation(self.next_place)
 
         return state, reward, done, info
@@ -452,10 +452,10 @@ class ConveyorEnv_v3(gym.Env):
                 self.reward = -50
                 return self.reward
             elif self.termination:
-                # if self.available_tokens == 0:
-                #     self.reward = 1000
-                #     return self.reward
-                if self.order_complete:
+                if self.available_tokens == 0:
+                    self.reward = 1000
+                    return self.reward
+                elif self.order_complete:
                     self.reward = 100
                     return self.reward
                 else:
@@ -483,7 +483,7 @@ class ConveyorEnv_v3(gym.Env):
             return True
         else:
             # print(f'Returning done as False')
-            if self.total_time_units >= (self.res[0]*1000):
+            if self.total_time_units >= (self.res[0]*1400):
                 self.terminating_in_middle = True
                 return True
             return False
