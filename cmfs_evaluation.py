@@ -239,7 +239,7 @@ if __name__ == '__main__':
             agent = dqn.DQNTrainer(config=dqn_config, env=ConveyorEnv_v3)
             # agent.restore(f'{checkpoint_path}/checkpoint_{no}/checkpoint-{no}')
             agent.restore(
-                f'DQN\checkpoint_{no}\checkpoint-{core_no[idx]}')
+                f'DQN/checkpoint_{no}/checkpoint-{core_no[idx]}')
             logger.info(f"Evaluating algo: DQN, checkpoint_nr: checkpoint_{no}")
             curr_episode = 1
             max_episode = 5
