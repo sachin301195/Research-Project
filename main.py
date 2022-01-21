@@ -213,7 +213,7 @@ if __name__ == '__main__':
         result = tune.run(args.run, config=config, stop=stop)
 
         if args.as_test:
-            print("Checking if the learning goals are achieved")
+            print("Checking if the learning goals are achieved or not......")
             check_learning_achieved((result, args.stop_reward))
 
     ray.shutdown()
