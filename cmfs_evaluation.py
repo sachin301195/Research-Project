@@ -50,10 +50,10 @@ def configure_logger():
     return _logger
 
 
-TRIAL_LIST = ['checkpoint_000006', 'checkpoint_000054', 'checkpoint_000125', 'checkpoint_000246', 'checkpoint_000284',
+TRIAL_LIST = ['checkpoint_000054', 'checkpoint_000006', 'checkpoint_000125', 'checkpoint_000246', 'checkpoint_000284',
               'checkpoint_000290', 'checkpoint_000313', 'checkpoint_000489', 'checkpoint_000947', 'checkpoint_000952 ']
-CHECKPOINT_NO = ['000006', '000054', '000125', '000246', '000284', '000290', '000313', '000489', '000947', '000952']
-core_no = ['6', '54', '125', '246', '284', '290', '313', '489', '947', '952']
+CHECKPOINT_NO = ['000050', '000082', '000100']
+core_no = ['50', '82', '100']
 
 if platform.system() == 'Windows':
     checkpoint_path = './DQN'
@@ -158,7 +158,7 @@ if __name__ == '__main__':
             "mask": True
         },
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-        "num_workers": 2,  # parallelism
+        "num_workers": 1,  # parallelism
         "framework": 'torch',
         "num_atoms": 1,
         "v_min": -10,
@@ -197,7 +197,7 @@ if __name__ == '__main__':
         # "num_workers": 32,
         "worker_side_prioritization": False,
         "min_iter_time_s": 30,
-        "timesteps_per_iteration": 1000
+        "timesteps_per_iteration": 10000
         },
         **cfg)
 
@@ -239,10 +239,10 @@ if __name__ == '__main__':
             agent = dqn.DQNTrainer(config=dqn_config, env=ConveyorEnv_v3)
             # agent.restore(f'{checkpoint_path}/checkpoint_{no}/checkpoint-{no}')
             agent.restore(
-                f'DQN/checkpoint_{no}/checkpoint-{core_no[idx]}')
+                f'agents_runs/ConveyorEnv_v3/DQN_best_agents/checkpoint_{no}/checkpoint-{core_no[idx]}')
             logger.info(f"Evaluating algo: DQN, checkpoint_nr: checkpoint_{no}")
             curr_episode = 1
-            max_episode = 5
+            max_episode = 1
             run = 1
             best_reward_cum = -10000000
             episode_save_counter = 0
