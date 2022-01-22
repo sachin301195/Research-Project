@@ -54,6 +54,8 @@ TRIAL_LIST = ['checkpoint_000054', 'checkpoint_000006', 'checkpoint_000125', 'ch
               'checkpoint_000290', 'checkpoint_000313', 'checkpoint_000489', 'checkpoint_000947', 'checkpoint_000952 ']
 CHECKPOINT_NO = ['000050', '000082', '000100']
 core_no = ['50', '82', '100']
+# CHECKPOINT_NO = ['000050']
+# core_no = ['50']
 
 if platform.system() == 'Windows':
     checkpoint_path = './DQN'
@@ -266,6 +268,7 @@ if __name__ == '__main__':
                 avg_throughput = []
                 score_episode = []
                 while not done:
+                    print(f'step: {step}')
                     action = agent.compute_action(obs)
                     obs, reward, done, info = env.step(action)
                     score += reward
@@ -292,6 +295,7 @@ if __name__ == '__main__':
                 logger.info(f"avg_throughput: {avg_throughput}")
                 logger.info(f"Timesteps total: {step}")
                 n += 1
+                curr_episode += 1
             SCORE_OVERALL.append(score_episode)
             JOBS.append(jobs)
             QUANTITY.append(quantity)
