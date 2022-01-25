@@ -123,7 +123,7 @@ def train(config: dir):
     agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_v3)
     results = []
     episode_data = []
-    MAX_TRAINING_EPISODES = 1
+    MAX_TRAINING_EPISODES = 200
     # TIMESTEPS_PER_EPISODE = 5400/5
     run = 1
     best_reward_cum = -10000000
@@ -172,7 +172,7 @@ def evaluate(ppo_config: dir):
     for (dirpatj, dirnames, filenames) in os.walk('agents_runs/ConveyorEnv_v3/PP0_best_agent'):
         f.extend(dirnames)
 
-    checkpoint = f[1]
+    checkpoint = f[0]
     nr = checkpoint.split('0')
     if nr[-1] == '':
         if nr[-2] == '':
@@ -187,7 +187,7 @@ def evaluate(ppo_config: dir):
     agent.restore(f'agents_runs/ConveyorEnv_v3/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
     logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_{checkpoint_nr}")
     curr_episode = 1
-    max_episode = 1
+    max_episode = 50
     run = 1
     best_reward_cum = -10000000
     episode_save_counter = 0
