@@ -120,50 +120,50 @@ def train(config: dir):
     ppo_config.update(config)
     ppo_config['model']['fcnet_activation'] = 'relu'
     print(ppo_config)
-    agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_v3)
-    results = []
-    episode_data = []
-    MAX_TRAINING_EPISODES = 200
-    # TIMESTEPS_PER_EPISODE = 5400/5
-    run = 1
-    best_reward_cum = -10000000
-    logger.debug('Start Training.')
-    time_begin = time.time()
-    episode_save_counter = 0
-    while True:
-        # print('I am in while')
-        logger.info(f"Runs #: {run}")
-        run += 1
-        results = agent.train()
-        logger.info(f"Mean Rewards: {results['episode_reward_mean']}")
-        logger.info(f"Episodes this Iteration {results['episodes_this_iter']}")
-        logger.info(f"Episodes total {results['episodes_total']}")
-        logger.info(f"Timesteps total {results['timesteps_total']}")
-        if results['episode_reward_mean'] > best_reward_cum:
-            best_reward_cum = results['episode_reward_mean']
-            agent.save(best_agent_save_path)
-            logger.info('saved new best agent')
-        if results['episodes_total'] > episode_save_counter:
-            logger.info('saved new agent')
-            agent.save(agent_save_path)
-            episode_save_counter += 1
-            logger.info("Clearing the nohup.out log file")
-            os.system("> nohup.out")
-
-        # results['timesteps_total'] >= MAX_TRAINING_EPISODES * TIMESTEPS_PER_EPISODE:
-        if results['episodes_total'] > MAX_TRAINING_EPISODES:
-            agent.save(agent_save_path)
-            logger.info('saved last agent')
-            break
-
-    # Measure Time
-    time_end = time.time()
-    time_diff = time_end - time_begin
-    time_diff_h = int(time_diff / 3600)
-    time_diff_min = int((time_diff - time_diff_h * 3600) / 60)
-    time_diff_sec = int(time_diff - time_diff_h * 3600 - time_diff_min * 60)
-    logger.info(f'Training took {time_diff_h}h, {time_diff_min}m and {time_diff_sec}s.')
-    logger.debug('Training successful.')
+    # agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_v3)
+    # results = []
+    # episode_data = []
+    # MAX_TRAINING_EPISODES = 200
+    # # TIMESTEPS_PER_EPISODE = 5400/5
+    # run = 1
+    # best_reward_cum = -10000000
+    # logger.debug('Start Training.')
+    # time_begin = time.time()
+    # episode_save_counter = 0
+    # while True:
+    #     # print('I am in while')
+    #     logger.info(f"Runs #: {run}")
+    #     run += 1
+    #     results = agent.train()
+    #     logger.info(f"Mean Rewards: {results['episode_reward_mean']}")
+    #     logger.info(f"Episodes this Iteration {results['episodes_this_iter']}")
+    #     logger.info(f"Episodes total {results['episodes_total']}")
+    #     logger.info(f"Timesteps total {results['timesteps_total']}")
+    #     if results['episode_reward_mean'] > best_reward_cum:
+    #         best_reward_cum = results['episode_reward_mean']
+    #         agent.save(best_agent_save_path)
+    #         logger.info('saved new best agent')
+    #     if results['episodes_total'] > episode_save_counter:
+    #         logger.info('saved new agent')
+    #         agent.save(agent_save_path)
+    #         episode_save_counter += 1
+    #         logger.info("Clearing the nohup.out log file")
+    #         os.system("> nohup.out")
+    #
+    #     # results['timesteps_total'] >= MAX_TRAINING_EPISODES * TIMESTEPS_PER_EPISODE:
+    #     if results['episodes_total'] > MAX_TRAINING_EPISODES:
+    #         agent.save(agent_save_path)
+    #         logger.info('saved last agent')
+    #         break
+    #
+    # # Measure Time
+    # time_end = time.time()
+    # time_diff = time_end - time_begin
+    # time_diff_h = int(time_diff / 3600)
+    # time_diff_min = int((time_diff - time_diff_h * 3600) / 60)
+    # time_diff_sec = int(time_diff - time_diff_h * 3600 - time_diff_min * 60)
+    # logger.info(f'Training took {time_diff_h}h, {time_diff_min}m and {time_diff_sec}s.')
+    # logger.debug('Training successful.')
     return ppo_config
 
 
@@ -187,7 +187,7 @@ def evaluate(ppo_config: dir):
     agent.restore(f'agents_runs/ConveyorEnv_v3/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
     logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_{checkpoint_nr}")
     curr_episode = 1
-    max_episode = 50
+    max_episode = 10
     run = 1
     best_reward_cum = -10000000
     episode_save_counter = 0
