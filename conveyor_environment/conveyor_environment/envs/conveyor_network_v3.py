@@ -483,7 +483,7 @@ class ConveyorEnv_v3(gym.Env):
             return True
         else:
             # print(f'Returning done as False')
-            if self.total_time_units >= (self.res[0]*1400):
+            if self.total_time_units >= (self.res[0]*200):
                 self.terminating_in_middle = True
                 return True
             return False
