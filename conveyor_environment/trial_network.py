@@ -749,6 +749,13 @@ class ConveyorNetwork:
 # trial_net = ConveyorNetwork([1, 1], [7, 5, 5, 5, 5], [4, 3])
 # net, t = trial_net.conveyor_petrinet()
 # print(net.get_marking())
+# mark = list(net.get_marking().keys())
+# mark.remove('Red')
+# mark.remove('Blue')
+# mark.remove('Green')
+# mark.remove('Violet')
+# print(mark)
+
 # net.draw('Network.png')
 # modes = net.transition('s1').modes()
 # net.transition('s1').fire(modes[0])
@@ -829,3 +836,71 @@ class ConveyorNetwork:
 #     print(g.current)
 #     print(True)
 #     print(g.modes(g.current))
+
+# import random
+# NEXT_TRANSITIONS = {'S': ['s1'], 'S1': ['SN1'], 'N1': ['P_A1', 'N_B3'], 'A1': ['AN1', 'P_A2'], 'A2': ['N_A1', 'P_A3'],
+#                     'A3': ['N_A2', 'AN2'], 'B1': ['BN9', 'P_B2'], 'B2': ['N_B1', 'P_B3'], 'B3': ['N_B2', 'BN1'],
+#                     'N2': ['N_A3', 'P_C1', 'N_E3'], 'C1': ['CN2', 'P_C2'], 'C2': ['N_C1', 'P_C3'], 'C3':
+#                     ['N_C2', 'C2W1', 'C3W1', 'C0W1', 'C1W1'], 'D1': ['P_D2', 'DN4'], 'D2': ['N_D1', 'P_D3'],
+#                     'D3': ['N_D2', 'D1W1', 'D0W1', 'D3W1', 'D2W1'], 'E1': ['EN3', 'P_E2'], 'E2': ['P_E3', 'N_E1'],
+#                     'E3': ['N_E2', 'EN2'], 'F1': ['FN3', 'P_F2'], 'F2': ['N_F1', 'P_F3'], 'F3': ['N_F2', 'FN4'],
+#                     'J1': ['P_J2', 'JN9'], 'J2': ['P_J3', 'N_J1'], 'J3': ['N_J2', 'JN6'], 'G1': ['P_G2', 'GN6'],
+#                     'G2': ['P_G3', 'N_G1'], 'G3': ['N_G2', 'GN3'], 'K1': ['P_K2', 'KN0'], 'K2': ['P_K3', 'N_K1'],
+#                     'K3': ['N_K2', 'KN9'], 'T1': ['T'], 'W1': ['N_D3', 'N_C3'], 'Red': ['D1W1', 'D3W1', 'C1W1', 'C3W1'],
+#                     'Green': ['C2W1', 'C3W1', 'D2W1', 'D3W1'], 'N3': ['P_E1', 'N_G3', 'P_F1'], 'N4':
+#                     ['P_D1', 'N_F3', 'N_H3'], 'N0': ['P_K1', 't1', 'N_O3'], 'N6': ['P_G1', 'N_J3', 'N_I3'],
+#                     'N9': ['P_B1', 'N_K3', 'P_J1'], 'H1': ['P_H2', 'HN5'], 'H2': ['N_H1', 'P_H3'],
+#                     'H3': ['N_H2', 'HN4'], 'I1': ['IN7', 'P_I2'], 'I2': ['N_I1', 'P_I3'], 'I3': ['N_I2', 'IN6'],
+#                     'L1': ['P_L2', 'L0W2', 'L4W2', 'L8W2', 'L12W2'], 'L2': ['P_L3', 'N_L1'], 'L3': ['N_L2', 'LN5'],
+#                     'M1': ['MN8', 'P_M2'], 'M2': ['N_M1', 'P_M3'], 'M3': ['N_M2', 'M0W2', 'M4W2', 'M8W2', 'M12W2'],
+#                     'O1': ['ON8', 'P_O2'], 'O2': ['N_O1', 'P_O3'], 'O3': ['N_O2', 'ON0'], 'P1': ['PN7', 'P_P2'],
+#                     'P2': ['N_P1', 'P_P3'], 'P3': ['N_P2', 'PN5'], 'Q1': ['QN8', 'P_Q2'], 'Q2': ['N_Q1', 'P_Q3'],
+#                     'Q3': ['N_Q2', 'QN7'], 'N5': ['N_L3', 'P_H1', 'N_P3'], 'N7': ['P_P1', 'N_Q3', 'P_I1'], 'N8':
+#                     ['P_M1', 'P_Q1', 'P_O1'], 'W2': ['P_L1', 'N_M3'], 'Blue': ['M4W2', 'M12W2', 'L4W2', 'L12W2'],
+#                     'Violet': ['M8W2', 'M12W2', 'L8W2', 'L12W2']}
+# trial_net = ConveyorNetwork([1], [5, 6, 6, 6, 6], [5])
+# net, t = trial_net.conveyor_petrinet()
+# print(net.get_marking())
+# modes = net.transition('s1').modes()
+# print(modes)
+# done = False
+# while not done:
+#     place = list(net.get_marking().keys())
+#     place.remove('Green')
+#     place.remove('Red')
+#     place.remove('Blue')
+#     place.remove('Violet')
+#     print(place)
+#     if len(place) == 0:
+#         done = True
+#         break
+#     current_place = place[-1]
+#     trans = NEXT_TRANSITIONS[current_place]
+#
+#     trans_fire = random.choice(trans)
+#
+#     modes = net.transition(trans_fire).modes()
+#     if place[-1] == 'T1':
+#         print(place)
+#         print(trans)
+#         print(trans_fire)
+#         print(modes)
+#         print(net.get_marking())
+#     if len(modes) != 0:
+#         try:
+#             token = [(modes[0]['dir'], modes[0]['sq_no'], modes[0]['c'], modes[0]['f'], modes[0]['count'])]
+#             net.transition(trans_fire).fire(modes[0])
+#         except:
+#             print('------------------------------ERROR--------------------------------------')
+#             # net.add_marking(Marking(S=MultiSet(token)))
+#             net.place(current_place).add(token)
+#     else:
+#         continue
+#     print(current_place)
+#     print(token)
+#     print(place)
+#     print(trans)
+#     print(trans_fire)
+#     print(modes)
+#     print(net.get_marking())
+#     # done = True

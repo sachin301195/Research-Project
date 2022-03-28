@@ -12,6 +12,7 @@ from conveyor_environment.conveyor_environment.envs.conveyor_network_v1 import C
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v0 import ConveyorEnv_v0
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v2 import ConveyorEnv_v2
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v3 import ConveyorEnv_v3
+from conveyor_environment.conveyor_environment.envs.conveyor_network_token_n import ConveyorEnv_token_n
 
 import numpy as np
 import pandas as pd
@@ -42,7 +43,7 @@ def configure_logger():
     _logger = logging.getLogger(__name__)
     _logger.setLevel(logging.INFO)
     Path("./logs").mkdir(parents=True, exist_ok=True)
-    file_handler = logging.FileHandler('./logs/application-ppo_main-' + timestamp + '.log')
+    file_handler = logging.FileHandler('./logs/application-ppo_main_n_token-' + timestamp + '.log')
     file_handler.setLevel(logging.INFO)
     _logger.addHandler(file_handler)
     formatter = logging.Formatter('%(asctime)s  %(name)s  %(levelname)s: %(message)s')
@@ -69,7 +70,7 @@ parser.add_argument(
 parser.add_argument(
     "--env",
     type=str,
-    default="ConveyorEnv_v3",
+    default="ConveyorEnv_token_n",
     help="The RLlib-registered algorithm to use.")
 parser.add_argument(
     "--algo",
@@ -120,10 +121,10 @@ def train(config: dir):
     ppo_config.update(config)
     ppo_config['model']['fcnet_activation'] = 'relu'
     print(ppo_config)
-    agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_v3)
+    agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_token_n)
     results = []
     episode_data = []
-    MAX_TRAINING_EPISODES = 1
+    MAX_TRAINING_EPISODES = 2000
     # TIMESTEPS_PER_EPISODE = 5400/5
     run = 1
     best_reward_cum = -10000000
@@ -168,30 +169,32 @@ def train(config: dir):
 
 
 def evaluate(ppo_config: dir):
-    f = []
-    for (dirpatj, dirnames, filenames) in os.walk('agents_runs/ConveyorEnv_v3/PP0_best_agent'):
-        f.extend(dirnames)
-
-    checkpoint = f[1]
-    nr = checkpoint.split('0')
-    if nr[-1] == '':
-        if nr[-2] == '':
-            checkpoint_nr = nr[-3] + '00'
-        else:
-            checkpoint_nr = nr[-2]+'0'
-    else:
-        checkpoint_nr = nr[-1]
+    # f = []
+    # for (dirpatj, dirnames, filenames) in os.walk('./agents_runs/ConveyorEnv_token_n/PP0_best_agent'):
+    #     f.extend(dirnames)
+    #
+    # checkpoint = f[1]
+    # nr = checkpoint.split('-')
+    # if nr[-1] == '':
+    #     if nr[-2] == '':
+    #         checkpoint_nr = nr[-3] + '00'
+    #     else:
+    #         checkpoint_nr = nr[-2]+'0'
+    # else:
+    #     checkpoint_nr = nr[-1]
     ppo_config["num_workers"] = 1
-    agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_v3)
+    agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_token_n)
     # agent.restore(f'{checkpoint_path}/checkpoint_{no}/checkpoint-{no}')
-    agent.restore(f'agents_runs/ConveyorEnv_v3/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
-    logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_{checkpoint_nr}")
+    agent.restore(f'agents_runs/ConveyorEnv_token_n/PPO_best_agents/checkpoint_000081/checkpoint-81')
+    # agent.restore(f'agents_runs/ConveyorEnv_token_n/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
+    # logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_{checkpoint_nr}")
+    logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_81")
     curr_episode = 1
-    max_episode = 1
+    max_episode = 10
     run = 1
     best_reward_cum = -10000000
     episode_save_counter = 0
-    env = ConveyorEnv_v3({'version': 'full', 'final_rewards': 1000, 'mask': True})
+    env = ConveyorEnv_token_n({'version': 'full', 'final_reward': 1000, 'mask': True})
     CustomPlot.plot_figure()
     time.sleep(10)
     n = 1
@@ -222,7 +225,7 @@ def evaluate(ppo_config: dir):
         avg_throughput = []
         score_episode = []
         while not done:
-            print(f'step: {step}')
+            # print(f'step: {step}')
             action = agent.compute_action(obs)
             obs, reward, done, info = env.step(action)
             score += reward
@@ -289,7 +292,8 @@ if __name__ == '__main__':
     print(f"Running with following CLI options: {args}")
 
     ray.init(local_mode=args.local_mode, object_store_memory=1000000000)
-    register_env("env_cfms", lambda _: ConveyorEnv_v3({}))
+    register_env("env_cfms", lambda _: ConveyorEnv_token_n({'version': 'full', 'final_reward': 10, 'mask': True,
+                                                            'no_of_jobs': 1}))
 
     ModelCatalog.register_custom_model(
         "env_cfms", TorchParametricActionsModelv2
@@ -310,23 +314,26 @@ if __name__ == '__main__':
             "vf_share_layers": True,
         },
         "env_config": {
-            "version": "trial1",
-            "final_reward": 10,
-            "mask": True
+            "version": "full",
+            "final_reward": 10000,
+            "mask": True,
+            "no_of_jobs": 1
         },
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-        "num_workers": 1,  # parallelism
+        "num_workers": 32,  # parallelism
         "framework": 'torch',
-        "rollout_fragment_length": 128,
-        "train_batch_size": 1024,
-        "sgd_minibatch_size": 512,
-        "num_sgd_iter": 20,
-        "vf_loss_coeff": 0.0009
+        # "rollout_fragment_length": 128,
+        # "train_batch_size": 1024,
+        # "sgd_minibatch_size": 512,
+        # "num_sgd_iter": 20,
+        "vf_loss_coeff": 0.0009,
+        # "horizon": 32,
+        # "timesteps_per_batch": 2048,
         },
         **cfg)
 
     stop = {
-        "training_iteration": 5000
+        # "training_iteration": 5000
     }
 
     if args.no_tune:
@@ -339,15 +346,16 @@ if __name__ == '__main__':
         best_agent_save_path = './agents_runs/' + args.env + '/' + args.algo + '_best_agents'
         Path(best_agent_save_path).mkdir(parents=True, exist_ok=True)
         ppo_config = train(config)
-        evaluate(ppo_config)
+        # evaluate(ppo_config)
 
     else:
+        pass
         # automated run with tune and grid search and Tensorboard
-        print("Training with Ray Tune.")
-        result = tune.run(args.run, config=config, stop=stop)
-
-        if args.as_test:
-            print("Checking if the learning goals are achieved")
-            check_learning_achieved((result, args.stop_reward))
+        # print("Training with Ray Tune.")
+        # result = tune.run(args.run, config=config, stop=stop)
+        #
+        # if args.as_test:
+        #     print("Checking if the learning goals are achieved")
+        #     check_learning_achieved((result, args.stop_reward))
 
     ray.shutdown()

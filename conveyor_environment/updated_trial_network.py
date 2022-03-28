@@ -456,14 +456,14 @@ class TrialConveyorNetwork:
 #                           'Red': ['D1W1', 'D3W1', 'C1W1', 'C3W1'], 'Green': ['C2W1', 'C3W1', 'D2W1', 'D3W1'],
 #                           'N3': ['P_E1', 'N_G3', 'P_F1'], 'N4': ['P_D1', 'N_F3'], 'N0': ['P_K1', 't1'],
 #                           'N6': ['P_G1', 'N_J3'], 'N9': ['P_B1', 'N_K3', 'P_J1'], }
-# #
+#
 # trial_net = TrialConveyorNetwork([1], [5, 6, 6], [5])
 # net, t = trial_net.trial_conveyor_petrinet()
 # print(net.get_marking())
 # modes = net.transition('s1').modes()
 # print(modes)
-# n = [(0, 0, 0, 2, 0)]
-# net.add_marking(Marking(S1=MultiSet(n)))
+# # n = [(0, 0, 0, 2, 0)]
+# # net.add_marking(Marking(S1=MultiSet(n)))
 # print(net.get_marking())
 # done = False
 # while not done:
@@ -471,7 +471,7 @@ class TrialConveyorNetwork:
 #     place.remove('Green')
 #     place.remove('Red')
 #     print(place)
-#     current_place = place[0]
+#     current_place = place[-1]
 #     if len(place) == 0:
 #         done = True
 #         break
@@ -503,7 +503,7 @@ class TrialConveyorNetwork:
 #     print(trans_fire)
 #     print(modes)
 #     print(net.get_marking())
-#     done = True
+#     # done = True
 
 
 # modes = net.transition('s1').modes()
