@@ -1,6 +1,8 @@
 name: rl
 channels:
   - conda-forge
+  - bioconda
+  - bokeh
   - defaults
 dependencies:
   - absl-py=0.10.0
@@ -128,7 +130,7 @@ dependencies:
     - chardet==3.0.4
     - cloudpickle==1.6.0
     - colorful==0.5.4
-    - config==0.5.1
+    - colorful==0.5.4
     - contextvars==2.4
     - cycler==0.10.0
     - data-path-utils==0.8.1
@@ -176,7 +178,7 @@ dependencies:
     - openpyxl==3.0.5
     - opt-einsum==3.3.0
     - pandas==1.1.4
-    - pickle5==0.0.11
+    - 	pickle5==0.0.11
     - protobuf==3.17.3
     - py-spy==0.3.3
     - pyasn1==0.4.8
