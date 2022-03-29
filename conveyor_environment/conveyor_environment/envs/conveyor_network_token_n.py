@@ -595,9 +595,9 @@ class ConveyorEnv_token_n(gym.Env):
                 if self.available_tokens == 0:
                     self.reward = 1000
                     return self.reward
-                elif self.order_complete:
-                    self.reward = 100
-                    return self.reward
+                # elif self.order_complete:
+                #     self.reward = 100
+                #     return self.reward
                 else:
                     self.reward = 10
                     return self.reward
@@ -623,12 +623,15 @@ class ConveyorEnv_token_n(gym.Env):
             # print(f'Returning done as True')
             self.episode_time_ends = time.time()
             self.episode_time = self.episode_time_ends - self.episode_time_begin
+
             return True
         else:
             # print(f'Returning done as False')
-            # if self.total_time_units >= (self.res[0]*1000):
-            #     self.terminating_in_middle = True
-            #     return True
+            if self.total_time_units >= (self.res[0]*1000):
+                self.terminating_in_middle = True
+
+                return True
+
             return False
 
     def step(self, action):
