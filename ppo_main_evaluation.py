@@ -182,7 +182,7 @@ def evaluate(ppo_config: dir):
     #         checkpoint_nr = nr[-2]+'0'
     # else:
     #     checkpoint_nr = nr[-1]
-    ppo_config["num_workers"] = 1
+    ppo_config["num_workers"] = 32
     agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_token_n)
     # agent.restore(f'{checkpoint_path}/checkpoint_{no}/checkpoint-{no}')
     agent.restore(f'agents_runs/ConveyorEnv_token_n/PPO_best_agents/checkpoint_000081/checkpoint-81')
@@ -320,7 +320,7 @@ if __name__ == '__main__':
             "no_of_jobs": 1
         },
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-        "num_workers": 32,  # parallelism
+        "num_workers": 1,  # parallelism
         "framework": 'torch',
         # "rollout_fragment_length": 128,
         # "train_batch_size": 1024,
@@ -341,7 +341,7 @@ if __name__ == '__main__':
         if args.run != "PPO":
             raise ValueError("Only support --run DQN with __no-time")
         print("Running manual train loop without Ray Tune")
-        Path(f'./agents_runs/{args.env}/{args.algo}').mkdir(parents=True, exist_ok=True)
+        Path(f'./agents_runs/{args.env}/{args.algo}/new').mkdir(parents=True, exist_ok=True)
         agent_save_path = './agents_runs/' + args.env + '/' + args.algo
         best_agent_save_path = './agents_runs/' + args.env + '/' + args.algo + '_best_agents'
         Path(best_agent_save_path).mkdir(parents=True, exist_ok=True)
