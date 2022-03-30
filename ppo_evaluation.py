@@ -336,11 +336,7 @@ if __name__ == '__main__':
         # manual training with train loop using DQN and fixed learning rate
         if args.run != "PPO":
             raise ValueError("Only support --run DQN with __no-time")
-        print("Running manual train loop without Ray Tune")
-        Path(f'./agents_runs/{args.env}/{args.algo}/new').mkdir(parents=True, exist_ok=True)
-        agent_save_path = './agents_runs/' + args.env + '/' + args.algo + '/new'
-        best_agent_save_path = './agents_runs/' + args.env + '/' + args.algo + '_best_agents' + '/new'
-        Path(best_agent_save_path).mkdir(parents=True, exist_ok=True)
+        print("Evaluating the results")
         ppo_config = train(config)
         evaluate(ppo_config)
 
