@@ -268,9 +268,9 @@ def evaluate(ppo_config: dir):
         #         avg_rewards_per_episode.append(k)
         plt.figure()
         plt.plot(avg_throughput)
-        plt.savefig(f'avg_throughput{path[-5:]}.png')
+        plt.savefig(f'avg_throughput{path[-4:]}.png')
         plt.plot(score_episode)
-        plt.savefig(f'rewards_overall{path[-5:]}.png')
+        plt.savefig(f'rewards_overall{path[-4:]}.png')
         # Measure Time
         time_end = time.time()
         time_diff = time_end - time_begin
@@ -278,7 +278,7 @@ def evaluate(ppo_config: dir):
         time_diff_min = int((time_diff - time_diff_h * 3600) / 60)
         time_diff_sec = int(time_diff - time_diff_h * 3600 - time_diff_min * 60)
         logger.info(f'Evaluation took {time_diff_h}h, {time_diff_min}m and {time_diff_sec}s.')
-        logger.debug(f'Evaluation of checpoint - {path[-5:]} is Complete.')
+        logger.debug(f'Evaluation of checkpoint - {path[-4:]} is Complete.')
 
     ray.shutdown()
 
