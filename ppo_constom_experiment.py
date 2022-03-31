@@ -329,7 +329,7 @@ def experiment(config):
         obs, reward, done, info = env.step(action)
         eval_results["eval_reward"] += reward
         eval_results["eval_ep_ln"] += 1
-    avg_reward_per_episode = score / step
+    avg_reward_per_episode = eval_results["eval_reward"] / eval_results["eval_ep_ln"]
     jobs.append(info["jobs"])
     quantity.append(info["quantity"])
     time_units_each_object.append(info["time_units_each_object"])
