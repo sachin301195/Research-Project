@@ -77,10 +77,10 @@ parser.add_argument(
     default=100000000,
     help="Number of timesteps to train.")
 parser.add_argument(
-    "--stop-reward",
+    "--no_of_jobs",
     type=float,
-    default=10,
-    help="Reward at which we stop training.")
+    default=1,
+    help="Number of tokens in an environment max(63).")
 parser.add_argument(
     "--no-tune",
     default=False,
@@ -165,7 +165,7 @@ def evaluate(ppo_config: dir):
         run = 1
         best_reward_cum = -10000000
         episode_save_counter = 0
-        env = ConveyorEnv_token_n({'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': 1})
+        env = ConveyorEnv_token_n({'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': args.no_of_jobs})
         CustomPlot.plot_figure()
         time.sleep(10)
         # SCORE_OVERALL = []
@@ -379,7 +379,7 @@ if __name__ == '__main__':
 
     ray.init(local_mode=args.local_mode, object_store_memory=1000000000)
     register_env("env_cfms", lambda _: ConveyorEnv_token_n({'version': 'full', 'final_reward': 10, 'mask': True,
-                                                            'no_of_jobs': 1}))
+                                                            'no_of_jobs': args.no_of_jobs}))
 
     ModelCatalog.register_custom_model(
         "env_cfms", TorchParametricActionsModelv2
@@ -403,7 +403,7 @@ if __name__ == '__main__':
             "version": "full",
             "final_reward": 10000,
             "mask": True,
-            "no_of_jobs": 1
+            "no_of_jobs": args.no_of_jobs
         },
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
         "num_workers": 32,  # parallelism
