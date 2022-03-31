@@ -282,8 +282,8 @@ def experiment(config):
             logger.info(f"Episodes total {train_results['episodes_total']}")
             logger.info(f"Timesteps total {train_results['timesteps_total']}")
             if train_results['episodes_total'] > MAX_TRAINING_EPISODES:
-                train_agent.save(agent_save_path)
-                logger.info('saved last agent')
+                # train_agent.save(agent_save_path)
+                # logger.info('saved last agent')
                 break
         if i % 2 == 0 or i == iterations - 1:
             checkpoint = train_agent.save(tune.get_trial_dir())
