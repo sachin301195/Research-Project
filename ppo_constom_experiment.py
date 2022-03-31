@@ -331,6 +331,7 @@ def experiment(config):
             obs, reward, done, info = env.step(action)
             eval_results["eval_reward"] += reward
             eval_results["eval_ep_ln"] += 1
+        current_episode += 1
         avg_reward_per_episode = eval_results["eval_reward"] / eval_results["eval_ep_ln"]
         jobs.append(info["jobs"])
         quantity.append(info["quantity"])
