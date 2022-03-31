@@ -325,7 +325,7 @@ def experiment(config):
     done = False
     while not done:
         # print(f'step: {step}')
-        action = eval_agent.compute_single_action(obs)
+        action = eval_agent.compute_action(obs)
         obs, reward, done, info = env.step(action)
         eval_results["eval_reward"] += reward
         eval_results["eval_ep_ln"] += 1
