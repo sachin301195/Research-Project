@@ -360,7 +360,7 @@ def experiment(config):
     plt.plot(score_episode)
     plt.savefig(f'rewards_overall{checkpoint[-4:]}.png')
     eval_agent.stop()
-    
+
     # Measure Time
     time_end = time.time()
     time_diff = time_end - time_begin
@@ -437,6 +437,7 @@ if __name__ == '__main__':
     else:
         # automated run with tune and grid search and Tensorboard
         print("Training with Ray Tune.")
+        logger.info('Training with Ray Tune.')
         config = ppo.DEFAULT_CONFIG.copy()
         config.update(updated_config)
         result = tune.run(experiment, config=config, resources_per_trial=ppo.PPOTrainer.default_resource_request(config)
