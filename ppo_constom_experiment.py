@@ -402,7 +402,7 @@ if __name__ == '__main__':
             "no_of_jobs": 1
         },
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-        "num_workers": 1,  # parallelism
+        "num_workers": 32,  # parallelism
         "framework": 'torch',
         # "rollout_fragment_length": 128,
         # "train_batch_size": 1024,
