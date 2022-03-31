@@ -306,7 +306,7 @@ def experiment(config):
     eval_agent.restore(checkpoint)
     env = eval_agent.workers.local_worker().env
 
-    env = ConveyorEnv_token_n({'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': 1})
+    TRIAL_EPISODES = 10
     CustomPlot.plot_figure()
     time.sleep(10)
     jobs = []
@@ -320,43 +320,47 @@ def experiment(config):
     score_episode = []
     trans_logs = []
     time_begin = time.time()
-    eval_results = {"eval_reward": 0, "eval_ep_ln": 0}
-    obs = env.reset()
-    done = False
-    while not done:
-        # print(f'step: {step}')
-        action = eval_agent.compute_action(obs)
-        obs, reward, done, info = env.step(action)
-        eval_results["eval_reward"] += reward
-        eval_results["eval_ep_ln"] += 1
-    avg_reward_per_episode = eval_results["eval_reward"] / eval_results["eval_ep_ln"]
-    jobs.append(info["jobs"])
-    quantity.append(info["quantity"])
-    time_units_each_object.append(info["time_units_each_object"])
-    total_order_completion_time.append(info["total_order_completion_time"])
-    avg_order_completion_time.append(info["avg_order_completion_time"])
-    avg_order_throughput.append(info["avg_order_throughput"])
-    avg_total_time_units.append(info["avg_total_time_units"])
-    avg_throughput.append(info["avg_throughput"])
-    score_episode.append(avg_reward_per_episode)
-    trans_logs.append(info['trans_logs'])
-    logger.info(f"Mean Rewards: {score_episode[0]}")
-    logger.info(f"jobs: {jobs[0]}")
-    logger.info(f"quantity: {quantity[0]}")
-    logger.info(f"time_units_each_object: {time_units_each_object[0]}")
-    logger.info(f"total_order_completion_time: {total_order_completion_time[0]}")
-    logger.info(f"avg_order_completion_time: {avg_order_completion_time[0]}")
-    logger.info(f"avg_order_throughput: {avg_order_throughput[0]}")
-    logger.info(f"avg_total_time_units: {avg_total_time_units[0]}")
-    logger.info(f"avg_throughput: {avg_throughput[0]}")
-    logger.info(f"Timesteps total: {eval_results['eval_ep_ln']}")
-    logger.info(f"Path that token took: {trans_logs[0]}")
+    current_episode = 1
+    while current_episode < TRIAL_EPISODES:
+        eval_results = {"eval_reward": 0, "eval_ep_ln": 0}
+        obs = env.reset()
+        done = False
+        while not done:
+            # print(f'step: {step}')
+            action = eval_agent.compute_action(obs)
+            obs, reward, done, info = env.step(action)
+            eval_results["eval_reward"] += reward
+            eval_results["eval_ep_ln"] += 1
+        avg_reward_per_episode = eval_results["eval_reward"] / eval_results["eval_ep_ln"]
+        jobs.append(info["jobs"])
+        quantity.append(info["quantity"])
+        time_units_each_object.append(info["time_units_each_object"])
+        total_order_completion_time.append(info["total_order_completion_time"])
+        avg_order_completion_time.append(info["avg_order_completion_time"])
+        avg_order_throughput.append(info["avg_order_throughput"])
+        avg_total_time_units.append(info["avg_total_time_units"])
+        avg_throughput.append(info["avg_throughput"])
+        score_episode.append(avg_reward_per_episode)
+        trans_logs.append(info['trans_logs'])
+        logger.info(f"Mean Rewards: {score_episode[current_episode - 1]}")
+        logger.info(f"jobs: {jobs[current_episode - 1]}")
+        logger.info(f"quantity: {quantity[current_episode - 1]}")
+        logger.info(f"time_units_each_object: {time_units_each_object[current_episode - 1]}")
+        logger.info(f"total_order_completion_time: {total_order_completion_time[current_episode - 1]}")
+        logger.info(f"avg_order_completion_time: {avg_order_completion_time[current_episode - 1]}")
+        logger.info(f"avg_order_throughput: {avg_order_throughput[current_episode - 1]}")
+        logger.info(f"avg_total_time_units: {avg_total_time_units[current_episode - 1]}")
+        logger.info(f"avg_throughput: {avg_throughput[current_episode - 1]}")
+        logger.info(f"Timesteps total: {eval_results['eval_ep_ln']}")
+        logger.info(f"Path that token took: {trans_logs[current_episode - 1]}")
     print(avg_total_time_units)
     plt.figure()
     plt.plot(avg_throughput)
-    plt.savefig(f'avg_throughput{checkpoint}.png')
+    plt.savefig(f'avg_throughput{checkpoint[-4:]}.png')
     plt.plot(score_episode)
-    plt.savefig(f'rewards_overall{checkpoint}.png')
+    plt.savefig(f'rewards_overall{checkpoint[-4:]}.png')
+    eval_agent.stop()
+    
     # Measure Time
     time_end = time.time()
     time_diff = time_end - time_begin
