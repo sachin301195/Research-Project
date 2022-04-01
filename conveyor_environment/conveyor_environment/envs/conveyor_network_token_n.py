@@ -178,7 +178,7 @@ def generate_random_N_orders(version, no_of_token, seed):
         green = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
         resources = [no_of_token, red, green]
 
-        # print(f'jobs {jobs}, resources {resources}, quantity {quantity}')
+        print(f'jobs {jobs}, resources {resources}, quantity {quantity}')
     else:
         jobs = np.random.randint(1, 16, size=no_of_token)
         quantity = np.ones(len(jobs), dtype=np.int16)
@@ -188,7 +188,7 @@ def generate_random_N_orders(version, no_of_token, seed):
         violet = np.random.randint(100, 5000, 1, dtype=np.int16)[0]
         resources = [no_of_token, red, green, blue, violet]
 
-        # print(f'jobs {jobs}, resources {resources}, quantity {quantity}')
+        print(f'jobs {jobs}, resources {resources}, quantity {quantity}')
 
     return jobs, resources, quantity
 
