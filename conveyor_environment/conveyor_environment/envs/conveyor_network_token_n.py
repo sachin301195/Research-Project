@@ -593,7 +593,7 @@ class ConveyorEnv_token_n(gym.Env):
                 return self.reward
             elif self.termination:
                 if self.available_tokens == 0:
-                    self.reward = 1000
+                    self.reward = 50
                     return self.reward
                 # elif self.order_complete:
                 #     self.reward = 100
@@ -605,7 +605,7 @@ class ConveyorEnv_token_n(gym.Env):
                 self.reward = -0.01
                 return self.reward
         else:
-            self.reward = -0.5
+            self.reward = -1
             return self.reward
 
     def _done_status(self):
@@ -627,7 +627,7 @@ class ConveyorEnv_token_n(gym.Env):
             return True
         else:
             # print(f'Returning done as False')
-            if self.total_time_units >= (self.res[0]*1000):
+            if self.total_time_units >= (self.res[0]*100):
                 self.terminating_in_middle = True
 
                 return True
