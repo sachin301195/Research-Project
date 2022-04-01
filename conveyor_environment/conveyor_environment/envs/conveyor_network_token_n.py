@@ -542,9 +542,9 @@ class ConveyorEnv_token_n(gym.Env):
                             self.termination = True
                             self.modes = self.net.transition('T').modes()
                             self.net.transition('T').fire(self.modes[0])
-                            # print(f'\n Termination of token ',
-                            #       f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, '
-                            #       f'f: {self.modes[0]["f"]}, count: {self.modes[0]["count"]}')
+                            print(f'\n Termination of token ',
+                                  f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, '
+                                  f'f: {self.modes[0]["f"]}, count: {self.modes[0]["count"]}')
                     except ConstraintError as e1:
                         # print(f'{e1}')
                         self.count += 1

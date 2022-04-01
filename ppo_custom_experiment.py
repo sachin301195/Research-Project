@@ -78,12 +78,12 @@ parser.add_argument(
     help="Number of timesteps to train.")
 parser.add_argument(
     "--no_of_jobs",
-    type=float,
-    default=1,
+    type=int,
+    default=2,
     help="Number of tokens in an environment max(63).")
 parser.add_argument(
     "--no-tune",
-    default=False,
+    default=True,
     type=bool,
     help="Run without Tune using a manual train loop instead. In this case,"
          "use DQN without grid search and no TensorBoard.")
@@ -407,7 +407,7 @@ if __name__ == '__main__':
             "no_of_jobs": args.no_of_jobs
         },
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-        "num_workers": 32,  # parallelism
+        "num_workers":32,  # parallelism
         "framework": 'torch',
         # "rollout_fragment_length": 128,
         # "train_batch_size": 1024,
