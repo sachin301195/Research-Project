@@ -172,7 +172,7 @@ def evaluate(ppo_config: dir):
     f = []
     for root, dirs, files in os.walk('./agents_runs/ConveyorEnv_token_n/PPO_best_agents'):
         for idx, name in enumerate(files):
-            if idx == 1:
+            if idx == 2:
                 f.append(os.path.join(root, name))
     ppo_config["num_workers"] = 1
     for path in f:
