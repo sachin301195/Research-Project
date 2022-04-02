@@ -435,7 +435,7 @@ class ConveyorEnv_token_n(gym.Env):
                 trans_fire = ACTION_MAPPING_TRIAL[place][action]
             else:
                 trans_fire = ACTION_MAPPING[place][action]
-            print(trans_fire)
+            # print(trans_fire)
             self.pass_this = False
             self.error = False
             if trans_fire is not 'Nan':
@@ -627,7 +627,7 @@ class ConveyorEnv_token_n(gym.Env):
             return True
         else:
             # print(f'Returning done as False')
-            if self.total_time_units >= (self.res[0]*100):
+            if self.total_time_units >= (self.res[0]*200):
                 self.terminating_in_middle = True
 
                 return True
