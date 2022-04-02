@@ -627,7 +627,7 @@ class ConveyorEnv_token_n(gym.Env):
             return True
         else:
             # print(f'Returning done as False')
-            if self.total_time_units >= (self.res[0]*200):
+            if self.total_time_units >= (self.res[0]*500):
                 self.terminating_in_middle = True
 
                 return True
