@@ -435,7 +435,7 @@ class ConveyorEnv_token_n(gym.Env):
                 trans_fire = ACTION_MAPPING_TRIAL[place][action]
             else:
                 trans_fire = ACTION_MAPPING[place][action]
-            # print(trans_fire)
+            print(trans_fire)
             self.pass_this = False
             self.error = False
             if trans_fire is not 'Nan':
@@ -589,11 +589,11 @@ class ConveyorEnv_token_n(gym.Env):
             self.available_tokens += len(list(self.reward_marking.values())[i])
         if not self.error:
             if self.terminating_in_middle:
-                self.reward = -50
+                self.reward = -100
                 return self.reward
             elif self.termination:
                 if self.available_tokens == 0:
-                    self.reward = 50
+                    self.reward = 1000
                     return self.reward
                 # elif self.order_complete:
                 #     self.reward = 100
