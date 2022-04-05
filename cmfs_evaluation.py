@@ -52,8 +52,8 @@ def configure_logger():
 
 TRIAL_LIST = ['checkpoint_000054', 'checkpoint_000006', 'checkpoint_000125', 'checkpoint_000246', 'checkpoint_000284',
               'checkpoint_000290', 'checkpoint_000313', 'checkpoint_000489', 'checkpoint_000947', 'checkpoint_000952 ']
-CHECKPOINT_NO = ['000050', '000082', '000100']
-core_no = ['50', '82', '100']
+CHECKPOINT_NO = ['000081']
+core_no = ['51']
 # CHECKPOINT_NO = ['000050']
 # core_no = ['50']
 

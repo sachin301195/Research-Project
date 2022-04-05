@@ -5,7 +5,6 @@ import getpass
 import sys
 sys.path.append('./conveyor_environment/snakes_master')
 
-import ray
 from ray.rllib import agents
 from util import CustomPlot, TorchParametricActionModel, TorchParametricActionsModelv1, TorchParametricActionsModelv2
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v1 import ConveyorEnv_v1
@@ -16,6 +15,12 @@ from conveyor_environment.conveyor_environment.envs.conveyor_network_token_n imp
 
 import numpy as np
 import pandas as pd
+import torch
+import torch.optim as optim
+import torch.nn as nn
+from torchvision import datasets, transforms
+from torch.utils.data import DataLoader
+import torch.nn.functional as F
 from pathlib import Path
 import matplotlib.pyplot as plt
 import time
@@ -34,6 +39,7 @@ from ray.rllib.models.torch.torch_modelv2 import TorchModelV2
 from ray.rllib.models.torch.fcnet import FullyConnectedNetwork as TorchFC
 from ray.rllib.utils.framework import try_import_tf, try_import_torch
 from ray.rllib.utils.test_utils import check_learning_achieved
+from ray.tune.schedulers import ASHAScheduler
 from ray.tune.logger import pretty_print
 from ray.tune.registry import register_env
 
@@ -326,7 +332,7 @@ if __name__ == '__main__':
         # "train_batch_size": 1024,
         # "sgd_minibatch_size": 512,
         # "num_sgd_iter": 20,
-        "vf_loss_coeff": 0.0009,
+        "vf_loss_coeff": 0.00001,
         # "horizon": 32,
         # "timesteps_per_batch": 2048,
         },

@@ -35,6 +35,7 @@ from conveyor_environment.conveyor_environment.envs.conveyor_network_v1 import C
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v0 import ConveyorEnv_v0
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v2 import ConveyorEnv_v2
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v3 import ConveyorEnv_v3
+from conveyor_environment.conveyor_environment.envs.conveyor_network_token_n import ConveyorEnv_token_n
 
 # from config import excelparser_parameter
 import experiment.evaluate_experiment as ee
@@ -85,10 +86,10 @@ def parse_args():
     parser.add_argument('--env',
                         type=str,
                         required=False,
-                        default='ConveyorEnv_v3',
-                        help="env to train or evaluate an agent. default=one_intersection",
+                        default='ConveyorEnv_token_n',
+                        help="env to train or evaluate an agent. default=one_token",
                         choices=['ConveyorEnv_v0', 'ConveyorEnv_v1', 'ConveyorEnv_v2', 'ConveyorEnv_v3',
-                                 'ConveyorEnv_v4'])
+                                 'ConveyorEnv_v4', 'ConveyorEnv_token_n'])
     parser.add_argument('--memory',
                         type=int,
                         required=False,
@@ -218,7 +219,8 @@ def init_agent(algo: str, algo_config: dict, env, env_version: str, use_action_m
     :return: agent instance
     """
     if use_action_masking:
-        register_env("env_cfms", lambda _: ConveyorEnv_v3({}))
+        register_env("env_cfms", lambda _: ConveyorEnv_token_n({'version': 'full', 'final_reward': 10, 'mask': True,
+                                                                'no_of_jobs': 1}))
         if env_version == 'full':
             ModelCatalog.register_custom_model('env_cfms', TorchParametricActionsModelv2)
             print(f'version: {env_version}')
@@ -247,7 +249,6 @@ def init_agent(algo: str, algo_config: dict, env, env_version: str, use_action_m
         algo_config = {**algo_config, **algo_config_actionmasking}
         print(algo_config)
         # algo_config["framework"] = "torch"
-        print('SACHIN BULCHANDANI')
     else:
         ModelCatalog.register_custom_model('env_cfms', TorchParametricActionModel)
         algo_config = dict({
@@ -293,6 +294,7 @@ def parse_args_and_init_agent_env(args):
             'env_config': {
                 'version': 'full',
                 'final_reward': 10,
+                'no_of_jobs': 1,
                 'mask': True,
             }
         }

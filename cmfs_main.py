@@ -12,6 +12,7 @@ from conveyor_environment.conveyor_environment.envs.conveyor_network_v1 import C
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v0 import ConveyorEnv_v0
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v2 import ConveyorEnv_v2
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v3 import ConveyorEnv_v3
+from conveyor_environment.conveyor_environment.envs.conveyor_network_token_n import ConveyorEnv_token_n
 
 import numpy as np
 import pandas as pd
@@ -37,19 +38,24 @@ from ray.tune.registry import register_env
 
 
 def configure_logger():
+    Path(f'./agents_runs/ConveyorEnv_token_n/DQN/').mkdir(parents=True, exist_ok=True)
+    agent_save_path = './agents_runs/' + 'ConveyorEnv_token_n' + '/' + 'DQN'
+    # best_agent_save_path = './agents_runs/' + 'ConveyorEnv_v3' + '/' + 'random' + '_best_agents'
+    # Path(best_agent_save_path).mkdir(parents=True, exist_ok=True)
+
     timestamp = time.strftime("%Y-%m-%d")
     _logger = logging.getLogger(__name__)
     _logger.setLevel(logging.INFO)
-    Path("./logs").mkdir(parents=True, exist_ok=True)
-    file_handler = logging.FileHandler('./logs/application-dqn_main-' + timestamp + '.log')
+    # Path("./logs_new").mkdir(parents=True, exist_ok=True)
+    file_handler = logging.FileHandler(agent_save_path + timestamp + '.log')
     file_handler.setLevel(logging.INFO)
     _logger.addHandler(file_handler)
     formatter = logging.Formatter('%(asctime)s  %(name)s  %(levelname)s: %(message)s')
     file_handler.setFormatter(formatter)
     return _logger
 
-
 logger = configure_logger()
+agent_save_path = './agents_runs/' + 'ConveyorEnv_token_n' + '/' + 'DQN/'
 
 BASE_PATH = '.'
 RESULTS_PATH = './results/'
@@ -119,7 +125,8 @@ if __name__ == '__main__':
     print(f"Running with following CLI options: {args}")
 
     ray.init(local_mode=args.local_mode, object_store_memory=1000000000)
-    register_env("env_cfms", lambda _: ConveyorEnv_v3({}))
+    register_env("env_cfms", lambda _: ConveyorEnv_token_n({'version': 'full', 'final_reward': 10, 'mask': True,
+                                                            'no_of_jobs': 1}))
 
     ModelCatalog.register_custom_model(
         "env_cfms", TorchParametricActionsModelv2
@@ -141,10 +148,11 @@ if __name__ == '__main__':
         "env_config": {
             "version": "trial1",
             "final_reward": 10,
-            "mask": True
+            "mask": True,
+            "no_of_jobs": 1
         },
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-        "num_workers": 32,  # parallelism
+        "num_workers": 1,  # parallelism
         "framework": 'torch',
         "num_atoms": 1,
         "v_min": -10,
@@ -210,7 +218,7 @@ if __name__ == '__main__':
         # dqn_config['render_env'] = True
         # dqn_config['timesteps_per_iteration'] = 200000
         print(dqn_config)
-        agent = dqn.DQNTrainer(config=dqn_config, env=ConveyorEnv_v3)
+        agent = dqn.DQNTrainer(config=dqn_config, env=ConveyorEnv_token_n)
         results = []
         episode_data = []
         MAX_TRAINING_EPISODES = 100

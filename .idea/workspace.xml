@@ -2,8 +2,39 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79eb0cdf-d14f-4d3a-8f3c-5866498db475" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/plots/token-1/avg_throughput-118.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/token-1/rewards_overall-118.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conveyor_environment/updated_trial_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor_environment/updated_trial_network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/DQN/checkpoint_000082/.is_checkpoint" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/DQN/checkpoint_000082/checkpoint-82" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/DQN/checkpoint_000082/checkpoint-82.tune_metadata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/DQN/checkpoint_000100/.is_checkpoint" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/DQN/checkpoint_000100/checkpoint-100" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/DQN/checkpoint_000100/checkpoint-100.tune_metadata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/DQN/checkpoint_000213/.is_checkpoint" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/DQN/checkpoint_000213/checkpoint-213" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/DQN/checkpoint_000213/checkpoint-213.tune_metadata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/DQN_best_agents/checkpoint_000082/.is_checkpoint" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/DQN_best_agents/checkpoint_000082/checkpoint-82" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/DQN_best_agents/checkpoint_000082/checkpoint-82.tune_metadata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/DQN_best_agents/checkpoint_000100/.is_checkpoint" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/DQN_best_agents/checkpoint_000100/checkpoint-100" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/DQN_best_agents/checkpoint_000100/checkpoint-100.tune_metadata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/deterministic/episodic_result.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/random/episodic_result.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/randomepisodic_result.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/countries.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents_runs/d.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfms_main_v2.py" beforeDir="false" afterPath="$PROJECT_DIR$/cfms_main_v2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmfs_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmfs_evaluation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmfs_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmfs_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_token_n.py" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_token_n.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v3.py" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env.yml" beforeDir="false" afterPath="$PROJECT_DIR$/env.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ppo_constom_experiment.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ppo_main_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/ppo_main_evaluation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/random_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/random_main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +49,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitSEFilterConfiguration">
@@ -27,6 +63,9 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="229QvMCMnE7Js7JHCSeMMTF1SW9" />
   <component name="ProjectLevelVcsManager">
@@ -40,10 +79,65 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="exceleditor.install" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/PPO_best_agents/checkpoint_000081" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
-  <component name="RunManager" selected="Python.conveyor_network_v3">
-    <configuration name="cmfs_main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\source\Research Project\Scripts\Research-Project\agents_runs\ConveyorEnv_v3\PPO_best_agents\checkpoint_000081" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\source\Research Project\Scripts\Research-Project\agents_runs\ConveyorEnv_v3\PPO_best_agents" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.random_main">
+    <configuration name="LSTMVAEcuda" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Research-Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/binny" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/binny/LSTMVAEcuda.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="conveyor_network_token_n" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Research-Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_token_n.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="ppo_custom_experiment" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Research-Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -55,7 +149,29 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cmfs_main.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ppo_custom_experiment.py" />
+      <option name="PARAMETERS" value="--no-tune True" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="ppo_custom_experiment" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Research-Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\source\Research Project\Scripts\Research-Project\ppo_custom_experiment.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -64,7 +180,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="conveyor_network_v1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="ppo_main_evaluation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Research-Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -72,11 +188,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v1.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ppo_main_evaluation.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -85,7 +202,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="conveyor_network_v2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="random_main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Research-Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -93,53 +210,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="conveyor_network_v3" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Research-Project" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v3.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="updated_trial_network" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Research-Project" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/conveyor_environment" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/conveyor_environment/updated_trial_network.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/random_main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -149,19 +225,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.cmfs_main" />
-      <item itemvalue="Python.conveyor_network_v1" />
-      <item itemvalue="Python.updated_trial_network" />
-      <item itemvalue="Python.conveyor_network_v2" />
-      <item itemvalue="Python.conveyor_network_v3" />
+      <item itemvalue="Python.LSTMVAEcuda" />
+      <item itemvalue="Python.conveyor_network_token_n" />
+      <item itemvalue="Python.ppo_custom_experiment" />
+      <item itemvalue="Python.ppo_main_evaluation" />
+      <item itemvalue="Python.random_main" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.conveyor_network_v3" />
-        <item itemvalue="Python.updated_trial_network" />
-        <item itemvalue="Python.cmfs_main" />
-        <item itemvalue="Python.conveyor_network_v2" />
-        <item itemvalue="Python.conveyor_network_v1" />
+        <item itemvalue="Python.random_main" />
+        <item itemvalue="Python.conveyor_network_token_n" />
+        <item itemvalue="Python.ppo_custom_experiment" />
+        <item itemvalue="Python.ppo_main_evaluation" />
+        <item itemvalue="Python.LSTMVAEcuda" />
       </list>
     </recent_temporary>
   </component>
@@ -173,26 +249,77 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1639247556323</updated>
+      <workItem from="1649072029558" duration="2530000" />
+      <workItem from="1649085598867" duration="48000" />
+      <workItem from="1649089357206" duration="4000" />
+      <workItem from="1649089387080" duration="9000" />
+      <workItem from="1649095800639" duration="3719000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="New_trials" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ppo_main_evaluation.py</url>
+          <line>181</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ppo_main_evaluation.py</url>
+          <line>177</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_token_n.py</url>
+          <line>312</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_token_n.py</url>
+          <line>310</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_token_n.py</url>
+          <line>336</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_token_n.py</url>
+          <line>360</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -201,5 +328,14 @@
         </breakpoint>
       </default-breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="trans_fire" language="Python" />
+        <watch expression="mask" language="Python" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Research_Project$random_main.coverage" NAME="random_main Coverage Results" MODIFIED="1649085433763" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -478,14 +478,15 @@ class ConveyorEnv_v3(gym.Env):
             status_marking.remove("Green")
             status_marking.remove("Blue")
             status_marking.remove("Violet")
+        # print(status_marking)
         if len(status_marking) == 0:
             # print(f'Returning done as True')
             return True
         else:
             # print(f'Returning done as False')
-            if self.total_time_units >= (self.res[0]*1400):
-                self.terminating_in_middle = True
-                return True
+            # if self.total_time_units >= (self.res[0]*1000):
+            #     self.terminating_in_middle = True
+            #     return True
             return False
 
     def step(self, action):

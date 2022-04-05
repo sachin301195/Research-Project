@@ -1,4 +1,4 @@
-from conveyor_environment.conveyor_environment.envs.conveyor_network_v3 import ConveyorEnv_v3
+from conveyor_environment.conveyor_environment.envs.conveyor_network_token_n import ConveyorEnv_token_n
 import random
 import logging
 import sys
@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 
 
 def configure_logger():
-    Path(f'./agents_runs/ConveyorEnv_v3/random/').mkdir(parents=True, exist_ok=True)
-    agent_save_path = './agents_runs/' + 'ConveyorEnv_v3' + '/' + 'random'
+    Path(f'./agents_runs/ConveyorEnv_token_n/random/').mkdir(parents=True, exist_ok=True)
+    agent_save_path = './agents_runs/' + 'ConveyorEnv_token_n' + '/' + 'random'
     # best_agent_save_path = './agents_runs/' + 'ConveyorEnv_v3' + '/' + 'random' + '_best_agents'
     # Path(best_agent_save_path).mkdir(parents=True, exist_ok=True)
 
@@ -28,7 +28,7 @@ def configure_logger():
 
 
 logger = configure_logger()
-agent_save_path = './agents_runs/' + 'ConveyorEnv_v3' + '/' + 'random/'
+agent_save_path = './agents_runs/' + 'ConveyorEnv_token_n' + '/' + 'random/'
 
 BASE_PATH = '.'
 RESULTS_PATH = './results/'
@@ -36,12 +36,12 @@ REWARD_RESULTS_PATH = '/reward-results/'
 AVG_OVR_EP_PATH = '/avg_over_ep-results/'
 CHECKPOINT_ROOT = './checkpoints'
 
-NUM_EPISODES = 200
+NUM_EPISODES = 1
 REWARDS = []
 AVG_THROUGHPUT = []
 ORDER_THROUGHPUT = []
 
-env = ConveyorEnv_v3({'version': 'full', 'final_reward': 10, 'mask': True})
+env = ConveyorEnv_token_n({'version': 'full', 'final_reward': 10, 'mask': True, 'no_of_jobs': 2})
 
 results = []
 episode_data = []
@@ -55,6 +55,7 @@ logger.debug('Start Training.')
 time_begin = time.time()
 episode_save_counter = 0
 best_avg_reward = -1000000
+episode_completion_time = []
 
 for n in range(NUM_EPISODES):
     done = False
@@ -82,14 +83,17 @@ for n in range(NUM_EPISODES):
     logger.info(f"Episode_no: {n}")
     logger.info(f"Mean Rewards: {avg_reward_per_episode}")
     logger.info(f"Timesteps total: {step_count}")
-    del info['next_place']
-    with open(agent_save_path + 'episodic_result.csv', 'a', encoding='UTF8', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=header)
-        writer.writerow(info)
+    logger.info(f"Episode Completion Time: {info}")
+    episode_completion_time.append(info)
+    # del info['next_place']
+    # with open(agent_save_path + 'episodic_result.csv', 'a', encoding='UTF8', newline='') as f:
+    #     writer = csv.DictWriter(f, fieldnames=header)
+    #     writer.writerow(info)
     if avg_reward_per_episode > best_avg_reward:
         best_n = n
         best_avg_reward = avg_reward_per_episode
         best_step_count = step_count
+        best_episode_completion_time = info
 
 
 logger.info('Best Episode')
