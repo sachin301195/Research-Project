@@ -1,0 +1,11 @@
+snakes~=0.9.29
+gym~=0.17.3
+numpy~=1.19.4
+ray~=1.4.0
+matplotlib~=3.3.3
+pandas~=1.1.4
+torch~=1.10.2
+psutil~=5.8.0
+setuptools~=58.0.4
+markdown~=3.3.4
+torchvision~=0.11.3

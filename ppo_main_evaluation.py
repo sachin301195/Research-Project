@@ -6,7 +6,7 @@ import sys
 sys.path.append('./conveyor_environment/snakes_master')
 
 from ray.rllib import agents
-from util import CustomPlot, TorchParametricActionModel, TorchParametricActionsModelv1, TorchParametricActionsModelv2
+from util import TorchParametricActionModel, TorchParametricActionsModelv1, TorchParametricActionsModelv2
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v1 import ConveyorEnv_v1
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v0 import ConveyorEnv_v0
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v2 import ConveyorEnv_v2
@@ -48,16 +48,14 @@ def configure_logger():
     timestamp = time.strftime("%Y-%m-%d")
     _logger = logging.getLogger(__name__)
     _logger.setLevel(logging.INFO)
-    Path("./logs").mkdir(parents=True, exist_ok=True)
-    file_handler = logging.FileHandler('./logs/application-ppo_main_n_token-' + timestamp + '.log')
+    Path(f"./logs/{args.algo}").mkdir(parents=True, exist_ok=True)
+    file_handler = logging.FileHandler(f'./logs/application-{args.algo}-{str(args.no_of_jobs)}' + timestamp + '.log')
     file_handler.setLevel(logging.INFO)
     _logger.addHandler(file_handler)
     formatter = logging.Formatter('%(asctime)s  %(name)s  %(levelname)s: %(message)s')
     file_handler.setFormatter(formatter)
-    return _logger
+    return _logger, timestamp
 
-
-logger = configure_logger()
 
 BASE_PATH = '.'
 RESULTS_PATH = './results/'
@@ -69,19 +67,16 @@ torch, nn = try_import_torch()
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
-    "--run",
-    type=str,
-    default="PPO",
-    help="The RLlib-registered algorithm to use.")
-parser.add_argument(
     "--env",
     type=str,
-    default="ConveyorEnv_token_n",
+    default="ConveyorEnv_v4",
+    choices=["ConveyorEnv_v1", "ConveyorEnv_v2", "ConveyorEnv_v3", "ConveyorEnv_token_n"],
     help="The RLlib-registered algorithm to use.")
 parser.add_argument(
     "--algo",
     type=str,
     default="PPO",
+    choices=["PPO", "SAC", "A2C", "A3C", "DQN", "DDPG", "APEX", "APEX_DDPG", "PG"],
     help="The RLlib-registered algorithm to use.")
 parser.add_argument(
     "--framework",
@@ -90,35 +85,33 @@ parser.add_argument(
     help="The DL framework specifier."
 )
 parser.add_argument(
-    "--as-test",
-    action="store_true",
-    help="Weather this script should be run as a test: --stop-reward must "
-         "be achieved within --stop-timesteps AND --stop-iters")
-parser.add_argument(
-    "--stop-iters",
-    type=int,
-    default=5000,
-    help="Number of iterations to train")
-parser.add_argument(
-    "--stop-timesteps",
-    type=int,
-    default=100000000,
-    help="Number of timesteps to train.")
-parser.add_argument(
-    "--stop-reward",
-    type=float,
-    default=10,
-    help="Reward at which we stop training.")
-parser.add_argument(
-    "--no-tune",
+    "--eval-tune",
     default=True,
     type=bool,
+    help="Evaluation while training TRUE/FALSE"
+)
+parser.add_argument(
+    "--eval-interval",
+    default=100,
+    type=int,
+    help="Evaluation after n training iterations"
+)
+parser.add_argument(
+    "--no-tune",
+    default=False,
+    type=bool,
     help="Run without Tune using a manual train loop instead. In this case,"
-         "use DQN without grid search and no TensorBoard.")
+         "use ALGO without TensorBoard.")
 parser.add_argument(
     "--local-mode",
     help="Init Ray in local mode for easier debugging.",
     action="store_true"
+)
+parser.add_argument(
+    "--no_of_jobs", 
+    default=1,
+    type=int,
+    help="Number of tokens to run in an environment."
 )
 
 
@@ -175,52 +168,37 @@ def train(config: dir):
 
 
 def evaluate(ppo_config: dir):
-    # f = []
-    # for (dirpatj, dirnames, filenames) in os.walk('./agents_runs/ConveyorEnv_token_n/PP0_best_agent'):
-    #     f.extend(dirnames)
-    #
-    # checkpoint = f[1]
-    # nr = checkpoint.split('-')
-    # if nr[-1] == '':
-    #     if nr[-2] == '':
-    #         checkpoint_nr = nr[-3] + '00'
-    #     else:
-    #         checkpoint_nr = nr[-2]+'0'
-    # else:
-    #     checkpoint_nr = nr[-1]
-    ppo_config["num_workers"] = 32
-    agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_token_n)
-    # agent.restore(f'{checkpoint_path}/checkpoint_{no}/checkpoint-{no}')
-    agent.restore(f'agents_runs/ConveyorEnv_token_n/PPO_best_agents/checkpoint_000081/checkpoint-81')
-    # agent.restore(f'agents_runs/ConveyorEnv_token_n/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
-    # logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_{checkpoint_nr}")
-    logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_81")
-    curr_episode = 1
-    max_episode = 10
-    run = 1
-    best_reward_cum = -10000000
-    episode_save_counter = 0
-    env = ConveyorEnv_token_n({'version': 'full', 'final_reward': 1000, 'mask': True})
-    CustomPlot.plot_figure()
-    time.sleep(10)
-    n = 1
-    SCORE_OVERALL = []
-    JOBS = []
-    QUANTITY = []
-    TIME_UNITS_EACH_OBJECT = []
-    TOTAL_ORDER_COMPLETION_TIME = []
-    AVG_ORDER_COMPLETION_TIME = []
-    AVG_ORDER_THROUGHPUT = []
-    AVG_TOTAL_TIME_UNITS = []
-    AVG_THROUGHPUT = []
-    time_begin = time.time()
-    while curr_episode <= max_episode:
-        # print('I am in while')
-        logger.info(f"Evaluating episode: {curr_episode}")
-        obs = env.reset()
-        done = False
-        score = 0
-        step = 1
+    f = []
+    for root, dirs, files in os.walk(best_agent_save_path):
+        for idx, name in enumerate(files):
+            if idx == 1:
+                f.append(os.path.join(root, name))
+    ppo_config["num_workers"] = 0
+    for path in f:
+        agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_token_n)
+        # agent.restore(f'{checkpoint_path}/checkpoint_{no}/checkpoint-{no}')
+        agent.restore(path)
+        # agent.restore(f'agents_runs/ConveyorEnv_token_n/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
+        # logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_{checkpoint_nr}")
+        logger.info(f"Evaluating algo: PPO, checkpoint_nr: {path[-4:]}")
+        curr_episode = 1
+        max_episode = 10
+        run = 1
+        best_reward_cum = -10000000
+        episode_save_counter = 0
+        env = ConveyorEnv_token_n(
+            {'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': args.no_of_jobs})
+        # plt.figure()
+        time.sleep(10)
+        # SCORE_OVERALL = []
+        # JOBS = []
+        # QUANTITY = []
+        # TIME_UNITS_EACH_OBJECT = []
+        # TOTAL_ORDER_COMPLETION_TIME = []
+        # AVG_ORDER_COMPLETION_TIME = []
+        # AVG_ORDER_THROUGHPUT = []
+        # AVG_TOTAL_TIME_UNITS = []
+        # AVG_THROUGHPUT = []
         jobs = []
         quantity = []
         time_units_each_object = []
@@ -230,71 +208,84 @@ def evaluate(ppo_config: dir):
         avg_total_time_units = []
         avg_throughput = []
         score_episode = []
-        while not done:
-            # print(f'step: {step}')
-            action = agent.compute_action(obs)
-            obs, reward, done, info = env.step(action)
-            score += reward
-            step += 1
-        avg_reward_per_episode = score / step
-        jobs.append(info["jobs"])
-        quantity.append(info["quantity"])
-        time_units_each_object.append(info["time_units_each_object"])
-        total_order_completion_time.append(info["total_order_completion_time"])
-        avg_order_completion_time.append(info["avg_order_completion_time"])
-        avg_order_throughput.append(info["avg_order_throughput"])
-        avg_total_time_units.append(info["avg_total_time_units"])
-        avg_throughput.append(info["avg_throughput"])
-        score_episode.append(avg_reward_per_episode)
-        logger.info(f"Episode_no: {n}")
-        logger.info(f"Mean Rewards: {avg_reward_per_episode}")
-        logger.info(f"jobs: {jobs}")
-        logger.info(f"quantity: {quantity}")
-        logger.info(f"time_units_each_object: {time_units_each_object}")
-        logger.info(f"total_order_completion_time: {total_order_completion_time}")
-        logger.info(f"avg_order_completion_time: {avg_order_completion_time}")
-        logger.info(f"avg_order_throughput: {avg_order_throughput}")
-        logger.info(f"avg_total_time_units: {avg_total_time_units}")
-        logger.info(f"avg_throughput: {avg_throughput}")
-        logger.info(f"Timesteps total: {step}")
-        n += 1
-        curr_episode += 1
-    SCORE_OVERALL.append(score_episode)
-    JOBS.append(jobs)
-    QUANTITY.append(quantity)
-    TIME_UNITS_EACH_OBJECT.append(time_units_each_object)
-    TOTAL_ORDER_COMPLETION_TIME.append(total_order_completion_time)
-    AVG_ORDER_COMPLETION_TIME.append(avg_order_completion_time)
-    AVG_ORDER_THROUGHPUT.append(avg_order_throughput)
-    AVG_TOTAL_TIME_UNITS.append(avg_total_time_units)
-    AVG_THROUGHPUT.append(avg_throughput)
-    average_throughput = []
-    avg_rewards_per_episode = []
-    for i in range(len(AVG_THROUGHPUT)):
-        a = AVG_THROUGHPUT[i]
-        b = SCORE_OVERALL[i]
-        for j, k in a, b:
-            average_throughput.append(j)
-            avg_rewards_per_episode.append(k)
-    plt.figure()
-    plt.plot(avg_throughput)
-    plt.savefig('avg_throughput.png')
-    plt.plot(avg_rewards_per_episode)
-    plt.savefig('rewards_overall.png')
-    # Measure Time
-    time_end = time.time()
-    time_diff = time_end - time_begin
-    time_diff_h = int(time_diff / 3600)
-    time_diff_min = int((time_diff - time_diff_h * 3600) / 60)
-    time_diff_sec = int(time_diff - time_diff_h * 3600 - time_diff_min * 60)
-    logger.info(f'Evaluation took {time_diff_h}h, {time_diff_min}m and {time_diff_sec}s.')
-    logger.debug('Evaluation Complete.')
-
-    ray.shutdown()
+        trans_logs = []
+        time_begin = time.time()
+        while curr_episode <= max_episode:
+            logger.info(f"Evaluating episode: {curr_episode}")
+            obs = env.reset()
+            done = False
+            score = 0
+            step = 1
+            while not done:
+                # print(f'step: {step}')
+                action = agent.compute_action(obs)
+                obs, reward, done, info = env.step(action)
+                score += reward
+                step += 1
+            avg_reward_per_episode = score / step
+            jobs.append(info["jobs"])
+            quantity.append(info["quantity"])
+            time_units_each_object.append(info["time_units_each_object"])
+            total_order_completion_time.append(info["total_order_completion_time"])
+            avg_order_completion_time.append(info["avg_order_completion_time"])
+            avg_order_throughput.append(info["avg_order_throughput"])
+            avg_total_time_units.append(info["avg_total_time_units"])
+            avg_throughput.append(info["avg_throughput"])
+            score_episode.append(avg_reward_per_episode)
+            trans_logs.append(info['trans_logs'])
+            logger.info(f"Episode_no: {curr_episode}")
+            logger.info(f"Mean Rewards: {score_episode[curr_episode - 1]}")
+            logger.info(f"jobs: {jobs[curr_episode - 1]}")
+            logger.info(f"quantity: {quantity[curr_episode - 1]}")
+            logger.info(f"time_units_each_object: {time_units_each_object[curr_episode - 1]}")
+            logger.info(f"total_order_completion_time: {total_order_completion_time[curr_episode - 1]}")
+            logger.info(f"avg_order_completion_time: {avg_order_completion_time[curr_episode - 1]}")
+            logger.info(f"avg_order_throughput: {avg_order_throughput[curr_episode - 1]}")
+            logger.info(f"avg_total_time_units: {avg_total_time_units[curr_episode - 1]}")
+            logger.info(f"avg_throughput: {avg_throughput[curr_episode - 1]}")
+            logger.info(f"Timesteps total: {step}")
+            logger.info(f"Path that token took: {trans_logs[curr_episode - 1]}")
+            curr_episode += 1
+        print(avg_total_time_units)
+        # SCORE_OVERALL.append(score_episode)
+        # JOBS.append(jobs)
+        # QUANTITY.append(quantity)
+        # TIME_UNITS_EACH_OBJECT.append(time_units_each_object)
+        # TOTAL_ORDER_COMPLETION_TIME.append(total_order_completion_time)
+        # AVG_ORDER_COMPLETION_TIME.append(avg_order_completion_time)
+        # AVG_ORDER_THROUGHPUT.append(avg_order_throughput)
+        # AVG_TOTAL_TIME_UNITS.append(avg_total_time_units)
+        # AVG_THROUGHPUT.append(avg_throughput)
+        # average_throughput = []
+        # avg_rewards_per_episode = []
+        # print(AVG_THROUGHPUT)
+        # print(SCORE_OVERALL)
+        # for i in range(len(AVG_THROUGHPUT)):
+        #     a = AVG_THROUGHPUT[i]
+        #     b = SCORE_OVERALL[i]
+        #     for j, k in a, b:
+        #         average_throughput.append(j)
+        #         avg_rewards_per_episode.append(k)
+        plt.figure()
+        plt.plot(avg_throughput)
+        plt.savefig(f'{plots_save_path}/avg_throughput{path[-4:]}.png')
+        plt.plot(score_episode)
+        plt.savefig(f'{plots_save_path}/rewards_overall{path[-4:]}.png')
+        plt.plot(avg_total_time_units)
+        plt.savefig(f'{plots_save_path}/avg_timetaken{path[-4:]}.png')
+        # Measure Time
+        time_end = time.time()
+        time_diff = time_end - time_begin
+        time_diff_h = int(time_diff / 3600)
+        time_diff_min = int((time_diff - time_diff_h * 3600) / 60)
+        time_diff_sec = int(time_diff - time_diff_h * 3600 - time_diff_min * 60)
+        logger.info(f'Evaluation took {time_diff_h}h, {time_diff_min}m and {time_diff_sec}s.')
+        logger.debug(f'Evaluation of checkpoint - {path[-4:]} is Complete.')
 
 
 if __name__ == '__main__':
     args = parser.parse_args()
+    logger, timestamp = configure_logger()
     print(f"Running with following CLI options: {args}")
 
     ray.init(local_mode=args.local_mode, object_store_memory=1000000000)
@@ -305,7 +296,7 @@ if __name__ == '__main__':
         "env_cfms", TorchParametricActionsModelv2
     )
 
-    if args.run == 'DQN':
+    if args.algo == 'DQN':
         cfg = {
             "hiddens": [],
             "dueling": False,
@@ -313,55 +304,61 @@ if __name__ == '__main__':
     else:
         cfg = {}
 
-    config = dict({
-        "env": "env_cfms",
-        "model": {
-            "custom_model": "env_cfms",
-            "vf_share_layers": True,
-        },
-        "env_config": {
-            "version": "full",
-            "final_reward": 10000,
-            "mask": True,
-            "no_of_jobs": 1
-        },
-        "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-        "num_workers": 1,  # parallelism
-        "framework": 'torch',
-        # "rollout_fragment_length": 128,
-        # "train_batch_size": 1024,
-        # "sgd_minibatch_size": 512,
-        # "num_sgd_iter": 20,
-        "vf_loss_coeff": 0.00001,
-        # "horizon": 32,
-        # "timesteps_per_batch": 2048,
-        },
-        **cfg)
+    if args.algo == 'PPO':
+        config = dict({
+            "env": "env_cfms",
+            "model": {
+                "custom_model": "env_cfms",
+                "vf_share_layers": True,
+            },
+            "env_config": {
+                "version": "full",
+                "final_reward": 10000,
+                "mask": True,
+                "no_of_jobs": 1
+            },
+            "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
+            "num_workers": 32,  # parallelism
+            "framework": 'torch',
+            "rollout_fragment_length": 125,
+            # "train_batch_size": 1024,
+            # "sgd_minibatch_size": 512,
+            # "num_sgd_iter": 20,
+            "vf_loss_coeff": 0.0001,
+            # "horizon": 32,
+            # "timesteps_per_batch": 2048,
+            },
+            **cfg)
+        algo_config = ppo.DEFAULT_CONFIG.copy()
+        algo_config.update(config)
+        algo_config['model']['fcnet_activation'] = 'relu'
+        algo_config['evaluation_interval'] = 100
+        algo_config['evaluation_duration'] = 10
+        algo_config["evaluation_parallel_to_training"]: True
+    else:
+        algo_config = None
 
     stop = {
-        # "training_iteration": 5000
+        "training_iteration": 1000*2000*args.no_of_jobs
     }
+    Path(f'./plots/{args.algo}/{str(args.no_of_jobs)}').mkdir(parents=True, exist_ok=True)
+    plots_save_path = './plots/' + args.algo + '/' + str(args.no_of_jobs)
+    Path(f'./agents_runs/{args.env}/{args.algo}/{str(args.no_of_jobs)}/{timestamp}').mkdir(parents=True, exist_ok=True)
+    agent_save_path = './agents_runs/' + args.env + '/' + args.algo + '/' + str(args.no_of_jobs) + '/' + timestamp
+    best_agent_save_path = './agents_runs/' + args.env + '/' + args.algo + '/' + str(args.no_of_jobs) + '/' + timestamp \
+                           + '_best_agents'
+    # best_agent_save_path = './agents_runs/ConveyorEnv_token_n/PPO_best_agents'
+    Path(best_agent_save_path).mkdir(parents=True, exist_ok=True)
 
     if args.no_tune:
-        # manual training with train loop using DQN and fixed learning rate
-        if args.run != "PPO":
-            raise ValueError("Only support --run DQN with __no-time")
         print("Running manual train loop without Ray Tune")
-        Path(f'./agents_runs/{args.env}/{args.algo}/new').mkdir(parents=True, exist_ok=True)
-        agent_save_path = './agents_runs/' + args.env + '/' + args.algo
-        best_agent_save_path = './agents_runs/' + args.env + '/' + args.algo + '_best_agents'
-        Path(best_agent_save_path).mkdir(parents=True, exist_ok=True)
-        ppo_config = train(config)
-        # evaluate(ppo_config)
+        train(algo_config)
+        evaluate(algo_config)
 
     else:
-        pass
         # automated run with tune and grid search and Tensorboard
-        # print("Training with Ray Tune.")
-        # result = tune.run(args.run, config=config, stop=stop)
-        #
-        # if args.as_test:
-        #     print("Checking if the learning goals are achieved")
-        #     check_learning_achieved((result, args.stop_reward))
+        print("Training with Ray Tune.")
+        result = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
+                          checkpoint_at_end=True)
 
     ray.shutdown()

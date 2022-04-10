@@ -1,3 +1,4 @@
+from conveyor_environment.conveyor_environment.envs.conveyor_network_v4 import ConveyorEnv_v4
 from conveyor_environment.conveyor_environment.envs.conveyor_network_token_n import ConveyorEnv_token_n
 import random
 import logging
@@ -36,12 +37,12 @@ REWARD_RESULTS_PATH = '/reward-results/'
 AVG_OVR_EP_PATH = '/avg_over_ep-results/'
 CHECKPOINT_ROOT = './checkpoints'
 
-NUM_EPISODES = 1
+NUM_EPISODES = 10
 REWARDS = []
 AVG_THROUGHPUT = []
 ORDER_THROUGHPUT = []
 
-env = ConveyorEnv_token_n({'version': 'full', 'final_reward': 10, 'mask': True, 'no_of_jobs': 2})
+env = ConveyorEnv_token_n({'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': 1})
 
 results = []
 episode_data = []
@@ -63,13 +64,16 @@ for n in range(NUM_EPISODES):
     step_count = 0
     obs = env.reset()
     actions = obs['action_mask']
+    # print(actions)
 
     while not done:
         final_actions = []
         for idx, a in enumerate(actions):
             if a != 0:
                 final_actions.append(idx)
+        # print(final_actions)
         action = random.choice(final_actions)
+        # print(action)
         obs, reward, done, info = env.step(action)
         score += reward
         step_count += 1

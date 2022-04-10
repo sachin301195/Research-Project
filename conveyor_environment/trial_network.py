@@ -746,15 +746,12 @@ class ConveyorNetwork:
 
         return n, self.transition
 
-# trial_net = ConveyorNetwork([1, 1], [7, 5, 5, 5, 5], [4, 3])
+#
+# trial_net = ConveyorNetwork([15, 14], [7, 5, 5, 5, 5], [4, 3])
 # net, t = trial_net.conveyor_petrinet()
 # print(net.get_marking())
-# mark = list(net.get_marking().keys())
-# mark.remove('Red')
-# mark.remove('Blue')
-# mark.remove('Green')
-# mark.remove('Violet')
-# print(mark)
+# mark = net.get_marking()
+# print(mark['S'])
 
 # net.draw('Network.png')
 # modes = net.transition('s1').modes()

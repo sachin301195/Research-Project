@@ -321,7 +321,7 @@ class ConveyorEnv_token_n(gym.Env):
                 else:
                     state = np.concatenate((state, np.array([1 if place in list(marking.keys()) else 0],
                                                             dtype=np.int8)), axis=None)
-            state = np.concatenate((state, total_time), axis=None)
+            # state = np.concatenate((state, total_time), axis=None)
             # if self.start:
             #     # state = np.concatenate((state, 0, 0, 0), axis = None)
             # else:
