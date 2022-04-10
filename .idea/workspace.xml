@@ -2,67 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79eb0cdf-d14f-4d3a-8f3c-5866498db475" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/agents_runs/ConveyorEnv_v4/random/episodic_result.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/PPO/1/avg_throughputnt-1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/PPO/1/avg_throughputnt-3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/PPO/1/avg_timetakennt-1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/PPO/1/avg_timetakennt-3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/PPO/1/rewards_overallnt-1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/PPO/1/rewards_overallnt-3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/Ramdom_mean_reward.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/Upodated PERTINET (1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/Upodated PERTINET.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/network.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/ppo_mean_reward.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/ppo_time.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/render_result.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/render_result_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/render_results.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/rewards.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/rewards_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/rewards_overall.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/try.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Research-Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Research-Project.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ramdom_mean_reward.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Upodated PERTINET (1).jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Upodated PERTINET.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/LSTMVAEcuda.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/LSTMd2VAE_LossTrainingTime.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/Transformer_d2VAE_Fault1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/Transformer_d2VAE_Fault10.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/Transformer_d2VAE_Fault11.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/Transformer_d2VAE_Fault12.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/Transformer_d2VAE_Fault13.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/Transformer_d2VAE_Fault14.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/Transformer_d2VAE_Fault15.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/Transformer_d2VAE_Fault2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/Transformer_d2VAE_Fault3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/Transformer_d2VAE_Fault4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/Transformer_d2VAE_Fault5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/Transformer_d2VAE_Fault6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/Transformer_d2VAE_Fault7.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/Transformer_d2VAE_Fault8.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/Transformer_d2VAE_Fault9.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binny/d2VAE_Signal Reproduction.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/excelparser_parameter.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_token_n.py" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_token_n.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v4.py" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v4.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conveyor_environment/trial_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor_environment/trial_network.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/countries.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/network.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ppo_main_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/ppo_main_evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ppo_mean_reward.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ppo_time.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/random_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/random_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/render_result.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/render_result_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/render_results.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rewards.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rewards_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rewards_overall.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/try.ipynb" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -303,7 +243,7 @@
       <workItem from="1649089357206" duration="4000" />
       <workItem from="1649089387080" duration="9000" />
       <workItem from="1649095800639" duration="25736000" />
-      <workItem from="1649199647303" duration="26269000" />
+      <workItem from="1649199647303" duration="27045000" />
     </task>
     <servers />
   </component>
@@ -390,6 +330,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Research_Project$random_main.coverage" NAME="random_main Coverage Results" MODIFIED="1649587056684" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Research_Project$ppo_main_evaluation.coverage" NAME="ppo_main_evaluation Coverage Results" MODIFIED="1649611075963" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Research_Project$ppo_main_evaluation.coverage" NAME="ppo_main_evaluation Coverage Results" MODIFIED="1649614956699" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

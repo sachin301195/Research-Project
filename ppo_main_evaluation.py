@@ -11,6 +11,7 @@ from conveyor_environment.conveyor_environment.envs.conveyor_network_v1 import C
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v0 import ConveyorEnv_v0
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v2 import ConveyorEnv_v2
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v3 import ConveyorEnv_v3
+from conveyor_environment.conveyor_environment.envs.conveyor_network_v4 import ConveyorEnv_v4
 from conveyor_environment.conveyor_environment.envs.conveyor_network_token_n import ConveyorEnv_token_n
 
 import numpy as np
@@ -120,7 +121,7 @@ def train(config: dir):
     ppo_config.update(config)
     ppo_config['model']['fcnet_activation'] = 'relu'
     print(ppo_config)
-    agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_token_n)
+    agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_v4)
     results = []
     episode_data = []
     MAX_TRAINING_EPISODES = 2000
@@ -175,10 +176,10 @@ def evaluate(ppo_config: dir):
                 f.append(os.path.join(root, name))
     ppo_config["num_workers"] = 0
     for path in f:
-        agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_token_n)
+        agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_v4)
         # agent.restore(f'{checkpoint_path}/checkpoint_{no}/checkpoint-{no}')
         agent.restore(path)
-        # agent.restore(f'agents_runs/ConveyorEnv_token_n/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
+        # agent.restore(f'agents_runs/ConveyorEnv_v4/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
         # logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_{checkpoint_nr}")
         logger.info(f"Evaluating algo: PPO, checkpoint_nr: {path[-4:]}")
         curr_episode = 1
@@ -186,7 +187,7 @@ def evaluate(ppo_config: dir):
         run = 1
         best_reward_cum = -10000000
         episode_save_counter = 0
-        env = ConveyorEnv_token_n(
+        env = ConveyorEnv_v4(
             {'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': args.no_of_jobs})
         # plt.figure()
         time.sleep(10)
@@ -289,8 +290,8 @@ if __name__ == '__main__':
     print(f"Running with following CLI options: {args}")
 
     ray.init(local_mode=args.local_mode, object_store_memory=1000000000)
-    register_env("env_cfms", lambda _: ConveyorEnv_token_n({'version': 'full', 'final_reward': 10, 'mask': True,
-                                                            'no_of_jobs': 1}))
+    register_env("env_cfms", lambda _: ConveyorEnv_v4({'version': 'full', 'final_reward': 10, 'mask': True,
+                                                       'no_of_jobs': 1}))
 
     ModelCatalog.register_custom_model(
         "env_cfms", TorchParametricActionsModelv2
