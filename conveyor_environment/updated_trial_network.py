@@ -1,10 +1,10 @@
 import sys
 sys.path.append('./snakes_master')
 import snakes.plugins
-from snakes.utils.simul import StateSpace
+# from snakes.utils.simul import StateSpace
 from snakes.nets import *
 snakes.plugins.load(['gv', 'bound'], 'snakes.nets', 'snk')
-import random
+# import random
 from snk import *
 
 places = ['S', 'S1', 'N1', 'A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'N2', 'C1', 'C2', 'C3', 'D1', 'D2', 'D3',
