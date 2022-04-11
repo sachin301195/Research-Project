@@ -284,7 +284,7 @@ if __name__ == '__main__':
 
     ray.init(local_mode=args.local_mode, object_store_memory=1000000000)
     register_env("env_cfms", lambda _: ConveyorEnv_v4({'version': 'full', 'final_reward': 10, 'mask': True,
-                                                       'no_of_jobs': 1}))
+                                                       'no_of_jobs': args.no_of_jobs}))
 
     ModelCatalog.register_custom_model(
         "env_cfms", TorchParametricActionsModelv2
@@ -309,7 +309,7 @@ if __name__ == '__main__':
                 "version": "full",
                 "final_reward": 10000,
                 "mask": True,
-                "no_of_jobs": 1
+                "no_of_jobs": args.no_of_jobs
             },
             "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
             "num_workers": 32,  # parallelism
