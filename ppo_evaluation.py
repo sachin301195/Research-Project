@@ -176,7 +176,7 @@ def evaluate(ppo_config: dir):
     # agent.restore(path)
     # agent.restore(f'agents_runs/ConveyorEnv_token_n/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
     # logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_{checkpoint_nr}")
-    logger.info(f"Evaluating algo: PPO, checkpoint_nr: {path[-5:]}")
+    logger.info(f"Evaluating algo: PPO, checkpoint_nr: 100")
     curr_episode = 1
     max_episode = 10
     run = 1
@@ -262,11 +262,11 @@ def evaluate(ppo_config: dir):
         #         avg_rewards_per_episode.append(k)
     plt.figure()
     plt.plot(avg_throughput)
-    plt.savefig(f'{plots_save_path}/avg_throughput{path[-4:]}.png')
+    plt.savefig(f'{plots_save_path}/avg_throughput-100.png')
     plt.plot(score_episode)
-    plt.savefig(f'{plots_save_path}/rewards_overall{path[-4:]}.png')
+    plt.savefig(f'{plots_save_path}/rewards_overall-100.png')
     plt.plot(avg_total_time_units)
-    plt.savefig(f'{plots_save_path}/avg_timetaken{path[-4:]}.png')
+    plt.savefig(f'{plots_save_path}/avg_timetaken-100.png')
     # Measure Time
     time_end = time.time()
     time_diff = time_end - time_begin
@@ -274,7 +274,7 @@ def evaluate(ppo_config: dir):
     time_diff_min = int((time_diff - time_diff_h * 3600) / 60)
     time_diff_sec = int(time_diff - time_diff_h * 3600 - time_diff_min * 60)
     logger.info(f'Evaluation took {time_diff_h}h, {time_diff_min}m and {time_diff_sec}s.')
-    logger.debug(f'Evaluation of checkpoint - {path[-4:]} is Complete.')
+    logger.debug(f'Evaluation of checkpoint - 100 is Complete.')
 
 
 if __name__ == '__main__':
