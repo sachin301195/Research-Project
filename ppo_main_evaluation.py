@@ -98,6 +98,12 @@ parser.add_argument(
     help="Evaluation after n training iterations"
 )
 parser.add_argument(
+    "--final-reward",
+    default=1000,
+    type=int,
+    help="final reward at the end of successful completion of the episode"
+)
+parser.add_argument(
     "--no-tune",
     default=False,
     type=bool,
@@ -285,7 +291,7 @@ if __name__ == '__main__':
     print(f"Running with following CLI options: {args}")
 
     ray.init(local_mode=args.local_mode, object_store_memory=1000000000)
-    register_env("env_cfms", lambda _: ConveyorEnv_v4({'version': 'full', 'final_reward': 10, 'mask': True,
+    register_env("env_cfms", lambda _: ConveyorEnv_v4({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                                        'no_of_jobs': args.no_of_jobs}))
 
     ModelCatalog.register_custom_model(
@@ -309,7 +315,7 @@ if __name__ == '__main__':
             },
             "env_config": {
                 "version": "full",
-                "final_reward": 10000,
+                "final_reward": 1000,
                 "mask": True,
                 "no_of_jobs": args.no_of_jobs,
             },
