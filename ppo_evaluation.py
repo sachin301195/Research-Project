@@ -217,8 +217,8 @@ def evaluate(ppo_config: dir):
                 score += reward
                 step += 1
             avg_reward_per_episode = score / step
-            jobs.append(info["jobs"])
-            quantity.append(info["quantity"])
+            jobs.append(info["Job_details"])
+            # quantity.append(info["quantity"])
             time_units_each_object.append(info["time_units_each_object"])
             total_order_completion_time.append(info["total_order_completion_time"])
             avg_order_completion_time.append(info["avg_order_completion_time"])
@@ -226,11 +226,11 @@ def evaluate(ppo_config: dir):
             avg_total_time_units.append(info["avg_total_time_units"])
             avg_throughput.append(info["avg_throughput"])
             score_episode.append(avg_reward_per_episode)
-            trans_logs.append(info['trans_logs'])
+            # trans_logs.append(info['trans_logs'])
             logger.info(f"Episode_no: {curr_episode}")
             logger.info(f"Mean Rewards: {score_episode[curr_episode-1]}")
             logger.info(f"jobs: {jobs[curr_episode-1]}")
-            logger.info(f"quantity: {quantity[curr_episode-1]}")
+            # logger.info(f"quantity: {quantity[curr_episode-1]}")
             logger.info(f"time_units_each_object: {time_units_each_object[curr_episode-1]}")
             logger.info(f"total_order_completion_time: {total_order_completion_time[curr_episode-1]}")
             logger.info(f"avg_order_completion_time: {avg_order_completion_time[curr_episode-1]}")

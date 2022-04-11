@@ -271,7 +271,7 @@ class ConveyorEnv_v4(gym.Env):
             }
         else:
             self.state = state
-
+9
         return self.state
 
     def step(self, action):
