@@ -172,7 +172,7 @@ def evaluate(ppo_config: dir):
     # for path in f:
     agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_v4)
     agent.restore('/home/rl/Research-Project/agents_runs/ConveyorEnv_v4/PPO/2/2022-04-11_best_agents/PPO/'
-                  'PPO_env_cfms_ab408_00000_0_2022-04-11_10-03-43/checkpoint_000200')
+                  'PPO_env_cfms_ab408_00000_0_2022-04-11_10-03-43/checkpoint_000200/checkpoint-200')
     # agent.restore(path)
     # agent.restore(f'agents_runs/ConveyorEnv_token_n/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
     # logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_{checkpoint_nr}")
