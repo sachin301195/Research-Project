@@ -504,7 +504,7 @@ class ConveyorEnv_v4(gym.Env):
 
                     return self.reward
                 else:
-                    self.reward = 10
+                    self.reward = 100
 
                     return self.reward
             else:
