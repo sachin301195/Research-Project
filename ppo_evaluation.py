@@ -182,7 +182,7 @@ def evaluate(ppo_config: dir):
     run = 1
     best_reward_cum = -10000000
     episode_save_counter = 0
-    env = ConveyorEnv_v4({'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': 1})
+    env = ConveyorEnv_v4({'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': args.no_of_jobs})
     time.sleep(10)
     # SCORE_OVERALL = []
     # JOBS = []
