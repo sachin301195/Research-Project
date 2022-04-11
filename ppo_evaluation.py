@@ -220,10 +220,10 @@ def evaluate(ppo_config: dir):
         jobs.append(info["Job_details"])
         # quantity.append(info["quantity"])
         time_units_each_object.append(info["time_units_each_object"])
-        total_order_completion_time.append(info["total_order_completion_time"])
+        # total_order_completion_time.append(info["total_order_completion_time"])
         avg_order_completion_time.append(info["avg_order_completion_time"])
-        avg_order_throughput.append(info["avg_order_throughput"])
-        avg_total_time_units.append(info["avg_total_time_units"])
+        # avg_order_throughput.append(info["avg_order_throughput"])
+        # avg_total_time_units.append(info["avg_total_time_units"])
         avg_throughput.append(info["avg_throughput"])
         score_episode.append(avg_reward_per_episode)
         # trans_logs.append(info['trans_logs'])
@@ -232,10 +232,10 @@ def evaluate(ppo_config: dir):
         logger.info(f"jobs: {jobs[curr_episode-1]}")
         # logger.info(f"quantity: {quantity[curr_episode-1]}")
         logger.info(f"time_units_each_object: {time_units_each_object[curr_episode-1]}")
-        logger.info(f"total_order_completion_time: {total_order_completion_time[curr_episode-1]}")
+        # logger.info(f"total_order_completion_time: {total_order_completion_time[curr_episode-1]}")
         logger.info(f"avg_order_completion_time: {avg_order_completion_time[curr_episode-1]}")
-        logger.info(f"avg_order_throughput: {avg_order_throughput[curr_episode-1]}")
-        logger.info(f"avg_total_time_units: {avg_total_time_units[curr_episode-1]}")
+        # logger.info(f"avg_order_throughput: {avg_order_throughput[curr_episode-1]}")
+        # logger.info(f"avg_total_time_units: {avg_total_time_units[curr_episode-1]}")
         logger.info(f"avg_throughput: {avg_throughput[curr_episode-1]}")
         logger.info(f"Timesteps total: {step}")
         # logger.info(f"Path that token took: {trans_logs[curr_episode-1]}")
@@ -283,8 +283,8 @@ if __name__ == '__main__':
     print(f"Running with following CLI options: {args}")
 
     ray.init(local_mode=args.local_mode, object_store_memory=1000000000)
-    register_env("env_cfms", lambda _: ConveyorEnv_v4({'version': 'full', 'final_reward': 10, 'mask': True,
-                                                       'no_of_jobs': args.no_of_jobs}))
+    register_env("env_cfms", lambda _: ConveyorEnv_v4({'version': 'full', 'final_reward': 1000, 'mask': True,
+                                                       'no_of_jobs': 2}))
 
     ModelCatalog.register_custom_model(
         "env_cfms", TorchParametricActionsModelv2
@@ -307,7 +307,7 @@ if __name__ == '__main__':
             },
             "env_config": {
                 "version": "full",
-                "final_reward": 10000,
+                "final_reward": 1000,
                 "mask": True,
                 "no_of_jobs": args.no_of_jobs,
             },

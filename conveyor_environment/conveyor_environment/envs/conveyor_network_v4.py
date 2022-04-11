@@ -464,27 +464,33 @@ class ConveyorEnv_v4(gym.Env):
             self.token[object_no]["count"] = time_units
             self.token[object_no]["steps"] = self.step_count
             self.info['Job_details'] = self.token
-            self.order_complete = False
-            for idx, job in enumerate(self.jobs):
-                if job == order:
-                    if self.completed_orders[idx] < self.quantity[idx]:
-                        self.completed_orders[idx] += 1
-                        self.o_c_time[idx] += time_units
-                        self.time_units[object_no] += time_units
-                        if self.completed_orders[idx] == self.quantity[idx]:
-                            self.order_complete = True
-                            self.avg_order_complete_time[idx] += self.o_c_time[idx] / self.quantity[idx]
-                            self.avg_order_throughput[idx] += 1 / self.avg_order_complete_time[idx]
-                            if next_place is None:
-                                self.avg_time_units = sum(self.time_units) / self.res[0]
-                                self.avg_throughput = 1 / self.avg_time_units
-                                self.info['time_units_each_object'] = self.time_units
-                                self.info['total_order_completion_time'] = self.o_c_time
-                                self.info['avg_order_completion_time'] = self.avg_order_complete_time
-                                self.info['avg_order_throughput'] = self.avg_order_throughput
-                                self.info['avg_total_time_units'] = self.avg_time_units
-                                self.info['avg_throughput'] = self.avg_throughput
-                        break
+            self.o_c_time[object_no] = time_units
+            self.avg_order_complete_time = sum(self.o_c_time)/self.no_of_jobs
+            self.avg_throughput = 1/self.avg_order_complete_time
+            self.info['time_units_each_object'] = self.o_c_time
+            self.info['avg_order_complete_time'] = self.avg_time_units
+            self.info['avg_throughput'] = self.avg_throughput
+            # self.order_complete = False
+            # for idx, job in enumerate(self.jobs):
+            #     if job == order:
+            #         if self.completed_orders[idx] < self.quantity[idx]:
+            #             self.completed_orders[idx] += 1
+            #             self.o_c_time[idx] += time_units
+            #             self.time_units[object_no] += time_units
+            #             if self.completed_orders[idx] == self.quantity[idx]:
+            #                 self.order_complete = True
+            #                 self.avg_order_complete_time[idx] += self.o_c_time[idx] / self.quantity[idx]
+            #                 self.avg_order_throughput[idx] += 1 / self.avg_order_complete_time[idx]
+            #                 if next_place is None:
+            #                     self.avg_time_units = sum(self.time_units) / self.res[0]
+            #                     self.avg_throughput = 1 / self.avg_time_units
+            #                     self.info['time_units_each_object'] = self.time_units
+            #                     self.info['total_order_completion_time'] = self.o_c_time
+            #                     self.info['avg_order_completion_time'] = self.avg_order_complete_time
+            #                     self.info['avg_order_throughput'] = self.avg_order_throughput
+            #                     self.info['avg_total_time_units'] = self.avg_time_units
+            #                     self.info['avg_throughput'] = self.avg_throughput
+            #             break
 
         return self.info
 
