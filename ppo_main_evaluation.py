@@ -117,11 +117,7 @@ parser.add_argument(
 
 
 def train(config: dir):
-    ppo_config = ppo.DEFAULT_CONFIG.copy()
-    ppo_config.update(config)
-    ppo_config['model']['fcnet_activation'] = 'relu'
-    print(ppo_config)
-    agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_v4)
+    agent = ppo.PPOTrainer(config=config, env=ConveyorEnv_v4)
     results = []
     episode_data = []
     MAX_TRAINING_EPISODES = 2000
@@ -165,7 +161,6 @@ def train(config: dir):
     time_diff_sec = int(time_diff - time_diff_h * 3600 - time_diff_min * 60)
     logger.info(f'Training took {time_diff_h}h, {time_diff_min}m and {time_diff_sec}s.')
     logger.debug('Training successful.')
-    return ppo_config
 
 
 def evaluate(ppo_config: dir):
@@ -325,7 +320,7 @@ if __name__ == '__main__':
             # "train_batch_size": 1024,
             # "sgd_minibatch_size": 512,
             # "num_sgd_iter": 20,
-            "vf_loss_coeff": 0.0009,
+            "vf_loss_coeff": 0.001,
             "vf_clip_param": 50,
             # "horizon": 32,
             # "timesteps_per_batch": 2048,
