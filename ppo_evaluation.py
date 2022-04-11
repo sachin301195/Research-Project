@@ -221,7 +221,7 @@ def evaluate(ppo_config: dir):
         # quantity.append(info["quantity"])
         time_units_each_object.append(info["time_units_each_object"])
         # total_order_completion_time.append(info["total_order_completion_time"])
-        avg_order_completion_time.append(info["avg_order_completion_time"])
+        avg_order_completion_time.append(info["avg_order_complete_time"])
         # avg_order_throughput.append(info["avg_order_throughput"])
         # avg_total_time_units.append(info["avg_total_time_units"])
         avg_throughput.append(info["avg_throughput"])
