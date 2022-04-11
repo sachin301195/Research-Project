@@ -170,7 +170,7 @@ def evaluate(ppo_config: dir):
                 f.append(os.path.join(root, name))
     ppo_config["num_workers"] = 1
     for path in f:
-        agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_token_n)
+        agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_v4)
         agent.restore(f'./agents_runs/ConveyorEnv_v4/PPO/1/2022-04-11_best_agents/PPO/'
                       f'PPO_env_cfms_b4d89_00000_0_2022-04-11_07-19-21/checkpoint_000100/checkpoint-100')
         # agent.restore(path)
@@ -182,7 +182,7 @@ def evaluate(ppo_config: dir):
         run = 1
         best_reward_cum = -10000000
         episode_save_counter = 0
-        env = ConveyorEnv_token_n({'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': 1})
+        env = ConveyorEnv_v4({'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': 1})
         time.sleep(10)
         # SCORE_OVERALL = []
         # JOBS = []
