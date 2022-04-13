@@ -184,8 +184,8 @@ class ConveyorEnv_v4(gym.Env):
             self.net, self.trans = self.network.conveyor_petrinet()
         self.reward = 0
         self.step_count = 0
-        self.current_place = None
-        self.next_place = None
+        self.current_place = 'S'
+        self.next_place = 'S'
         self.total_time_units = 0
         self.time_units = np.zeros(self.res[0])
         self.avg_throughput = 0
