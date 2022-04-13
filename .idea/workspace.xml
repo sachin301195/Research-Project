@@ -244,7 +244,7 @@
       <workItem from="1649089357206" duration="4000" />
       <workItem from="1649089387080" duration="9000" />
       <workItem from="1649095800639" duration="25736000" />
-      <workItem from="1649199647303" duration="47295000" />
+      <workItem from="1649199647303" duration="48609000" />
     </task>
     <servers />
   </component>
@@ -302,7 +302,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v4.py</url>
-          <line>356</line>
+          <line>360</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

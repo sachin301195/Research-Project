@@ -523,7 +523,7 @@ class ConveyorEnv_v4(gym.Env):
             return self.reward
 
     def _done_status(self):
-        if self.no_of_jobs == 0:
+        if len(list(self.marking)) == (len(self.res)-1):
             # print(f'Returning done as True')
             self.episode_time_ends = time.time()
             self.episode_time = self.episode_time_ends - self.episode_time_begin
