@@ -357,7 +357,7 @@ class ConveyorEnv_v4(gym.Env):
                     self.net.transition(self.trans_fire).fire(self.modes[0])
                     if self.trans_fire == 't1':
                         self.termination = True
-                        self.no_of_jobs -= 1
+                        # self.no_of_jobs -= 1
                         self.modes = self.net.transition('T').modes()
                         self.net.transition('T').fire(self.modes[0])
                         print(f'\n Termination of token ',
