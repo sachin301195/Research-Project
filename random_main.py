@@ -42,7 +42,7 @@ REWARDS = []
 AVG_THROUGHPUT = []
 ORDER_THROUGHPUT = []
 
-env = ConveyorEnv_v4({'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': 2})
+env = ConveyorEnv_v4({'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': 63})
 
 results = []
 episode_data = []

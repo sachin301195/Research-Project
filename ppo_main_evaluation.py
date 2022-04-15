@@ -326,9 +326,11 @@ if __name__ == '__main__':
             # "train_batch_size": 1024,
             # "sgd_minibatch_size": 512,
             # "num_sgd_iter": 20,
-            "vf_loss_coeff": tune.grid_search([0.001, 0.0009, 0.0005, 0.0001, 0.00009]),
+            # "vf_loss_coeff": tune.grid_search([0.001, 0.0009, 0.0005, 0.0001, 0.00009]),
+            "vf_loss_coeff": 0.0005,
             "vf_clip_param": 10,
-            "lr": tune.grid_search([0.01, 0.001, 0.0001])
+            # "lr": tune.grid_search([0.01, 0.001, 0.0001])
+            "lr": 0.0001,
             # "horizon": 32,
             # "timesteps_per_batch": 2048,
             },
