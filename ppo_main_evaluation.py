@@ -365,6 +365,6 @@ if __name__ == '__main__':
         # automated run with tune and grid search and Tensorboard
         print("Training with Ray Tune.")
         result = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
-                          checkpoint_at_end=True, resources_per_trial={"gpu": 1})
+                          checkpoint_at_end=True)
 
     ray.shutdown()
