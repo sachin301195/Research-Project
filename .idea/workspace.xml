@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="79eb0cdf-d14f-4d3a-8f3c-5866498db475" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v4.py" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v4.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ppo_main_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/ppo_main_evaluation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ppo_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/ppo_evaluation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,7 +251,7 @@
       <workItem from="1649095800639" duration="25736000" />
       <workItem from="1649199647303" duration="51837000" />
       <workItem from="1650185467178" duration="18000" />
-      <workItem from="1650578908801" duration="2885000" />
+      <workItem from="1650578908801" duration="4064000" />
     </task>
     <servers />
   </component>
