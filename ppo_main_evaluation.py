@@ -148,7 +148,7 @@ def train(config: dir):
             logger.info('saved new best agent')
         if results['episodes_total'] > episode_save_counter:
             logger.info('saved new agent')
-            agent.save(agent_save_path)
+            best_agent_checkpoint = agent.save(agent_save_path)
             episode_save_counter += 1
             logger.info("Clearing the nohup.out log file")
             os.system("> nohup.out")
@@ -168,86 +168,88 @@ def train(config: dir):
     logger.info(f'Training took {time_diff_h}h, {time_diff_min}m and {time_diff_sec}s.')
     logger.debug('Training successful.')
 
+    return best_agent_checkpoint
 
-def evaluate(ppo_config: dir):
-    f = []
-    for root, dirs, files in os.walk(best_agent_save_path):
-        for idx, name in enumerate(files):
-            if idx == 1:
-                f.append(os.path.join(root, name))
+
+def evaluate(ppo_config: dir, path):
+    # f = []
+    # for root, dirs, files in os.walk(best_agent_save_path):
+    #     for idx, name in enumerate(files):
+    #         if idx == 1:
+    #             f.append(os.path.join(root, name))
     ppo_config["num_workers"] = 0
-    for path in f:
-        agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_v4)
-        # agent.restore(f'{checkpoint_path}/checkpoint_{no}/checkpoint-{no}')
-        agent.restore(path)
-        # agent.restore(f'agents_runs/ConveyorEnv_v4/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
-        # logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_{checkpoint_nr}")
-        logger.info(f"Evaluating algo: PPO, checkpoint_nr: {path[-4:]}")
-        curr_episode = 1
-        max_episode = 10
-        run = 1
-        best_reward_cum = -10000000
-        episode_save_counter = 0
-        env = ConveyorEnv_v4(
-            {'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': args.no_of_jobs})
-        # plt.figure()
-        time.sleep(10)
-        # SCORE_OVERALL = []
-        # JOBS = []
-        # QUANTITY = []
-        # TIME_UNITS_EACH_OBJECT = []
-        # TOTAL_ORDER_COMPLETION_TIME = []
-        # AVG_ORDER_COMPLETION_TIME = []
-        # AVG_ORDER_THROUGHPUT = []
-        # AVG_TOTAL_TIME_UNITS = []
-        # AVG_THROUGHPUT = []
-        jobs = []
-        quantity = []
-        time_units_each_object = []
-        total_order_completion_time = []
-        avg_order_completion_time = []
-        avg_order_throughput = []
-        avg_total_time_units = []
-        avg_throughput = []
-        score_episode = []
-        trans_logs = []
-        time_begin = time.time()
-        while curr_episode <= max_episode:
-            logger.info(f"Evaluating episode: {curr_episode}")
-            obs = env.reset()
-            done = False
-            score = 0
-            step = 1
-            while not done:
-                # print(f'step: {step}')
-                action = agent.compute_action(obs)
-                obs, reward, done, info = env.step(action)
-                score += reward
-                step += 1
+    # for path in f:
+    agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_v4)
+    # agent.restore(f'{checkpoint_path}/checkpoint_{no}/checkpoint-{no}')
+    agent.restore(path)
+    # agent.restore(f'agents_runs/ConveyorEnv_v4/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
+    # logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_{checkpoint_nr}")
+    logger.info(f"Evaluating algo: PPO, checkpoint_nr: {path[-4:]}")
+    curr_episode = 1
+    max_episode = 10
+    run = 1
+    best_reward_cum = -10000000
+    episode_save_counter = 0
+    env = ConveyorEnv_v4(
+        {'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': args.no_of_jobs})
+    # plt.figure()
+    time.sleep(10)
+    # SCORE_OVERALL = []
+    # JOBS = []
+    # QUANTITY = []
+    # TIME_UNITS_EACH_OBJECT = []
+    # TOTAL_ORDER_COMPLETION_TIME = []
+    # AVG_ORDER_COMPLETION_TIME = []
+    # AVG_ORDER_THROUGHPUT = []
+    # AVG_TOTAL_TIME_UNITS = []
+    # AVG_THROUGHPUT = []
+    jobs = []
+    quantity = []
+    time_units_each_object = []
+    total_order_completion_time = []
+    avg_order_completion_time = []
+    avg_order_throughput = []
+    avg_total_time_units = []
+    avg_throughput = []
+    score_episode = []
+    trans_logs = []
+    time_begin = time.time()
+    while curr_episode <= max_episode:
+        logger.info(f"Evaluating episode: {curr_episode}")
+        obs = env.reset()
+        done = False
+        score = 0
+        step = 1
+        while not done:
+            # print(f'step: {step}')
+            action = agent.compute_action(obs)
+            obs, reward, done, info = env.step(action)
+            score += reward
+            step += 1
             avg_reward_per_episode = score / step
-            jobs.append(info["jobs"])
-            quantity.append(info["quantity"])
-            time_units_each_object.append(info["time_units_each_object"])
-            total_order_completion_time.append(info["total_order_completion_time"])
-            avg_order_completion_time.append(info["avg_order_completion_time"])
-            avg_order_throughput.append(info["avg_order_throughput"])
-            avg_total_time_units.append(info["avg_total_time_units"])
-            avg_throughput.append(info["avg_throughput"])
-            score_episode.append(avg_reward_per_episode)
-            trans_logs.append(info['trans_logs'])
-            logger.info(f"Episode_no: {curr_episode}")
-            logger.info(f"Mean Rewards: {score_episode[curr_episode - 1]}")
-            logger.info(f"jobs: {jobs[curr_episode - 1]}")
-            logger.info(f"quantity: {quantity[curr_episode - 1]}")
-            logger.info(f"time_units_each_object: {time_units_each_object[curr_episode - 1]}")
-            logger.info(f"total_order_completion_time: {total_order_completion_time[curr_episode - 1]}")
-            logger.info(f"avg_order_completion_time: {avg_order_completion_time[curr_episode - 1]}")
-            logger.info(f"avg_order_throughput: {avg_order_throughput[curr_episode - 1]}")
-            logger.info(f"avg_total_time_units: {avg_total_time_units[curr_episode - 1]}")
-            logger.info(f"avg_throughput: {avg_throughput[curr_episode - 1]}")
-            logger.info(f"Timesteps total: {step}")
-            logger.info(f"Path that token took: {trans_logs[curr_episode - 1]}")
-            curr_episode += 1
+        jobs.append(info["jobs"])
+        quantity.append(info["quantity"])
+        time_units_each_object.append(info["time_units_each_object"])
+        total_order_completion_time.append(info["total_order_completion_time"])
+        avg_order_completion_time.append(info["avg_order_completion_time"])
+        avg_order_throughput.append(info["avg_order_throughput"])
+        avg_total_time_units.append(info["avg_total_time_units"])
+        avg_throughput.append(info["avg_throughput"])
+        score_episode.append(avg_reward_per_episode)
+        trans_logs.append(info['trans_logs'])
+        logger.info(f"Episode_no: {curr_episode}")
+        logger.info(f"Mean Rewards: {score_episode[curr_episode - 1]}")
+        logger.info(f"jobs: {jobs[curr_episode - 1]}")
+        logger.info(f"quantity: {quantity[curr_episode - 1]}")
+        logger.info(f"time_units_each_object: {time_units_each_object[curr_episode - 1]}")
+        logger.info(f"total_order_completion_time: {total_order_completion_time[curr_episode - 1]}")
+        logger.info(f"avg_order_completion_time: {avg_order_completion_time[curr_episode - 1]}")
+        logger.info(f"avg_order_throughput: {avg_order_throughput[curr_episode - 1]}")
+        logger.info(f"avg_total_time_units: {avg_total_time_units[curr_episode - 1]}")
+        logger.info(f"avg_throughput: {avg_throughput[curr_episode - 1]}")
+        logger.info(f"Timesteps total: {step}")
+        logger.info(f"Path that token took: {trans_logs[curr_episode - 1]}")
+        curr_episode += 1
         print(avg_total_time_units)
         # SCORE_OVERALL.append(score_episode)
         # JOBS.append(jobs)
@@ -268,21 +270,21 @@ def evaluate(ppo_config: dir):
         #     for j, k in a, b:
         #         average_throughput.append(j)
         #         avg_rewards_per_episode.append(k)
-        plt.figure()
-        plt.plot(avg_throughput)
-        plt.savefig(f'{plots_save_path}/avg_throughput{path[-4:]}.png')
-        plt.plot(score_episode)
-        plt.savefig(f'{plots_save_path}/rewards_overall{path[-4:]}.png')
-        plt.plot(avg_total_time_units)
-        plt.savefig(f'{plots_save_path}/avg_timetaken{path[-4:]}.png')
-        # Measure Time
-        time_end = time.time()
-        time_diff = time_end - time_begin
-        time_diff_h = int(time_diff / 3600)
-        time_diff_min = int((time_diff - time_diff_h * 3600) / 60)
-        time_diff_sec = int(time_diff - time_diff_h * 3600 - time_diff_min * 60)
-        logger.info(f'Evaluation took {time_diff_h}h, {time_diff_min}m and {time_diff_sec}s.')
-        logger.debug(f'Evaluation of checkpoint - {path[-4:]} is Complete.')
+    plt.figure()
+    plt.plot(avg_throughput)
+    plt.savefig(f'{plots_save_path}/avg_throughput{path[-4:]}.png')
+    plt.plot(score_episode)
+    plt.savefig(f'{plots_save_path}/rewards_overall{path[-4:]}.png')
+    plt.plot(avg_total_time_units)
+    plt.savefig(f'{plots_save_path}/avg_timetaken{path[-4:]}.png')
+    # Measure Time
+    time_end = time.time()
+    time_diff = time_end - time_begin
+    time_diff_h = int(time_diff / 3600)
+    time_diff_min = int((time_diff - time_diff_h * 3600) / 60)
+    time_diff_sec = int(time_diff - time_diff_h * 3600 - time_diff_min * 60)
+    logger.info(f'Evaluation took {time_diff_h}h, {time_diff_min}m and {time_diff_sec}s.')
+    logger.debug(f'Evaluation of checkpoint - {path[-4:]} is Complete.')
 
 
 if __name__ == '__main__':
@@ -326,11 +328,11 @@ if __name__ == '__main__':
             # "train_batch_size": 1024,
             # "sgd_minibatch_size": 512,
             # "num_sgd_iter": 20,
-            "vf_loss_coeff": tune.grid_search([0.001, 0.0009, 0.0005, 0.0001, 0.00009]),
-            # "vf_loss_coeff": 0.0005,
+            # "vf_loss_coeff": tune.grid_search([0.001, 0.0009, 0.0005, 0.0001, 0.00009]),
+            "vf_loss_coeff": 0.0001,
             "vf_clip_param": 10,
-            "lr": tune.grid_search([0.01, 0.001, 0.0001])
-            # "lr": 0.0001,
+            # "lr": tune.grid_search([0.01, 0.001, 0.0001])
+            "lr": 0.0001,
             # "horizon": 32,
             # "timesteps_per_batch": 2048,
             },
@@ -358,8 +360,8 @@ if __name__ == '__main__':
 
     if args.no_tune:
         print("Running manual train loop without Ray Tune")
-        train(algo_config)
-        evaluate(algo_config)
+        checkpoint_path = train(algo_config)
+        evaluate(algo_config, checkpoint_path)
 
     else:
         # automated run with tune and grid search and Tensorboard

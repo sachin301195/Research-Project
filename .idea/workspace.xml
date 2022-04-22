@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="79eb0cdf-d14f-4d3a-8f3c-5866498db475" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v4.py" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs/conveyor_network_v4.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ppo_main_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/ppo_main_evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/random_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/random_main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,15 +50,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="exceleditor.install" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/agents_runs/ConveyorEnv_v3/PPO_best_agents/checkpoint_000081" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "exceleditor.install": "true"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\source\Research Project\Scripts\Research-Project\agents_runs\ConveyorEnv_v3\PPO_best_agents\checkpoint_000081" />
@@ -116,6 +113,9 @@
       <module name="Research-Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/conveyor_environment/conveyor_environment/envs" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -143,6 +143,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="C:\source\Research Project\Scripts\Research-Project\ppo_custom_experiment.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -156,6 +157,9 @@
       <module name="Research-Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -216,6 +220,7 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.ppo_custom_experiment" />
       <item itemvalue="Python.conveyor_network_token_n" />
       <item itemvalue="Python.random_main" />
       <item itemvalue="Python.trial_network" />
@@ -246,6 +251,8 @@
       <workItem from="1649089387080" duration="9000" />
       <workItem from="1649095800639" duration="25736000" />
       <workItem from="1649199647303" duration="51837000" />
+      <workItem from="1650185467178" duration="18000" />
+      <workItem from="1650578908801" duration="2885000" />
     </task>
     <servers />
   </component>

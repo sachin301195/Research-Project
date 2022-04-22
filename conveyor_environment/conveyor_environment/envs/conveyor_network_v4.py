@@ -466,7 +466,10 @@ class ConveyorEnv_v4(gym.Env):
             self.info['Job_details'] = self.token
             self.o_c_time[object_no] = time_units
             self.avg_order_complete_time = sum(self.o_c_time)/self.no_of_jobs
-            self.avg_throughput = 1/self.avg_order_complete_time
+            if self.avg_order_complete_time > 0:
+                self.avg_throughput = 1/self.avg_order_complete_time
+            else:
+                self.avg_throughput = 0
             self.info['time_units_each_object'] = self.o_c_time
             self.info['avg_order_complete_time'] = self.avg_time_units
             self.info['avg_throughput'] = self.avg_throughput
