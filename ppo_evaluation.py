@@ -175,7 +175,7 @@ def evaluate(ppo_config: dir):
     # agent.restore(path)
     # agent.restore(f'agents_runs/ConveyorEnv_token_n/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
     # logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_{checkpoint_nr}")
-    logger.info(f"Evaluating algo: PPO, checkpoint_nr: 100")
+    logger.info(f"Evaluating algo: PPO, checkpoint_nr: 462")
     curr_episode = 1
     max_episode = 10
     run = 1
@@ -275,11 +275,11 @@ def evaluate(ppo_config: dir):
         #         avg_rewards_per_episode.append(k)
     plt.figure()
     plt.plot(avg_throughput)
-    plt.savefig(f'{plots_save_path}/avg_throughput-100.png')
+    plt.savefig(f'{plots_save_path}/avg_throughput-462.png')
     plt.plot(score_episode)
-    plt.savefig(f'{plots_save_path}/rewards_overall-100.png')
-    plt.plot(avg_total_time_units)
-    plt.savefig(f'{plots_save_path}/avg_timetaken-100.png')
+    plt.savefig(f'{plots_save_path}/rewards_overall-462.png')
+    plt.plot(avg_order_completion_time)
+    plt.savefig(f'{plots_save_path}/avg_time_taken-462.png')
     # Measure Time
     time_end = time.time()
     time_diff = time_end - time_begin
