@@ -1,0 +1,587 @@
+"""
+    Same as conveyor_network_v4.py
+    N tokens introduced at the stating of an environment then after completion first,
+    the others are introduced one-by-one after every termination.
+"""
+
+import gym
+from gym import spaces
+from gym.utils import seeding
+import numpy as np
+import logging
+import sys
+import time
+
+sys.path.append('../../snakes_master')
+from conveyor_environment.updated_trial_network import TrialConveyorNetwork
+from conveyor_environment.trial_network import ConveyorNetwork
+
+from snakes import ConstraintError
+
+logger = logging.getLogger(__name__)
+
+ACTION_MAPPING_TRIAL = {'S': {0: 's1', 1: 'Nan', 2: 'Nan', 3: 'Nan'},
+                        'S1': {0: 'SN1', 1: 'Nan', 2: 'Nan', 3: 'Nan'},
+                        'N1': {0: 'Nan', 1: 'P_A1', 2: 'Nan', 3: 'N_B3'},
+                        'A1': {0: 'Nan', 1: 'P_A2', 2: 'Nan', 3: 'AN1'},
+                        'A2': {0: 'Nan', 1: 'P_A3', 2: 'Nan', 3: 'N_A1'},
+                        'A3': {0: 'AN2', 1: 'Nan', 2: 'Nan', 3: 'N_A2'},
+                        'B1': {0: 'Nan', 1: 'P_B2', 2: 'Nan', 3: 'BN9'},
+                        'B2': {0: 'Nan', 1: 'P_B3', 2: 'Nan', 3: 'N_B1'},
+                        'B3': {0: 'Nan', 1: 'BN1', 2: 'Nan', 3: 'N_B2'},
+                        'N2': {0: 'P_C1', 1: 'Nan', 2: 'N_A3', 3: 'N_E3'},
+                        'C1': {0: 'P_C2', 1: 'Nan', 2: 'CN2', 3: 'Nan'},
+                        'C2': {0: 'P_C3', 1: 'Nan', 2: 'N_C1', 3: 'Nan'},
+                        'C3': {0: 'w1', 1: 'Nan', 2: 'N_C2', 3: 'Nan'},
+                        'D1': {0: 'Nan', 1: 'P_D2', 2: 'Nan', 3: 'DN4'},
+                        'D2': {0: 'Nan', 1: 'P_D3', 2: 'Nan', 3: 'N_D1'},
+                        'D3': {0: 'Nan', 1: 'w1', 2: 'Nan', 3: 'N_D2'},
+                        'E1': {0: 'Nan', 1: 'P_E2', 2: 'Nan', 3: 'EN3'},
+                        'E2': {0: 'Nan', 1: 'P_E3', 2: 'Nan', 3: 'N_E1'},
+                        'E3': {0: 'Nan', 1: 'EN2', 2: 'Nan', 3: 'N_E2'},
+                        'F1': {0: 'P_F2', 1: 'Nan', 2: 'FN3', 3: 'Nan'},
+                        'F2': {0: 'P_F3', 1: 'Nan', 2: 'N_F1', 3: 'Nan'},
+                        'F3': {0: 'FN4', 1: 'Nan', 2: 'N_F2', 3: 'Nan'},
+                        'J1': {0: 'P_J2', 1: 'Nan', 2: 'JN9', 3: 'Nan'},
+                        'J2': {0: 'P_J3', 1: 'Nan', 2: 'N_J1', 3: 'Nan'},
+                        'J3': {0: 'JN6', 1: 'Nan', 2: 'N_J2', 3: 'Nan'},
+                        'G1': {0: 'Nan', 1: 'P_G2', 2: 'Nan', 3: 'GN6'},
+                        'G2': {0: 'Nan', 1: 'P_G3', 2: 'Nan', 3: 'N_G1'},
+                        'G3': {0: 'Nan', 1: 'GN3', 2: 'Nan', 3: 'N_G2'},
+                        'K1': {0: 'Nan', 1: 'P_K2', 2: 'Nan', 3: 'KN0'},
+                        'K2': {0: 'Nan', 1: 'P_K3', 2: 'Nan', 3: 'N_K1'},
+                        'K3': {0: 'Nan', 1: 'KN9', 2: 'Nan', 3: 'N_K2'},
+                        'T1': {0: 'Nan', 1: 'Nan', 2: 'T', 3: 'Nan'},
+                        'W1': {0: 'Nan', 1: 'Nan', 2: 'N_C3', 3: 'N_D3'},
+                        'N3': {0: 'P_F1', 1: 'P_E1', 2: 'Nan', 3: 'N_G3'},
+                        'N4': {0: 'Nan', 1: 'P_D1', 2: 'N_F3', 3: 'Nan'},
+                        'N0': {0: 'Nan', 1: 'P_K1', 2: 't1', 3: 'Nan'},
+                        'N6': {0: 'Nan', 1: 'P_G1', 2: 'N_J3', 3: 'Nan'},
+                        'N9': {0: 'P_J1', 1: 'P_B1', 2: 'Nan', 3: 'N_K3'}}
+
+ACTION_MAPPING_TRIAL_COMPACT = {'S': {0: 's1', 1: 'Nan', 2: 'Nan', 3: 'Nan'},
+                                'N1': {0: 'Nan', 1: 'P_A1', 2: 'Nan', 3: 'N_B3'},
+                                'N2': {0: 'P_C1', 1: 'Nan', 2: 'N_A3', 3: 'N_E3'},
+                                'W1': {0: 'Nan', 1: 'Nan', 2: 'N_C3', 3: 'N_D3'},
+                                'N3': {0: 'P_F1', 1: 'P_E1', 2: 'Nan', 3: 'N_G3'},
+                                'N4': {0: 'Nan', 1: 'P_D1', 2: 'N_F3', 3: 'Nan'},
+                                'N0': {0: 'Nan', 1: 'P_K1', 2: 't1', 3: 'Nan'},
+                                'N6': {0: 'Nan', 1: 'P_G1', 2: 'N_J3', 3: 'Nan'},
+                                'N9': {0: 'P_J1', 1: 'P_B1', 2: 'Nan', 3: 'N_K3'}}
+
+ACTION_MAPPING_COMPACT = {'S': {0: 's1', 1: 'Nan', 2: 'Nan', 3: 'Nan'},
+                          'N1': {0: 'Nan', 1: 'P_A1', 2: 'Nan', 3: 'N_B3'},
+                          'N2': {0: 'P_C1', 1: 'Nan', 2: 'N_A3', 3: 'N_E3'},
+                          'W1': {0: 'Nan', 1: 'Nan', 2: 'N_C3', 3: 'N_D3'},
+                          'N3': {0: 'P_F1', 1: 'P_E1', 2: 'Nan', 3: 'N_G3'},
+                          'N4': {0: 'Nan', 1: 'P_D1', 2: 'N_F3', 3: 'Nan'},
+                          'N0': {0: 'Nan', 1: 'P_K1', 2: 't1', 3: 'Nan'},
+                          'N6': {0: 'Nan', 1: 'P_G1', 2: 'N_J3', 3: 'Nan'},
+                          'N9': {0: 'P_J1', 1: 'P_B1', 2: 'Nan', 3: 'N_K3'},
+                          'N5': {0: 'Nan', 1: 'P_H1', 2: 'N_P3', 3: 'N_L3'},
+                          'N7': {0: 'P_P1', 1: 'P_I1', 2: 'Nan', 3: 'N_Q3'},
+                          'N8': {0: 'P_M1', 1: 'P_Q1', 2: 'P_O1', 3: 'Nan'},
+                          'W2': {0: 'Nan', 1: 'P_L1', 2: 'N_M3', 3: 'Nan'}
+                          }
+
+ACTION_MAPPING = {'S': {0: 's1', 1: 'Nan', 2: 'Nan', 3: 'Nan'}, 'S1': {0: 'SN1', 1: 'Nan', 2: 'Nan', 3: 'Nan'},
+                  'N1': {0: 'Nan', 1: 'P_A1', 2: 'Nan', 3: 'N_B3'}, 'A1': {0: 'Nan', 1: 'P_A2', 2: 'Nan', 3: 'AN1'},
+                  'A2': {0: 'Nan', 1: 'P_A3', 2: 'Nan', 3: 'N_A1'}, 'A3': {0: 'AN2', 1: 'Nan', 2: 'Nan', 3: 'N_A2'},
+                  'B1': {0: 'Nan', 1: 'P_B2', 2: 'Nan', 3: 'BN9'}, 'B2': {0: 'Nan', 1: 'P_B3', 2: 'Nan', 3: 'N_B1'},
+                  'B3': {0: 'Nan', 1: 'BN1', 2: 'Nan', 3: 'N_B2'}, 'N2': {0: 'P_C1', 1: 'Nan', 2: 'N_A3', 3: 'N_E3'},
+                  'C1': {0: 'P_C2', 1: 'Nan', 2: 'CN2', 3: 'Nan'}, 'C2': {0: 'P_C3', 1: 'Nan', 2: 'N_C1', 3: 'Nan'},
+                  'C3': {0: 'w1', 1: 'Nan', 2: 'N_C2', 3: 'Nan'}, 'D1': {0: 'Nan', 1: 'P_D2', 2: 'Nan', 3: 'DN4'},
+                  'D2': {0: 'Nan', 1: 'P_D3', 2: 'Nan', 3: 'N_D1'}, 'D3': {0: 'Nan', 1: 'w1', 2: 'Nan', 3: 'N_D2'},
+                  'E1': {0: 'Nan', 1: 'P_E2', 2: 'Nan', 3: 'EN3'}, 'E2': {0: 'Nan', 1: 'P_E3', 2: 'Nan', 3: 'N_E1'},
+                  'E3': {0: 'Nan', 1: 'EN2', 2: 'Nan', 3: 'N_E2'}, 'F1': {0: 'P_F2', 1: 'Nan', 2: 'FN3', 3: 'Nan'},
+                  'F2': {0: 'P_F3', 1: 'Nan', 2: 'N_F1', 3: 'Nan'}, 'F3': {0: 'FN4', 1: 'Nan', 2: 'N_F2', 3: 'Nan'},
+                  'J1': {0: 'P_J2', 1: 'Nan', 2: 'JN9', 3: 'Nan'}, 'J2': {0: 'P_J3', 1: 'Nan', 2: 'N_J1', 3: 'Nan'},
+                  'J3': {0: 'JN6', 1: 'Nan', 2: 'N_J2', 3: 'Nan'}, 'G1': {0: 'Nan', 1: 'P_G2', 2: 'Nan', 3: 'GN6'},
+                  'G2': {0: 'Nan', 1: 'P_G3', 2: 'Nan', 3: 'N_G1'}, 'G3': {0: 'Nan', 1: 'GN3', 2: 'Nan', 3: 'N_G2'},
+                  'K1': {0: 'Nan', 1: 'P_K2', 2: 'Nan', 3: 'KN0'}, 'K2': {0: 'Nan', 1: 'P_K3', 2: 'Nan', 3: 'N_K1'},
+                  'K3': {0: 'Nan', 1: 'KN9', 2: 'Nan', 3: 'N_K2'}, 'T1': {0: 'Nan', 1: 'Nan', 2: 'T', 3: 'Nan'},
+                  'W1': {0: 'Nan', 1: 'Nan', 2: 'N_C3', 3: 'N_D3'}, 'N3': {0: 'P_F1', 1: 'P_E1', 2: 'Nan', 3: 'N_G3'},
+                  'N4': {0: 'Nan', 1: 'P_D1', 2: 'N_F3', 3: 'N_H3'}, 'N0': {0: 'Nan', 1: 'P_K1', 2: 't1', 3: 'N_O3'},
+                  'N6': {0: 'Nan', 1: 'P_G1', 2: 'N_J3', 3: 'N_I3'}, 'N9': {0: 'P_J1', 1: 'P_B1', 2: 'Nan', 3: 'N_K3'},
+                  'H1': {0: 'Nan', 1: 'P_H2', 2: 'Nan', 3: 'HN5'}, 'H2': {0: 'Nan', 1: 'P_H3', 2: 'Nan', 3: 'N_H1'},
+                  'H3': {0: 'Nan', 1: 'HN4', 2: 'Nan', 3: 'N_H2'}, 'I1': {0: 'Nan', 1: 'P_I2', 2: 'Nan', 3: 'IN7'},
+                  'I2': {0: 'Nan', 1: 'P_I3', 2: 'Nan', 3: 'N_I1'}, 'I3': {0: 'Nan', 1: 'IN6', 2: 'Nan', 3: 'N_I2'},
+                  'L1': {0: 'Nan', 1: 'P_L2', 2: 'Nan', 3: 'w2'}, 'L2': {0: 'Nan', 1: 'P_L3', 2: 'Nan', 3: 'N_L1'},
+                  'L3': {0: 'Nan', 1: 'LN5', 2: 'Nan', 3: 'N_L2'}, 'M1': {0: 'P_M2', 1: 'Nan', 2: 'MN8', 3: 'Nan'},
+                  'M2': {0: 'P_M3', 1: 'Nan', 2: 'N_M1', 3: 'Nan'}, 'M3': {0: 'w2', 1: 'Nan', 2: 'N_M2', 3: 'Nan'},
+                  'O1': {0: 'ON8', 1: 'P_O2', 2: 'Nan', 3: 'Nan'}, 'O2': {0: 'Nan', 1: 'P_O3', 2: 'Nan', 3: 'N_O1'},
+                  'O3': {0: 'Nan', 1: 'ON0', 2: 'Nan', 3: 'N_O2'}, 'P1': {0: 'P_P2', 1: 'Nan', 2: 'PN7', 3: 'Nan'},
+                  'P2': {0: 'P_P3', 1: 'Nan', 2: 'N_P1', 3: 'Nan'}, 'P3': {0: 'PN5', 1: 'Nan', 2: 'N_P2', 3: 'Nan'},
+                  'Q1': {0: 'Nan', 1: 'P_Q2', 2: 'Nan', 3: 'QN8'}, 'Q2': {0: 'Nan', 1: 'P_Q3', 2: 'Nan', 3: 'N_Q1'},
+                  'Q3': {0: 'Nan', 1: 'QN7', 2: 'Nan', 3: 'N_Q2'}, 'N5': {0: 'Nan', 1: 'P_H1', 2: 'N_P3', 3: 'N_L3'},
+                  'N7': {0: 'P_P1', 1: 'P_I1', 2: 'Nan', 3: 'N_Q3'}, 'N8': {0: 'P_M1', 1: 'P_Q1', 2: 'P_O1', 3: 'Nan'},
+                  'W2': {0: 'Nan', 1: 'P_L1', 2: 'N_M3', 3: 'Nan'}}
+
+
+def generate_random_N_orders(version, no_of_token, seed):
+    """ Generates random N orders for the conveying network """
+    np.random.seed(seed)
+    if version == 'trial' or version == 'trial_compact':
+        jobs = np.random.randint(1, 4, size=no_of_token)
+        quantity = np.ones(len(jobs), dtype=np.int16)
+        red = 100
+        green = 100
+        resources = [no_of_token, red, green]
+
+        print(f'jobs {jobs}, resources {resources}, quantity {quantity}')
+    else:
+        jobs = np.random.randint(1, 16, size=no_of_token)
+        quantity = np.ones(len(jobs), dtype=np.int16)
+        red = 100
+        green = 100
+        blue = 100
+        violet = 100
+        resources = [no_of_token, red, green, blue, violet]
+
+        print(f'jobs {jobs}, resources {resources}, quantity {quantity}')
+
+    return jobs, resources, quantity
+
+
+class ConveyorEnv_v4(gym.Env):
+    metadata = {"render.modes": ["Human"]}
+
+    def __init__(self, env_config: dict):
+        self.env_config = env_config
+        self.version = env_config["version"]
+        self.final_reward = env_config["final_reward"]
+        self.no_of_jobs = env_config["no_of_jobs"]
+        self.mask = env_config["mask"]
+        self.init_jobs = env_config["init_jobs"]
+        self.remaining_jobs = self.no_of_jobs - self.init_jobs
+        self.start = True
+        if self.version == 'trial':
+            places = 38
+        elif self.version == 'trial_compact':
+            places = 9
+        elif self.version == 'full':
+            places = 63
+        else:
+            places = 13
+        # Observation space represents places:
+        places += 2
+        obs_space = spaces.Box(-1, 1, shape=(places,))
+        # Action space represents possible transitions
+        self.action_space = spaces.Discrete(4)
+        if self.mask:
+            self.observation_space = spaces.Dict({
+                "action_mask": spaces.Box(0, 1, shape=(4,)),
+                "avail_actions": spaces.Box(0, 1, shape=(4,)),
+                "state": obs_space
+            })
+        else:
+            self.observation_space = obs_space
+
+    def reset(self):
+        self.seed = seeding.create_seed(max_bytes=4)
+        self.done = False
+        self.start = True
+        self.init_jobs = self.env_config["init_jobs"]
+        np.random.seed(self.seed)
+        self.jobs, self.res, self.quantity = generate_random_N_orders(self.version, self.init_jobs, self.seed)
+        if self.version=="trial" or self.version=="trial_compact":
+            self.network = TrialConveyorNetwork(self.jobs, self.res, self.quantity)
+            self.net, self.trans = self.network.trial_conveyor_petrinet()
+        else:
+            self.network = ConveyorNetwork(self.jobs, self.res, self.quantity)
+            self.net, self.trans = self.network.conveyor_petrinet()
+        self.reward = 0
+        self.step_count = 0
+        self.current_place = 'S'
+        self.next_place = 'S'
+        self.total_time_units = 0
+        self.time_units = np.zeros(self.res[0])
+        self.avg_throughput = 0
+        self.avg_time_units = 0
+        self.o_c_time = np.zeros(len(self.jobs))
+        self.avg_order_complete_time = np.zeros(len(self.jobs))
+        self.avg_order_throughput = np.zeros(len(self.jobs))
+        self.completed_orders = np.zeros(len(self.jobs))
+        self.order_time = 0
+        self.termination = False
+        self.error = False
+        self.modes = self.net.transition('s1').modes()
+        self.current_token = self.modes[0]
+        self.object_no = 0
+        self.order_complete = False
+        self.terminating_in_middle = False
+        self.transition_log = []
+        self.episode_time_begin = time.time()
+        self.marking = self.net.get_marking()
+        self.eps_step = 0
+        self.unit_step = 0
+        self.info = {}
+        self.token = {}
+        initial_values = {"job": 0,
+                          "count": 0,
+                          "steps": 0}
+        for job in range(self.no_of_jobs):
+            self.token[job] = initial_values
+        state = self._next_observation()
+
+        return state
+
+    def _next_observation(self):
+        # total_time = float(str(self.total_time_units) + "." + str(self.step_count))
+        state = []
+        if self.version == 'trial':
+            for place in ACTION_MAPPING_TRIAL.keys():
+                if place in set(self.marking.keys()):
+                    state.append(1)
+                else:
+                    state.append(0)
+        elif self.version == 'trial_compact':
+            for place in ACTION_MAPPING_TRIAL_COMPACT.keys():
+                if place in set(self.marking.keys()):
+                    state.append(1)
+                else:
+                    state.append(0)
+        elif self.version == 'full':
+            for place in ACTION_MAPPING.keys():
+                if place in set(self.marking.keys()):
+                    state.append(1)
+                else:
+                    state.append(0)
+        else:
+            for place in ACTION_MAPPING_COMPACT.keys():
+                if place in set(self.marking.keys()):
+                    state.append(1)
+                else:
+                    state.append(0)
+        if self.start:
+            state.extend([0, 0])
+            mask = np.array((1, 0, 0, 0))
+        else:
+            state.extend([self.current_token['dir'], self.current_token['c']])
+            if self.version == 'trial':
+                transition = np.array(list(ACTION_MAPPING_TRIAL[self.next_place].values()))
+            elif self.version == 'trial_compact':
+                transition = np.array(list(ACTION_MAPPING_TRIAL_COMPACT[self.next_place].values()))
+            elif self.version == 'full':
+                transition = np.array(list(ACTION_MAPPING[self.next_place].values()))
+            else:
+                transition = np.array(list(ACTION_MAPPING_COMPACT[self.next_place].values()))
+            mask = np.where(transition == 'Nan', 0, 1)
+        state = np.array(state, dtype=np.int16)
+        norm = np.linalg.norm(state)
+        state = state / norm
+
+        if self.mask:
+            self.state = {
+                "action_mask": mask,
+                "avail_actions": np.ones(4),
+                "state": state
+            }
+        else:
+            self.state = state
+
+        return self.state
+
+    def step(self, action):
+        if self.eps_step == 0:
+            self.marking_list = list(self.marking.keys())
+            if self.version == 'trial':
+                self.marking_list.remove("Red")
+                self.marking_list.remove("Green")
+            elif self.version == 'full':
+                self.marking_list.remove("Red")
+                self.marking_list.remove("Green")
+                self.marking_list.remove("Blue")
+                self.marking_list.remove("Violet")
+            else:
+                for place in self.marking_list:
+                    if place in ACTION_MAPPING_COMPACT:
+                        pass
+                    else:
+                        self.marking_list.remove(place)
+            self.unit_step = len(self.marking_list)
+        if len(self.marking_list) > 0:
+            self.current_place = self.marking_list[-1 - self.eps_step]
+            idx_next_place = self.marking_list.index(self.current_place) - 1
+            self.next_place = self.marking_list[idx_next_place]
+        self._take_action(action, self.current_place)
+        self.step_count += 1
+        # if not self.error:
+        #     self.eps_step += 1
+        self.eps_step += 1
+        if self.eps_step == self.unit_step:
+            self.eps_step = 0
+            self.time_units += 1
+            marking_list = list(self.marking.keys())
+            if self.version == 'trial':
+                marking_list.remove("Red")
+                marking_list.remove("Green")
+            elif self.version == 'full':
+                marking_list.remove("Red")
+                marking_list.remove("Green")
+                marking_list.remove("Blue")
+                marking_list.remove("Violet")
+            else:
+                for place in marking_list:
+                    if place in ACTION_MAPPING_COMPACT:
+                        pass
+                    else:
+                        marking_list.remove(place)
+            if len(marking_list) != 0:
+                self.next_place = marking_list[-1]
+            else:
+                self.next_place = None
+        if len(self.modes) > 0:
+            self.current_token = self.modes[0]
+        self.done = self._done_status()
+        self.info = self._data()
+        self.reward = self._calculate_reward()
+        if not self.done:
+            self.state = self._next_observation()
+
+        return self.state, self.reward, self.done, self.info
+
+    def _take_action(self, action, place):
+        self.start = False
+        self.error = False
+        if self.version == 'trial':
+            self.trans_fire = ACTION_MAPPING_TRIAL[place][action]
+        elif self.version == 'trial_compact':
+            self.trans_fire = ACTION_MAPPING_TRIAL_COMPACT[place][action]
+        elif self.version == 'full_compact':
+            self.trans_fire = ACTION_MAPPING_COMPACT[place][action]
+        else:
+            self.trans_fire = ACTION_MAPPING[place][action]
+
+        if self.trans_fire is not 'Nan':
+            self.termination = False
+            if self.trans_fire == 'w1' or 'w2':
+                self.trans_fire = self._resolve_workstations(self.trans_fire, action)
+            self.modes = self.net.transition(self.trans_fire).modes()
+            if len(self.modes) != 0:
+                self.current_token = [(self.modes[0]['dir'], self.modes[0]['sq_no'], self.modes[0]['c'],
+                                       self.modes[0]['f'], self.modes[0]['count'])]
+                try:
+                    self.net.transition(self.trans_fire).fire(self.modes[0])
+                    if self.trans_fire == 't1':
+                        self.termination = True
+                        # self.no_of_jobs -= 1
+                        self.modes = self.net.transition('T').modes()
+                        self.net.transition('T').fire(self.modes[0])
+                        print(f'\n Termination of token ',
+                              f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, '
+                              f'f: {self.modes[0]["f"]}, count: {self.modes[0]["count"]}')
+                        if self.remaining_jobs > 0:
+                            # fixed (1) token introduced after termination
+                            self.init_jobs = 1
+                            self._token_insertion(self.init_jobs, self.seed)
+                    if self.trans_fire == 's1':
+                        self.modes = self.net.transition('SN1').modes()
+                        self.net.transition('SN1').fire(self.modes[0])
+                    self.marking = self.net.get_marking()
+                except ConstraintError as e1:
+                    # print(f'{e1}')
+                    self.error = True
+                    self.net.place(place).add(self.current_token)
+                except ValueError as e2:
+                    # print(f'{e2}: {trans_fire} is not provided with valid substitution.')
+                    self.error = True
+                    self.net.place(place).add(self.current_token)
+                except:
+                    # print(f'{place} and {trans_fire}, something went wrong!!!')
+                    self.error = True
+                    self.net.place(place).add(self.current_token)
+            else:
+                self.error = True
+        else:
+            self.error = True
+
+    def _resolve_workstations(self, trans, action):
+        if trans == 'w1':
+            if action == 0:
+                c = self.net.transition('C0W1').modes()[0]['c']
+                f = self.net.transition('C0W1').modes()[0]['f']
+            else:
+                c = self.net.transition('D0W1').modes()[0]['c']
+                f = self.net.transition('D0W1').modes()[0]['f']
+            if c < f:
+                if (f in [1, 5, 9, 13]) and (c not in [1, 5, 9, 13]):
+                    if action == 0:
+                        trans = 'C1W1'
+                    else:
+                        trans = 'D1W1'
+                elif (f in [2, 6, 10, 14]) and (c not in [2, 6, 10, 14]):
+                    if action == 0:
+                        trans = 'C2W1'
+                    else:
+                        trans = 'D2W1'
+                elif (f in [3, 7, 11, 15]) and (c not in [3, 7, 11, 15]):
+                    if action == 0:
+                        trans = 'C3W1'
+                    else:
+                        trans = 'D3W1'
+                else:
+                    if action == 0:
+                        trans = 'C0W1'
+                    else:
+                        trans = 'D0W1'
+            else:
+                if action == 0:
+                    trans = 'C0W1'
+                else:
+                    trans = 'D0W1'
+        elif trans == 'w2':
+            if action == 0:
+                c = self.net.transition('M0W2').modes()[0]['c']
+                f = self.net.transition('M0W2').modes()[0]['f']
+            else:
+                c = self.net.transition('L0W2').modes()[0]['c']
+                f = self.net.transition('L0W2').modes()[0]['f']
+            if c < f:
+                if (f in [4, 5, 6, 7]) and (c not in [4, 5, 6, 7]):
+                    if action == 0:
+                        trans = 'M4W2'
+                    else:
+                        trans = 'L4W2'
+                elif (f in [8, 9, 10, 11]) and (c not in [8, 9, 10, 11]):
+                    if action == 0:
+                        trans = 'M8W2'
+                    else:
+                        trans = 'L8W2'
+                elif (f in [12, 13, 14, 15]) and (c not in [12, 13, 14, 15]):
+                    if action == 0:
+                        trans = 'M12W2'
+                    else:
+                        trans = 'L12W2'
+                else:
+                    if action == 0:
+                        trans = 'M0W2'
+                    else:
+                        trans = 'L0W2'
+            else:
+                if action == 0:
+                    trans = 'M0W2'
+                else:
+                    trans = 'L0W2'
+
+        return trans
+
+    def _token_insertion(self, tokens, seed):
+        np.random.seed(seed)
+        initial_values = {"job": 0,
+                          "count": 0,
+                          "steps": 0}
+        for seq in range(self.init_jobs):
+            if self.version == 'trial' or self.version == 'trial_compact':
+                job = np.random.randint(1, 4, size=tokens)
+            else:
+                job = np.random.randint(1, 16, size=tokens)
+            new_token = [(0, self.no_of_jobs - self.remaining_jobs + seq, 0, job, 0)]
+            self.net.place('S').add(new_token)
+            self.token[self.no_of_jobs - self.remaining_jobs + seq] = initial_values
+            self.remaining_jobs -= 1
+
+    def _data(self):
+        self.info['next_place'] = self.next_place
+        if self.termination:
+            order = self.modes[0]['f']
+            object_no = self.modes[0]['sq_no']
+            time_units = self.modes[0]['count']
+            self.token[object_no]["job"] = order
+            self.token[object_no]["count"] = time_units
+            self.token[object_no]["steps"] = self.step_count
+            self.info['Job_details'] = self.token
+            self.o_c_time[object_no] = time_units
+            self.avg_order_complete_time = sum(self.o_c_time)/self.no_of_jobs
+            if self.avg_order_complete_time > 0:
+                self.avg_throughput = 1/self.avg_order_complete_time
+            else:
+                self.avg_throughput = 0
+            self.info['time_units_each_object'] = self.o_c_time
+            self.info['avg_order_complete_time'] = self.avg_time_units
+            self.info['avg_throughput'] = self.avg_throughput
+            # self.order_complete = False
+            # for idx, job in enumerate(self.jobs):
+            #     if job == order:
+            #         if self.completed_orders[idx] < self.quantity[idx]:
+            #             self.completed_orders[idx] += 1
+            #             self.o_c_time[idx] += time_units
+            #             self.time_units[object_no] += time_units
+            #             if self.completed_orders[idx] == self.quantity[idx]:
+            #                 self.order_complete = True
+            #                 self.avg_order_complete_time[idx] += self.o_c_time[idx] / self.quantity[idx]
+            #                 self.avg_order_throughput[idx] += 1 / self.avg_order_complete_time[idx]
+            #                 if next_place is None:
+            #                     self.avg_time_units = sum(self.time_units) / self.res[0]
+            #                     self.avg_throughput = 1 / self.avg_time_units
+            #                     self.info['time_units_each_object'] = self.time_units
+            #                     self.info['total_order_completion_time'] = self.o_c_time
+            #                     self.info['avg_order_completion_time'] = self.avg_order_complete_time
+            #                     self.info['avg_order_throughput'] = self.avg_order_throughput
+            #                     self.info['avg_total_time_units'] = self.avg_time_units
+            #                     self.info['avg_throughput'] = self.avg_throughput
+            #             break
+
+        return self.info
+
+    def _get_obs(self):
+
+        return self.state
+
+    def _calculate_reward(self):
+        if not self.error:
+            if self.terminating_in_middle:
+                self.reward = -100
+
+                return self.reward
+            elif self.termination:
+                if self.done:
+                    self.reward = self.final_reward
+
+                    return self.reward
+                else:
+                    self.reward = 100
+
+                    return self.reward
+            else:
+                self.reward = -0.01
+
+                return self.reward
+        else:
+            self.reward = -1
+
+            return self.reward
+
+    def _done_status(self):
+        if len(list(self.marking)) == (len(self.res)-1):
+            # print(f'Returning done as True')
+            self.episode_time_ends = time.time()
+            self.episode_time = self.episode_time_ends - self.episode_time_begin
+
+            return True
+        else:
+            # print(f'Returning done as False')
+            if self.step_count >= (self.res[0]*1000):
+                self.terminating_in_middle = True
+
+                return True
+
+            return False
+
+    def render(self, mode="Human"):
+        """
+        : jobs: self.jobs (list),
+        : quantity: self.quantity (list),
+        : next_place: self.next_place (list),
+        : time_units_each_object: self.time_units (list),
+        : total_order_completion_time: self.o_c_time (list),
+        : avg_order_completion_time: self.avg_order_complete_time (list),
+        : avg_order_throughput: self.avg_order_throughput (list),
+        : avg_total_time_units: self.avg_time_units (int),
+        : avg_throughput: self.avg_throughput (float)
+        """
+        info = self._data()
+        return info.values()
+
+
+
