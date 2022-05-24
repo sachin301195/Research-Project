@@ -253,7 +253,7 @@ def evaluate(ppo_config: dir):
         # logger.info(f"Timesteps total: {step}")
         # # logger.info(f"Path that token took: {trans_logs[curr_episode-1]}")
         curr_episode += 1
-        print(avg_total_time_units)
+        # print(avg_total_time_units)
         # SCORE_OVERALL.append(score_episode)
         # JOBS.append(jobs)
         # QUANTITY.append(quantity)
