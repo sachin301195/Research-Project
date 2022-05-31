@@ -46,10 +46,10 @@ class ConveyorNetwork:
         self.t_violet = [8 for _ in range(self.violet)]
         self.transition = {}
         self.object_no = 0
-        if self.no_of_jobs != len(self.orders):
-            raise ValueError("length of number of jobs should be same as length of order")
-        if sum(self.orders) != self.res:
-            raise ValueError("Total sum of orders should be equal to the resource[0]")
+        # if self.no_of_jobs != len(self.orders):
+        #     raise ValueError("length of number of jobs should be same as length of order")
+        # if sum(self.orders) != self.res:
+        #     raise ValueError("Total sum of orders should be equal to the resource[0]")
 
     def tokens(self):
         for i in self.fs:

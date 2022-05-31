@@ -124,18 +124,18 @@ def generate_random_N_orders(version, no_of_token, seed):
     if version == 'trial' or version == 'trial_compact':
         jobs = np.random.randint(1, 4, size=no_of_token)
         quantity = np.ones(len(jobs), dtype=np.int16)
-        red = 100
-        green = 100
+        red = 1
+        green = 1
         resources = [no_of_token, red, green]
 
         print(f'jobs {jobs}, resources {resources}, quantity {quantity}')
     else:
         jobs = np.random.randint(1, 16, size=no_of_token)
         quantity = np.ones(len(jobs), dtype=np.int16)
-        red = 100
-        green = 100
-        blue = 100
-        violet = 100
+        red = 1
+        green = 1
+        blue = 1
+        violet = 1
         resources = [no_of_token, red, green, blue, violet]
 
         print(f'jobs {jobs}, resources {resources}, quantity {quantity}')
@@ -143,7 +143,31 @@ def generate_random_N_orders(version, no_of_token, seed):
     return jobs, resources, quantity
 
 
-class ConveyorEnv_v4(gym.Env):
+def current_token(token, trans, action, place, step_count, error):
+    if not error:
+        token = list(token[0])
+        details = {'p_place': place, 'c_place': trans[-2:], 'steps': step_count}
+        if action == 0 or action == 1:
+            token[0] = 1
+        else:
+            token[0] = -1
+        details['dir'] = token[0]
+        if trans in ['C1W1', 'D1W1', 'C2W1', 'D2W1', 'C3W1', 'D3W1', 'L4W2', 'M4W2', 'L8W2', 'M8W2', 'L12W2', 'M12W2']:
+            if len(trans) > 4:
+                token[2] += 12
+            else:
+                token[2] += int(trans[1])
+        details['c_state'] = token[2]
+        token[-1] += 1
+        details['count'] = token[-1]
+        token = [tuple(token)]
+    else:
+        details = {}
+
+    return token, details
+
+
+class ConveyorEnv_B(gym.Env):
     metadata = {"render.modes": ["Human"]}
 
     def __init__(self, env_config: dict):
@@ -164,7 +188,7 @@ class ConveyorEnv_v4(gym.Env):
         else:
             places = 13
         # Observation space represents places:
-        places += 2
+        places += 3
         obs_space = spaces.Box(-1, 1, shape=(places,))
         # Action space represents possible transitions
         self.action_space = spaces.Discrete(4)
@@ -181,14 +205,16 @@ class ConveyorEnv_v4(gym.Env):
         self.seed = seeding.create_seed(max_bytes=4)
         self.done = False
         self.start = True
+        self.no_of_jobs = self.env_config["no_of_jobs"]
         self.init_jobs = self.env_config["init_jobs"]
+        self.remaining_jobs = self.no_of_jobs - self.init_jobs
         np.random.seed(self.seed)
-        self.jobs, self.res, self.quantity = generate_random_N_orders(self.version, self.init_jobs, self.seed)
-        if self.version=="trial" or self.version=="trial_compact":
-            self.network = TrialConveyorNetwork(self.jobs, self.res, self.quantity)
+        self.jobs, self.res, self.quantity = generate_random_N_orders(self.version, self.no_of_jobs, self.seed)
+        if self.version == "trial" or self.version == "trial_compact":
+            self.network = TrialConveyorNetwork(self.jobs[:self.init_jobs], self.res, self.quantity)
             self.net, self.trans = self.network.trial_conveyor_petrinet()
         else:
-            self.network = ConveyorNetwork(self.jobs, self.res, self.quantity)
+            self.network = ConveyorNetwork(self.jobs[:self.init_jobs], self.res, self.quantity)
             self.net, self.trans = self.network.conveyor_petrinet()
         self.reward = 0
         self.step_count = 0
@@ -205,6 +231,7 @@ class ConveyorEnv_v4(gym.Env):
         self.order_time = 0
         self.termination = False
         self.error = False
+        self.marking = self.net.get_marking()
         self.modes = self.net.transition('s1').modes()
         self.current_token = self.modes[0]
         self.object_no = 0
@@ -212,16 +239,36 @@ class ConveyorEnv_v4(gym.Env):
         self.terminating_in_middle = False
         self.transition_log = []
         self.episode_time_begin = time.time()
-        self.marking = self.net.get_marking()
+        self.max_length = 0
         self.eps_step = 0
-        self.unit_step = 0
+        self.unit_step = 1
         self.info = {}
         self.token = {}
-        initial_values = {"job": 0,
-                          "count": 0,
-                          "steps": 0}
-        for job in range(self.no_of_jobs):
-            self.token[job] = initial_values
+        self.binding = {}
+        if self.version == 'trial':
+            for place in ACTION_MAPPING_TRIAL:
+                self.binding[place] = {}
+        elif self.version == 'trial_compact':
+            for place in ACTION_MAPPING_TRIAL_COMPACT.keys():
+                self.binding[place] = {}
+        elif self.version == 'full':
+            for place in ACTION_MAPPING.keys():
+                self.binding[place] = {}
+        else:
+            for place in ACTION_MAPPING_COMPACT.keys():
+                self.binding[place] = {}
+        self.binding['T'] = {}
+        for idx, job in enumerate(self.jobs[:self.init_jobs]):
+            self.token[f"token_{idx}"] = {}
+            self.token[f"token_{idx}"]["dir"] = 0
+            self.token[f"token_{idx}"]["job"] = job
+            self.token[f"token_{idx}"]["c_state"] = 0
+            self.token[f"token_{idx}"]["c_place"] = 'S'
+            self.token[f"token_{idx}"]["p_place"] = None
+            self.token[f"token_{idx}"]["count"] = 0
+            self.token[f"token_{idx}"]["steps"] = 0
+        for key, value in self.token.items():
+            self.binding['S'].update({key: value})
         state = self._next_observation()
 
         return state
@@ -229,6 +276,11 @@ class ConveyorEnv_v4(gym.Env):
     def _next_observation(self):
         # total_time = float(str(self.total_time_units) + "." + str(self.step_count))
         state = []
+        details = {}
+        if not self.start:
+            token = list(self.binding[self.next_place].items())[0][0]
+            details = list(self.binding[self.next_place].items())[0][1]
+            # print(token, details)
         if self.version == 'trial':
             for place in ACTION_MAPPING_TRIAL.keys():
                 if place in set(self.marking.keys()):
@@ -254,10 +306,13 @@ class ConveyorEnv_v4(gym.Env):
                 else:
                     state.append(0)
         if self.start:
-            state.extend([0, 0])
+            f_state = (int(self.current_token['f']) - 1) / 14
+            state.extend([0, 0, f_state])
             mask = np.array((1, 0, 0, 0))
         else:
-            state.extend([self.current_token['dir'], self.current_token['c']])
+            c_state = details['c_state']/15
+            f_state = (details['job'] - 1)/14
+            state.extend([details['dir'], c_state, f_state])
             if self.version == 'trial':
                 transition = np.array(list(ACTION_MAPPING_TRIAL[self.next_place].values()))
             elif self.version == 'trial_compact':
@@ -268,8 +323,6 @@ class ConveyorEnv_v4(gym.Env):
                 transition = np.array(list(ACTION_MAPPING_COMPACT[self.next_place].values()))
             mask = np.where(transition == 'Nan', 0, 1)
         state = np.array(state, dtype=np.int16)
-        norm = np.linalg.norm(state)
-        state = state / norm
 
         if self.mask:
             self.state = {
@@ -279,11 +332,23 @@ class ConveyorEnv_v4(gym.Env):
             }
         else:
             self.state = state
+        self.current_place = self.next_place
 
         return self.state
 
     def step(self, action):
-        if self.eps_step == 0:
+        self._take_action(action, self.current_place)
+        self.marking = self.net.get_marking()
+        self.step_count += 1
+        self.eps_step += 1
+        self.current_token, token_dir = current_token(self.current_token, self.trans_fire, action, self.current_place,
+                                                      self.step_count, self.error)
+        self.token[f"token_{self.current_token[0][1]}"].update(token_dir)
+        if len(token_dir) > 0:
+            self.binding[token_dir["c_place"]].update(
+                {f"token_{self.current_token[0][1]}": self.binding[token_dir['p_place']].
+                    pop(f"token_{self.current_token[0][1]}")})
+        if self.eps_step == self.unit_step:
             self.marking_list = list(self.marking.keys())
             if self.version == 'trial':
                 self.marking_list.remove("Red")
@@ -300,49 +365,30 @@ class ConveyorEnv_v4(gym.Env):
                     else:
                         self.marking_list.remove(place)
             self.unit_step = len(self.marking_list)
-        if len(self.marking_list) > 0:
-            self.current_place = self.marking_list[-1 - self.eps_step]
-            idx_next_place = self.marking_list.index(self.current_place) - 1
-            self.next_place = self.marking_list[idx_next_place]
-        self._take_action(action, self.current_place)
-        self.step_count += 1
-        # if not self.error:
-        #     self.eps_step += 1
-        self.eps_step += 1
-        if self.eps_step == self.unit_step:
             self.eps_step = 0
             self.time_units += 1
-            marking_list = list(self.marking.keys())
-            if self.version == 'trial':
-                marking_list.remove("Red")
-                marking_list.remove("Green")
-            elif self.version == 'full':
-                marking_list.remove("Red")
-                marking_list.remove("Green")
-                marking_list.remove("Blue")
-                marking_list.remove("Violet")
-            else:
-                for place in marking_list:
-                    if place in ACTION_MAPPING_COMPACT:
-                        pass
-                    else:
-                        marking_list.remove(place)
-            if len(marking_list) != 0:
-                self.next_place = marking_list[-1]
+            if len(self.marking_list) > 0:
+                self.next_place = self.marking_list[-1]
             else:
                 self.next_place = None
-        if len(self.modes) > 0:
-            self.current_token = self.modes[0]
+        else:
+            self.next_place = self.marking_list[-1-self.eps_step]
         self.done = self._done_status()
         self.info = self._data()
         self.reward = self._calculate_reward()
+        # if self.start:
+        #     self.c = 0
+        self.start = False
+        # if self.error:
+        #     self.c += 1
+        # if self.termination or self.terminating_in_middle:
+        #     print(self.c)
         if not self.done:
             self.state = self._next_observation()
 
         return self.state, self.reward, self.done, self.info
 
     def _take_action(self, action, place):
-        self.start = False
         self.error = False
         if self.version == 'trial':
             self.trans_fire = ACTION_MAPPING_TRIAL[place][action]
@@ -366,6 +412,7 @@ class ConveyorEnv_v4(gym.Env):
                     if self.trans_fire == 't1':
                         self.termination = True
                         # self.no_of_jobs -= 1
+                        self.trans_fire = 'T'
                         self.modes = self.net.transition('T').modes()
                         self.net.transition('T').fire(self.modes[0])
                         print(f'\n Termination of token ',
@@ -373,21 +420,23 @@ class ConveyorEnv_v4(gym.Env):
                               f'f: {self.modes[0]["f"]}, count: {self.modes[0]["count"]}')
                         if self.remaining_jobs > 0:
                             # fixed (1) token introduced after termination
-                            self.init_jobs = 1
-                            self._token_insertion(self.init_jobs, self.seed)
+                            init_tokens = 1
+                            self._token_insertion(init_tokens)
                     if self.trans_fire == 's1':
+                        self.trans_fire = 'SN1'
                         self.modes = self.net.transition('SN1').modes()
                         self.net.transition('SN1').fire(self.modes[0])
-                    self.marking = self.net.get_marking()
-                except ConstraintError as e1:
+                    # if self.termination:
+                    #     print(self.marking)
+                except ConstraintError:
                     # print(f'{e1}')
                     self.error = True
                     self.net.place(place).add(self.current_token)
-                except ValueError as e2:
+                except ValueError:
                     # print(f'{e2}: {trans_fire} is not provided with valid substitution.')
                     self.error = True
                     self.net.place(place).add(self.current_token)
-                except:
+                except Exception:
                     # print(f'{place} and {trans_fire}, something went wrong!!!')
                     self.error = True
                     self.net.place(place).add(self.current_token)
@@ -466,94 +515,104 @@ class ConveyorEnv_v4(gym.Env):
 
         return trans
 
-    def _token_insertion(self, tokens, seed):
-        np.random.seed(seed)
-        initial_values = {"job": 0,
-                          "count": 0,
-                          "steps": 0}
-        for seq in range(self.init_jobs):
-            if self.version == 'trial' or self.version == 'trial_compact':
-                job = np.random.randint(1, 4, size=tokens)
-            else:
-                job = np.random.randint(1, 16, size=tokens)
-            new_token = [(0, self.no_of_jobs - self.remaining_jobs + seq, 0, job, 0)]
+    def _token_insertion(self, tokens):
+        for seq in range(tokens):
+            idx = self.no_of_jobs - self.remaining_jobs + seq
+            new_token = [(0, idx, 0, self.jobs[-self.remaining_jobs], 0)]
             self.net.place('S').add(new_token)
-            self.token[self.no_of_jobs - self.remaining_jobs + seq] = initial_values
+            self.token[f"token_{idx}"] = {}
+            self.token[f"token_{idx}"]["dir"] = 0
+            self.token[f"token_{idx}"]["job"] = self.jobs[-self.remaining_jobs]
+            self.token[f"token_{idx}"]["c_state"] = 0
+            self.token[f"token_{idx}"]["c_place"] = 'S'
+            self.token[f"token_{idx}"]["p_place"] = None
+            self.token[f"token_{idx}"]["count"] = 0
+            self.token[f"token_{idx}"]["steps"] = 0
+            self.binding['S'].update({f"token_{idx}": self.token[f"token_{idx}"]})
             self.remaining_jobs -= 1
 
     def _data(self):
-        self.info['next_place'] = self.next_place
-        if self.termination:
-            order = self.modes[0]['f']
-            object_no = self.modes[0]['sq_no']
-            time_units = self.modes[0]['count']
-            self.token[object_no]["job"] = order
-            self.token[object_no]["count"] = time_units
-            self.token[object_no]["steps"] = self.step_count
-            self.info['Job_details'] = self.token
-            self.o_c_time[object_no] = time_units
-            self.avg_order_complete_time = sum(self.o_c_time)/self.no_of_jobs
-            if self.avg_order_complete_time > 0:
-                self.avg_throughput = 1/self.avg_order_complete_time
-            else:
-                self.avg_throughput = 0
-            self.info['time_units_each_object'] = self.o_c_time
-            self.info['avg_order_complete_time'] = self.avg_time_units
-            self.info['avg_throughput'] = self.avg_throughput
-            # self.order_complete = False
-            # for idx, job in enumerate(self.jobs):
-            #     if job == order:
-            #         if self.completed_orders[idx] < self.quantity[idx]:
-            #             self.completed_orders[idx] += 1
-            #             self.o_c_time[idx] += time_units
-            #             self.time_units[object_no] += time_units
-            #             if self.completed_orders[idx] == self.quantity[idx]:
-            #                 self.order_complete = True
-            #                 self.avg_order_complete_time[idx] += self.o_c_time[idx] / self.quantity[idx]
-            #                 self.avg_order_throughput[idx] += 1 / self.avg_order_complete_time[idx]
-            #                 if next_place is None:
-            #                     self.avg_time_units = sum(self.time_units) / self.res[0]
-            #                     self.avg_throughput = 1 / self.avg_time_units
-            #                     self.info['time_units_each_object'] = self.time_units
-            #                     self.info['total_order_completion_time'] = self.o_c_time
-            #                     self.info['avg_order_completion_time'] = self.avg_order_complete_time
-            #                     self.info['avg_order_throughput'] = self.avg_order_throughput
-            #                     self.info['avg_total_time_units'] = self.avg_time_units
-            #                     self.info['avg_throughput'] = self.avg_throughput
-            #             break
+        # if self.termination:
+        #     order = self.modes[0]['f']
+        #     object_no = self.modes[0]['sq_no']
+        #     time_units = self.modes[0]['count']
+        #     self.token[object_no]["job"] = order
+        #     self.token[object_no]["count"] = time_units
+        #     self.token[object_no]["steps"] = self.step_count
+        #     self.info['Job_details'] = self.token
+        #     self.o_c_time[object_no] = time_units
+        #     self.avg_order_complete_time = sum(self.o_c_time) / self.no_of_jobs
+        #     if self.avg_order_complete_time > 0:
+        #         self.avg_throughput = 1 / self.avg_order_complete_time
+        #     else:
+        #         self.avg_throughput = 0
+        #     self.info['time_units_each_object'] = self.o_c_time
+        #     self.info['avg_order_complete_time'] = self.avg_time_units
+        #     self.info['avg_throughput'] = self.avg_throughput
+        # self.order_complete = False
+        # for idx, job in enumerate(self.jobs):
+        #     if job == order:
+        #         if self.completed_orders[idx] < self.quantity[idx]:
+        #             self.completed_orders[idx] += 1
+        #             self.o_c_time[idx] += time_units
+        #             self.time_units[object_no] += time_units
+        #             if self.completed_orders[idx] == self.quantity[idx]:
+        #                 self.order_complete = True
+        #                 self.avg_order_complete_time[idx] += self.o_c_time[idx] / self.quantity[idx]
+        #                 self.avg_order_throughput[idx] += 1 / self.avg_order_complete_time[idx]
+        #                 if next_place is None:
+        #                     self.avg_time_units = sum(self.time_units) / self.res[0]
+        #                     self.avg_throughput = 1 / self.avg_time_units
+        #                     self.info['time_units_each_object'] = self.time_units
+        #                     self.info['total_order_completion_time'] = self.o_c_time
+        #                     self.info['avg_order_completion_time'] = self.avg_order_complete_time
+        #                     self.info['avg_order_throughput'] = self.avg_order_throughput
+        #                     self.info['avg_total_time_units'] = self.avg_time_units
+        #                     self.info['avg_throughput'] = self.avg_throughput
+        #             break
+        if self.done:
+            info = {'token': self.current_token, 'all_tokens': self.token}
+        elif self.termination:
+            info = {'token': self.current_token}
+        else:
+            info = {}
 
-        return self.info
+        return info
 
     def _get_obs(self):
 
         return self.state
 
     def _calculate_reward(self):
-        if not self.error:
-            if self.terminating_in_middle:
-                self.reward = -100
+        # if not self.error:
+        #     if self.terminating_in_middle:
+        #         print('termination in the middle')
+        #         self.reward = -100
+        #
+        #         return self.reward
+        #     elif self.termination:
+        #         if self.done:
+        #             self.reward = self.final_reward
+        #
+        #             return self.reward
+        #         else:
+        #             self.reward = 100
+        #
+        #             return self.reward
+        #     else:
+        #         self.reward = -0.01
+        #
+        #         return self.reward
+        # else:
+        #     self.reward = -1
+        self.reward = -self.current_token[0][-1]*(1/100100)*(not self.error) - \
+                      0.01*self.error -\
+                      5*self.terminating_in_middle + (30/self.no_of_jobs)*self.termination
 
-                return self.reward
-            elif self.termination:
-                if self.done:
-                    self.reward = self.final_reward
-
-                    return self.reward
-                else:
-                    self.reward = 100
-
-                    return self.reward
-            else:
-                self.reward = -0.01
-
-                return self.reward
-        else:
-            self.reward = -1
-
-            return self.reward
+        return self.reward
 
     def _done_status(self):
-        if len(list(self.marking)) == (len(self.res)-1):
+        if len(list(self.marking)) == (len(self.res) - 1):
             # print(f'Returning done as True')
             self.episode_time_ends = time.time()
             self.episode_time = self.episode_time_ends - self.episode_time_begin
@@ -561,7 +620,7 @@ class ConveyorEnv_v4(gym.Env):
             return True
         else:
             # print(f'Returning done as False')
-            if self.step_count >= (self.res[0]*1000):
+            if self.current_token[0][-1] > 1000:
                 self.terminating_in_middle = True
 
                 return True
@@ -581,7 +640,5 @@ class ConveyorEnv_v4(gym.Env):
         : avg_throughput: self.avg_throughput (float)
         """
         info = self._data()
+
         return info.values()
-
-
-
