@@ -237,7 +237,7 @@ def evaluate(ppo_config: dir, path, plots_save_path):
                 step += 1
                 if len(info) > 0:
                     jobs.append(info['token'][0][-2])
-                    time_units_each_object.append(info['token'][-1])
+                    time_units_each_object.append(info['token'][0][-1])
                     if done:
                         logger.info(info['all_tokens'])
                         plt.plot(score_episode)
@@ -371,7 +371,7 @@ if __name__ == '__main__':
         algo_config = None
 
     stop = {
-        "training_iteration": 1 * args.no_of_jobs
+        "training_iteration": 100 * args.no_of_jobs
     }
     plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, args.env, timestamp)
 
@@ -388,7 +388,7 @@ if __name__ == '__main__':
         evaluate(algo_config, best_agent_save_path, plots_save_path)
         algo_config.update({"env": "env_cfms_B", "model": {
                 "custom_model": "env_cfms_A"}})
-        plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, ConveyorEnv_B,
+        plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, 'ConveyorEnv_B',
                                                                        timestamp)
         result_B = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
                           checkpoint_at_end=True)
