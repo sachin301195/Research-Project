@@ -622,6 +622,7 @@ class ConveyorEnv_B(gym.Env):
             # print(f'Returning done as False')
             if self.current_token[0][-1] > 1000:
                 self.terminating_in_middle = True
+                print(f"Termination_in_middle with steps: {self.step_count}")
 
                 return True
 

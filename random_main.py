@@ -1,4 +1,4 @@
-from conveyor_environment.conveyor_environment.envs.conveyor_network_A import ConveyorEnv_A
+from conveyor_environment.conveyor_environment.envs.conveyor_network_B import ConveyorEnv_B
 from conveyor_environment.conveyor_environment.envs.conveyor_network_token_n import ConveyorEnv_token_n
 import random
 import logging
@@ -42,7 +42,7 @@ REWARDS = []
 AVG_THROUGHPUT = []
 ORDER_THROUGHPUT = []
 
-env = ConveyorEnv_A({'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': 5, 'init_jobs': 2})
+env = ConveyorEnv_B({'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': 5, 'init_jobs': 2})
 
 results = []
 episode_data = []
