@@ -385,6 +385,7 @@ if __name__ == '__main__':
         print("Training with Ray Tune.")
         result_A = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
                           checkpoint_at_end=True)
+        print(result_A.best_checkpoint, '\n ...............................................................')
         evaluate(algo_config, best_agent_save_path, plots_save_path)
         # algo_config.update({"env": "env_cfms_B", "model": {
         #         "custom_model": "env_cfms_A"}})
