@@ -371,7 +371,7 @@ if __name__ == '__main__':
         algo_config = None
 
     stop = {
-        "training_iteration": 2 * args.no_of_jobs
+        "training_iteration": 1 * args.no_of_jobs
     }
     plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, args.env, timestamp)
 
@@ -385,7 +385,8 @@ if __name__ == '__main__':
         print("Training with Ray Tune.")
         result_A = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
                           checkpoint_at_end=True)
-        print(result_A.best_checkpoint, '\n ...............................................................')
+        reward = result_A
+        print(reward, '\n ...............................................................')
         evaluate(algo_config, best_agent_save_path, plots_save_path)
         # algo_config.update({"env": "env_cfms_B", "model": {
         #         "custom_model": "env_cfms_A"}})
