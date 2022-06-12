@@ -333,9 +333,9 @@ if __name__ == '__main__':
 
     if args.algo == 'PPO':
         config = dict({
-            "env": "env_cfms_A",
+            "env": "env_cfms_B",
             "model": {
-                "custom_model": "env_cfms_A",
+                "custom_model": "env_cfms_B",
                 "vf_share_layers": True,
             },
             "env_config": {
@@ -355,7 +355,7 @@ if __name__ == '__main__':
             "vf_loss_coeff": tune.grid_search([0.001, 0.0009, 0.0005, 0.0001, 0.00009]),
             # "vf_loss_coeff": 0.0001,
             "vf_clip_param": 10,
-            "lr": tune.grid_search([0.01, 0.001, 0.0001])
+            "lr": tune.grid_search([0.001, 0.0001])
             # "lr": 0.0001,
             # "horizon": 32,
             # "timesteps_per_batch": 2048,
