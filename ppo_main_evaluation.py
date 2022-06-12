@@ -349,14 +349,14 @@ if __name__ == '__main__':
             "num_workers": 32,  # parallelism
             "framework": 'torch',
             "rollout_fragment_length": 125,
-            # "train_batch_size": 1024,
+            "train_batch_size": 4000,
             # "sgd_minibatch_size": 512,
             # "num_sgd_iter": 20,
-            # "vf_loss_coeff": tune.grid_search([0.001, 0.0009, 0.0005, 0.0001, 0.00009]),
-            "vf_loss_coeff": 0.0001,
+            "vf_loss_coeff": tune.grid_search([0.001, 0.0009, 0.0005, 0.0001, 0.00009]),
+            # "vf_loss_coeff": 0.0001,
             "vf_clip_param": 10,
-            # "lr": tune.grid_search([0.01, 0.001, 0.0001])
-            "lr": 0.0001,
+            "lr": tune.grid_search([0.01, 0.001, 0.0001])
+            # "lr": 0.0001,
             # "horizon": 32,
             # "timesteps_per_batch": 2048,
         },
@@ -371,7 +371,7 @@ if __name__ == '__main__':
         algo_config = None
 
     stop = {
-        "training_iteration": 1 * args.no_of_jobs
+        "training_iteration": 100 * args.no_of_jobs
     }
     plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, args.env, timestamp)
 
@@ -383,10 +383,14 @@ if __name__ == '__main__':
     else:
         # automated run with tune and grid search and Tensorboard
         print("Training with Ray Tune.")
+        print('...............................................................................\n'
+              '\n\n\t\t\t\t\t\t\t\t Training Starts Here......................................\n'
+              '\n\n')
         result_A = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
                           checkpoint_at_end=True)
-        reward = result_A
-        print(reward, '\n ...............................................................')
+        print('...............................................................................\n'
+              '\n\n\t\t\t\t\t\t\t\t Training Ends Here........................................\n'
+              '\n\n')
         evaluate(algo_config, best_agent_save_path, plots_save_path)
         # algo_config.update({"env": "env_cfms_B", "model": {
         #         "custom_model": "env_cfms_A"}})
