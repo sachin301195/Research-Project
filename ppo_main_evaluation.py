@@ -384,13 +384,11 @@ if __name__ == '__main__':
         # automated run with tune and grid search and Tensorboard
         print("Training with Ray Tune.")
         print('...............................................................................\n'
-              '\n\n\t\t\t\t\t\t\t\t Training Starts Here......................................\n'
-              '\n\n')
+              '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
         result_A = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
                           checkpoint_at_end=True)
         print('...............................................................................\n'
-              '\n\n\t\t\t\t\t\t\t\t Training Ends Here........................................\n'
-              '\n\n')
+              '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')
         evaluate(algo_config, best_agent_save_path, plots_save_path)
         # algo_config.update({"env": "env_cfms_B", "model": {
         #         "custom_model": "env_cfms_A"}})
