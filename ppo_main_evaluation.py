@@ -185,101 +185,109 @@ def train(config: dir):
 
 def evaluate(ppo_config: dir, path, plots_save_path):
     f = []
+    cnt = 0
     for root, dirs, files in os.walk(best_agent_save_path):
         for idx, name in enumerate(files):
-            if idx == 1:
-                f.append(os.path.join(root, name))
+            if cnt % 3 == 0 and cnt > 0:
+                if idx == 1:
+                    f.append(os.path.join(root, name))
+        cnt += 1
     ppo_config["num_workers"] = 0
-    # for path in f:
-    try:
-        path = f[-1]
-        agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_A)
-        # agent.restore(f'{checkpoint_path}/checkpoint_{no}/checkpoint-{no}')
-        agent.restore(path)
-        # agent.restore(f'agents_runs/ConveyorEnv_v4/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
-        # logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_{checkpoint_nr}")
-        logger.info(f"Evaluating algo: PPO, checkpoint_nr: {path[-4:]}")
-        curr_episode = 1
-        max_episode = 10
-        run = 1
-        best_reward_cum = -10000000
-        episode_save_counter = 0
-        env = ConveyorEnv_A(
-            {'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': args.no_of_jobs,
-             'init_jobs': args.init_jobs})
-        # plt.figure()
-        time.sleep(10)
-        SCORE_OVERALL = []
-        AVG_SCORE_EPISODE = []
-        JOBS = []
-        TIME_UNITS_EACH_OBJECT = []
-        AVG_TOTAL_TIME_UNITS = []
-        AVG_THROUGHPUT = []
-        jobs = []
-        time_units_each_object = []
-        avg_total_time_units = 0
-        avg_throughput = 0
-        score_episode = []
-        trans_logs = []
-        time_begin = time.time()
-        while curr_episode <= max_episode:
-            logger.info(f"Evaluating episode: {curr_episode}")
-            obs = env.reset()
-            done = False
-            score = 0
-            step = 1
-            while not done:
-                # print(f'step: {step}')
-                score_episode.append(score)
-                action = agent.compute_action(obs)
-                obs, reward, done, info = env.step(action)
-                score += reward
-                step += 1
-                if len(info) > 0:
-                    jobs.append(info['token'][0][-2])
-                    time_units_each_object.append(info['token'][0][-1])
-                    if done:
-                        logger.info(info['all_tokens'])
-                        plt.plot(score_episode)
-                        plt.savefig(f'{plots_save_path}/reward_episode_{curr_episode}_{path[-4:]}.png')
+    for no, path in enumerate(f):
+        try:
+            agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_A)
+            # agent.restore(f'{checkpoint_path}/checkpoint_{no}/checkpoint-{no}')
+            agent.restore(path)
+            # agent.restore(f'agents_runs/ConveyorEnv_v4/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
+            # logger.info(f"Evaluating algo: PPO, checkpoint_nr: checkpoint_{checkpoint_nr}")
+            logger.info(f"Evaluating algo: PPO, checkpoint_nr: {-400} and configuration: {no}")
+            curr_episode = 1
+            max_episode = 10
+            run = 1
+            best_reward_cum = -10000000
+            episode_save_counter = 0
+            if no < 15:
+                env = ConveyorEnv_A(
+                    {'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': args.no_of_jobs,
+                     'init_jobs': args.init_jobs})
+            else:
+                env = ConveyorEnv_B(
+                    {'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': args.no_of_jobs,
+                     'init_jobs': args.init_jobs})
+            # plt.figure()
+            time.sleep(10)
+            SCORE_OVERALL = []
+            AVG_SCORE_EPISODE = []
+            JOBS = []
+            TIME_UNITS_EACH_OBJECT = []
+            AVG_TOTAL_TIME_UNITS = []
+            AVG_THROUGHPUT = []
+            jobs = []
+            time_units_each_object = []
+            avg_total_time_units = 0
+            avg_throughput = 0
+            score_episode = []
+            trans_logs = []
+            time_begin = time.time()
+            while curr_episode <= max_episode:
+                logger.info(f"Evaluating episode: {curr_episode}")
+                obs = env.reset()
+                done = False
+                score = 0
+                step = 1
+                while not done:
+                    # print(f'step: {step}')
+                    score_episode.append(score)
+                    action = agent.compute_action(obs)
+                    obs, reward, done, info = env.step(action)
+                    score += reward
+                    step += 1
+                    if len(info) > 0:
+                        jobs.append(info['token'][0][-2])
+                        time_units_each_object.append(info['token'][0][-1])
+                        if done:
+                            logger.info(info['all_tokens'])
+                            plt.plot(score_episode)
+                            plt.savefig(f'{plots_save_path}/reward_episode_{curr_episode}_{no}.png')
 
-            SCORE_OVERALL.append(score)
-            avg_score = score/step
-            AVG_SCORE_EPISODE.append(avg_score)
-            avg_total_time_units = sum(time_units_each_object)/len(time_units_each_object)
-            avg_throughput = 1 / avg_total_time_units
-            AVG_TOTAL_TIME_UNITS.append(avg_total_time_units)
-            AVG_THROUGHPUT.append(avg_throughput)
-            JOBS.append(jobs)
-            TIME_UNITS_EACH_OBJECT.append(time_units_each_object)
+                SCORE_OVERALL.append(score)
+                avg_score = score/step
+                AVG_SCORE_EPISODE.append(avg_score)
+                avg_total_time_units = sum(time_units_each_object)/len(time_units_each_object)
+                avg_throughput = 1 / avg_total_time_units
+                AVG_TOTAL_TIME_UNITS.append(avg_total_time_units)
+                AVG_THROUGHPUT.append(avg_throughput)
+                JOBS.append(jobs)
+                TIME_UNITS_EACH_OBJECT.append(time_units_each_object)
 
-            logger.info(f"Episode_no: {curr_episode}")
-            logger.info(f"jobs: {jobs}")
-            logger.info(f"time_units_each_object: {time_units_each_object}")
-            logger.info(f"Steps: {step}")
-            logger.info(f"Mean Rewards: {avg_score}")
-            logger.info(f"Total Reward: {score}")
-            logger.info(f"Avg Time: {avg_total_time_units}")
-            logger.info(f"Avg throughput: {avg_throughput}")
-        plt.plot(AVG_THROUGHPUT)
-        plt.savefig(f'{plots_save_path}/avg_throughput{path[-4:]}.png')
-        plt.plot(SCORE_OVERALL)
-        plt.savefig(f'{plots_save_path}/rewards_overall{path[-4:]}.png')
-        plt.plot(AVG_TOTAL_TIME_UNITS)
-        plt.savefig(f'{plots_save_path}/avg_timetaken{path[-4:]}.png')
-        # Measure Time
-        time_end = time.time()
-        time_diff = time_end - time_begin
-        time_diff_h = int(time_diff / 3600)
-        time_diff_min = int((time_diff - time_diff_h * 3600) / 60)
-        time_diff_sec = int(time_diff - time_diff_h * 3600 - time_diff_min * 60)
-        logger.info(f'Evaluation took {time_diff_h}h, {time_diff_min}m and {time_diff_sec}s.')
-        logger.debug(f'Evaluation of checkpoint - {path[-4:]} is Complete.')
-    except Exception as e:
-        print(e, '\n Interrupted the evaluation.')
+                logger.info(f"Episode_no: {curr_episode}")
+                logger.info(f"jobs: {jobs}")
+                logger.info(f"time_units_each_object: {time_units_each_object}")
+                logger.info(f"Steps: {step}")
+                logger.info(f"Mean Rewards: {avg_score}")
+                logger.info(f"Total Reward: {score}")
+                logger.info(f"Avg Time: {avg_total_time_units}")
+                logger.info(f"Avg throughput: {avg_throughput}")
+            plt.plot(AVG_THROUGHPUT)
+            plt.savefig(f'{plots_save_path}/avg_throughput_{no}.png')
+            plt.plot(SCORE_OVERALL)
+            plt.savefig(f'{plots_save_path}/rewards_overall_{no}.png')
+            plt.plot(AVG_TOTAL_TIME_UNITS)
+            plt.savefig(f'{plots_save_path}/avg_timetaken_{no}.png')
+            # Measure Time
+            time_end = time.time()
+            time_diff = time_end - time_begin
+            time_diff_h = int(time_diff / 3600)
+            time_diff_min = int((time_diff - time_diff_h * 3600) / 60)
+            time_diff_sec = int(time_diff - time_diff_h * 3600 - time_diff_min * 60)
+            logger.info(f'Evaluation took {time_diff_h}h, {time_diff_min}m and {time_diff_sec}s.')
+            logger.debug(f'Evaluation of checkpoint - {400}, configuration - {no} is Complete.')
+        except Exception as e:
+            print(e, '\n Interrupted the evaluation.')
+
 
 def setup(algo, no_of_jobs, env, timestamp):
-    Path(f'./plots/{algo}/{str(no_of_jobs)}').mkdir(parents=True, exist_ok=True)
+    Path(f'./plots/{algo}/{str(no_of_jobs)}/greed_search').mkdir(parents=True, exist_ok=True)
     plots_save_path = './plots/' + algo + '/' + str(no_of_jobs)
     Path(f'./agents_runs/{env}/{algo}/{str(no_of_jobs)}/{timestamp}').mkdir(parents=True, exist_ok=True)
     agent_save_path = './agents_runs/' + env + '/' + algo + '/' + str(no_of_jobs) + '/' + timestamp
@@ -333,9 +341,9 @@ if __name__ == '__main__':
 
     if args.algo == 'PPO':
         config = dict({
-            "env": "env_cfms_B",
+            "env": "env_cfms_A",
             "model": {
-                "custom_model": "env_cfms_B",
+                "custom_model": "env_cfms_A",
                 "vf_share_layers": True,
             },
             "env_config": {
@@ -389,7 +397,7 @@ if __name__ == '__main__':
                           checkpoint_at_end=True)
         print('...............................................................................\n'
               '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')
-        evaluate(algo_config, best_agent_save_path, plots_save_path)
+        # evaluate(algo_config, best_agent_save_path, plots_save_path)
         # algo_config.update({"env": "env_cfms_B", "model": {
         #         "custom_model": "env_cfms_A"}})
         # plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, 'ConveyorEnv_B',
