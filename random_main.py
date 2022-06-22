@@ -1,4 +1,7 @@
 from conveyor_environment.conveyor_environment.envs.conveyor_network_B import ConveyorEnv_B
+from conveyor_environment.conveyor_environment.envs.conveyor_network_A import ConveyorEnv_A
+from conveyor_environment.conveyor_environment.envs.conveyor_network_C import ConveyorEnv_C
+from conveyor_environment.conveyor_environment.envs.conveyor_network_D import ConveyorEnv_D
 from conveyor_environment.conveyor_environment.envs.conveyor_network_token_n import ConveyorEnv_token_n
 import random
 import logging
@@ -37,12 +40,12 @@ REWARD_RESULTS_PATH = '/reward-results/'
 AVG_OVR_EP_PATH = '/avg_over_ep-results/'
 CHECKPOINT_ROOT = './checkpoints'
 
-NUM_EPISODES = 10
+NUM_EPISODES = 100
 REWARDS = []
 AVG_THROUGHPUT = []
 ORDER_THROUGHPUT = []
 
-env = ConveyorEnv_B({'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': 5, 'init_jobs': 2})
+env = ConveyorEnv_A({'version': 'full', 'final_reward': 'A', 'mask': True, 'no_of_jobs': 4, 'init_jobs': 2})
 
 results = []
 episode_data = []
