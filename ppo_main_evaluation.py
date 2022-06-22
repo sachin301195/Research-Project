@@ -341,9 +341,9 @@ if __name__ == '__main__':
 
     if args.algo == 'PPO':
         config = dict({
-            "env": "env_cfms_C",
+            "env": f"env_cfms_{args.env[-1]}",
             "model": {
-                "custom_model": "env_cfms_C",
+                "custom_model": f"env_cfms_{args.env[-1]}",
                 "vf_share_layers": True,
             },
             "env_config": {
