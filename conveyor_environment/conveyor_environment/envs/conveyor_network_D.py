@@ -1,7 +1,6 @@
 """
     Same as conveyor_network_v4.py
-    N tokens introduced at the stating of an environment then after completion first,
-    the others are introduced one-by-one after every termination.
+    tokens are introduced randomly at random instant of time.
 """
 
 import gym
@@ -206,7 +205,7 @@ class ConveyorEnv_D(gym.Env):
         self.done = False
         self.start = True
         self.no_of_jobs = self.env_config["no_of_jobs"]
-        self.init_jobs = self.env_config["init_jobs"]
+        self.init_jobs = np.random.randint(low = 1, high = self.no_of_jobs + 1)
         self.remaining_jobs = self.no_of_jobs - self.init_jobs
         np.random.seed(self.seed)
         self.jobs, self.res, self.quantity = generate_random_N_orders(self.version, self.no_of_jobs, self.seed)
@@ -418,10 +417,14 @@ class ConveyorEnv_D(gym.Env):
                         print(f'\n Termination of token ',
                               f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, '
                               f'f: {self.modes[0]["f"]}, count: {self.modes[0]["count"]}')
-                        if self.remaining_jobs > 0:
-                            # fixed (1) token introduced after termination
+                    value = 0.1
+                    if self.remaining_jobs > 0 and value > np.random.random():
+                        # fixed (1) token introduced after termination
+                        if self.remaining_jobs > 1:
+                            init_tokens = np.random.randint(low=1, high=self.remaining_jobs + 1)
+                        else:
                             init_tokens = 1
-                            self._token_insertion(init_tokens)
+                        self._token_insertion(init_tokens)
                     if self.trans_fire == 's1':
                         self.trans_fire = 'SN1'
                         self.modes = self.net.transition('SN1').modes()
@@ -605,9 +608,15 @@ class ConveyorEnv_D(gym.Env):
         #         return self.reward
         # else:
         #     self.reward = -1
-        self.reward = -self.current_token[0][-1]*(1/100100)*(not self.error) - \
-                      0.01*self.error -\
-                      5*self.terminating_in_middle + (30/self.no_of_jobs)*self.termination
+        if self.final_reward == 'A':
+            self.reward = -self.current_token[0][-1] * (1 / 100100) * (not self.error) - \
+                          0.01 * self.error - \
+                          5 * self.terminating_in_middle + (30 / self.no_of_jobs) * self.termination
+        else:
+            self.reward = -0.002 * (not self.error) - \
+                          0.01 * self.error - \
+                          5 * self.terminating_in_middle + (30 / self.no_of_jobs) * self.termination
+        self.reward = np.clip(self.reward, a_min=-30, a_max=30)
 
         return self.reward
 
@@ -622,6 +631,7 @@ class ConveyorEnv_D(gym.Env):
             # print(f'Returning done as False')
             if self.current_token[0][-1] > 1000:
                 self.terminating_in_middle = True
+                print(f"Termination_in_middle with steps: {self.step_count}")
 
                 return True
 
