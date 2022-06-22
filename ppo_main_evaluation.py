@@ -386,7 +386,7 @@ if __name__ == '__main__':
     if args.no_tune:
         print("Running manual train loop without Ray Tune")
         checkpoint_path = train(algo_config)
-        evaluate(algo_config, checkpoint_path)
+        evaluate(algo_config, checkpoint_path, plots_save_path)
 
     else:
         # automated run with tune and grid search and Tensorboard
