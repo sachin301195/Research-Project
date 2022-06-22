@@ -105,8 +105,8 @@ parser.add_argument(
 )
 parser.add_argument(
     "--final-reward",
-    default=1000,
-    type=int,
+    default='A',
+    type=str,
     help="final reward at the end of successful completion of the episode"
 )
 parser.add_argument(
@@ -306,8 +306,8 @@ if __name__ == '__main__':
 
     ray.init(local_mode=args.local_mode, object_store_memory=1000000000)
     register_env("env_cfms_A", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
-                                                      'mask': True,
-                                                      'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
+                                                        'mask': True,
+                                                        'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_B", lambda _: ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward,
                                                         'mask': True,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
@@ -341,14 +341,14 @@ if __name__ == '__main__':
 
     if args.algo == 'PPO':
         config = dict({
-            "env": "env_cfms_A",
+            "env": "env_cfms_C",
             "model": {
-                "custom_model": "env_cfms_A",
+                "custom_model": "env_cfms_C",
                 "vf_share_layers": True,
             },
             "env_config": {
                 "version": "full",
-                "final_reward": 1000,
+                "final_reward": args.final_reward,
                 "mask": True,
                 "no_of_jobs": args.no_of_jobs,
                 "init_jobs": args.init_jobs,
@@ -393,17 +393,10 @@ if __name__ == '__main__':
         print("Training with Ray Tune.")
         print('...............................................................................\n'
               '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
-        result_A = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
+        result = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
                           checkpoint_at_end=True)
+        logger.info(result)
         print('...............................................................................\n'
               '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')
-        # evaluate(algo_config, best_agent_save_path, plots_save_path)
-        # algo_config.update({"env": "env_cfms_B", "model": {
-        #         "custom_model": "env_cfms_A"}})
-        # plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, 'ConveyorEnv_B',
-        #                                                                timestamp)
-        # result_B = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
-        #                   checkpoint_at_end=True)
-        # evaluate(algo_config, best_agent_save_path, plots_save_path)
 
     ray.shutdown()

@@ -605,12 +605,14 @@ class ConveyorEnv_B(gym.Env):
         #         return self.reward
         # else:
         #     self.reward = -1
-        # self.reward = -self.current_token[0][-1]*(1/100100)*(not self.error) - \
-        #               0.01*self.error -\
-        #               5*self.terminating_in_middle + (30/self.no_of_jobs)*self.termination
-        self.reward = -0.002 * (not self.error) - \
-                      0.01 * self.error - \
-                      5 * self.terminating_in_middle + (30 / self.no_of_jobs) * self.termination
+        if self.final_reward == 'A':
+            self.reward = -self.current_token[0][-1] * (1 / 100100) * (not self.error) - \
+                          0.01 * self.error - \
+                          5 * self.terminating_in_middle + (30 / self.no_of_jobs) * self.termination
+        else:
+            self.reward = -0.002 * (not self.error) - \
+                          0.01 * self.error - \
+                          5 * self.terminating_in_middle + (30 / self.no_of_jobs) * self.termination
         self.reward = np.clip(self.reward, a_min=-30, a_max=30)
 
         return self.reward
