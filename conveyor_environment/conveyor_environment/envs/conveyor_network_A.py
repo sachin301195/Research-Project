@@ -518,7 +518,7 @@ class ConveyorEnv_A(gym.Env):
 
     def _token_insertion(self, tokens):
         for seq in range(tokens):
-            idx = self.no_of_jobs - self.remaining_jobs + seq
+            idx = self.no_of_jobs - self.remaining_jobs
             new_token = [(0, idx, 0, self.jobs[-self.remaining_jobs], 0)]
             self.net.place('S').add(new_token)
             self.token[f"token_{idx}"] = {}

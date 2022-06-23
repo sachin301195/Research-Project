@@ -14,8 +14,8 @@ import matplotlib.pyplot as plt
 
 
 def configure_logger():
-    Path(f'./agents_runs/ConveyorEnv_token_n/random/').mkdir(parents=True, exist_ok=True)
-    agent_save_path = './agents_runs/' + 'ConveyorEnv_token_n' + '/' + 'random'
+    Path(f'./agents_runs/ConveyorEnv_D/random/').mkdir(parents=True, exist_ok=True)
+    agent_save_path = './agents_runs/' + 'ConveyorEnv_D' + '/' + 'random'
     # best_agent_save_path = './agents_runs/' + 'ConveyorEnv_v3' + '/' + 'random' + '_best_agents'
     # Path(best_agent_save_path).mkdir(parents=True, exist_ok=True)
 
@@ -32,7 +32,7 @@ def configure_logger():
 
 
 logger = configure_logger()
-agent_save_path = './agents_runs/' + 'ConveyorEnv_token_n' + '/' + 'random/'
+agent_save_path = './agents_runs/' + 'ConveyorEnv_D' + '/' + 'random/'
 
 BASE_PATH = '.'
 RESULTS_PATH = './results/'
@@ -45,7 +45,7 @@ REWARDS = []
 AVG_THROUGHPUT = []
 ORDER_THROUGHPUT = []
 
-env = ConveyorEnv_A({'version': 'full', 'final_reward': 'A', 'mask': True, 'no_of_jobs': 4, 'init_jobs': 2})
+env = ConveyorEnv_D({'version': 'full', 'final_reward': 'A', 'mask': True, 'no_of_jobs': 4, 'init_jobs': 2})
 
 results = []
 episode_data = []
@@ -69,6 +69,8 @@ for n in range(NUM_EPISODES):
     actions = obs['action_mask']
     # print(actions)
 
+    logger.info(f"Episode_no: {n}")
+
     while not done:
         final_actions = []
         for idx, a in enumerate(actions):
@@ -82,12 +84,13 @@ for n in range(NUM_EPISODES):
         step_count += 1
         # actions = list(obs['action_mask'])
         actions = obs['action_mask']
+        if len(info) > 0:
+            logger.info(info)
         # info = env.render()
         # AVG_THROUGHPUT.append(avg_throughput)
         # ORDER_THROUGHPUT.append(order_throughput)
 
     avg_reward_per_episode = score/step_count
-    logger.info(f"Episode_no: {n}")
     logger.info(f"Mean Rewards: {avg_reward_per_episode}")
     logger.info(f"Timesteps total: {step_count}")
     logger.info(f"Episode Completion Time: {info}")

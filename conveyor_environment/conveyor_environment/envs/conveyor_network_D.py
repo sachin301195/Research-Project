@@ -244,6 +244,7 @@ class ConveyorEnv_D(gym.Env):
         self.info = {}
         self.token = {}
         self.binding = {}
+        self.insert = False
         if self.version == 'trial':
             for place in ACTION_MAPPING_TRIAL:
                 self.binding[place] = {}
@@ -418,6 +419,10 @@ class ConveyorEnv_D(gym.Env):
                               f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, '
                               f'f: {self.modes[0]["f"]}, count: {self.modes[0]["count"]}')
                     value = 0.1
+                    if self.trans_fire == 's1':
+                        self.trans_fire = 'SN1'
+                        self.modes = self.net.transition('SN1').modes()
+                        self.net.transition('SN1').fire(self.modes[0])
                     if self.remaining_jobs > 0 and value > np.random.random():
                         # fixed (1) token introduced after termination
                         if self.remaining_jobs > 1:
@@ -425,10 +430,6 @@ class ConveyorEnv_D(gym.Env):
                         else:
                             init_tokens = 1
                         self._token_insertion(init_tokens)
-                    if self.trans_fire == 's1':
-                        self.trans_fire = 'SN1'
-                        self.modes = self.net.transition('SN1').modes()
-                        self.net.transition('SN1').fire(self.modes[0])
                     # if self.termination:
                     #     print(self.marking)
                 except ConstraintError:
@@ -520,7 +521,7 @@ class ConveyorEnv_D(gym.Env):
 
     def _token_insertion(self, tokens):
         for seq in range(tokens):
-            idx = self.no_of_jobs - self.remaining_jobs + seq
+            idx = self.no_of_jobs - self.remaining_jobs
             new_token = [(0, idx, 0, self.jobs[-self.remaining_jobs], 0)]
             self.net.place('S').add(new_token)
             self.token[f"token_{idx}"] = {}
