@@ -235,17 +235,17 @@ if __name__ == '__main__':
                 "init_jobs": args.init_jobs,
             },
             "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-            "num_workers": 2,  # parallelism
+            "num_workers": 32,  # parallelism
             "framework": 'torch',
             "rollout_fragment_length": 125,
             "train_batch_size": 4000,
             # "sgd_minibatch_size": 512,
             # "num_sgd_iter": 20,
-            # "vf_loss_coeff": tune.grid_search([0.001, 0.0009, 0.0005, 0.0001, 0.00009]),
-            "vf_loss_coeff": 0.0001,
+            "vf_loss_coeff": tune.grid_search([0.001, 0.0009, 0.0005, 0.0001, 0.00009]),
+            # "vf_loss_coeff": 0.0001,
             "vf_clip_param": 10,
-            # "lr": tune.grid_search([0.001, 0.0001])
-            "lr": 0.0001,
+            "lr": tune.grid_search([0.001, 0.0001])
+            # "lr": 0.0001,
             # "horizon": 32,
             # "timesteps_per_batch": 2048,
         },
