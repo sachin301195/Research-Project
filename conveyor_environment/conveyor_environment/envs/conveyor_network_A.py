@@ -169,7 +169,7 @@ def current_token(token, trans, action, place, step_count, error):
 class ConveyorEnv_A(gym.Env):
     metadata = {"render.modes": ["Human"]}
 
-    def __init__(self, env_config: dict):
+    def __init__(self, env_config: dict) -> object:
         self.marking_list = None
         self.current_token = None
         self.env_config = env_config
