@@ -76,9 +76,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     "--env",
     type=str,
-    default="ConveyorEnv_A",
+    default="MultiEnv",
     choices=["ConveyorEnv_v1", "ConveyorEnv_v2", "ConveyorEnv_v3", "ConveyorEnv_token_n", "ConveyorEnv_A",
-             "ConveyorEnv_B", "ConveyorEnv_C", "ConveyorEnv_D"],
+             "ConveyorEnv_B", "ConveyorEnv_C", "ConveyorEnv_D", "MultiEnv"],
     help="The RLlib-registered algorithm to use.")
 parser.add_argument(
     "--algo",
