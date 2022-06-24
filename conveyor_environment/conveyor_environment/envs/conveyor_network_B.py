@@ -139,6 +139,9 @@ def generate_random_N_orders(version, no_of_token, seed):
         resources = [no_of_token, red, green, blue, violet]
 
         print(f'jobs {jobs}, resources {resources}, quantity {quantity}')
+        print('................................................')
+        print('                       B                        ')
+        print('................................................')
 
     return jobs, resources, quantity
 
