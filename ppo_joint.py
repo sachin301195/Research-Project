@@ -194,7 +194,7 @@ if __name__ == '__main__':
     register_env("env_cfms_D", lambda _: ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward,
                                                         'mask': True,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
-    register_env("env_cfms_joint_A_entropy", lambda c: MultiEnv(c))
+    register_env("env_cfms_joint_B", lambda c: MultiEnv(c))
 
     ModelCatalog.register_custom_model(
         "env_cfms_A", TorchParametricActionsModelv2
@@ -209,7 +209,7 @@ if __name__ == '__main__':
         "env_cfms_D", TorchParametricActionsModelv2
     )
     ModelCatalog.register_custom_model(
-        "env_cfms_joint_A_entropy", TorchParametricActionsModelv2
+        "env_cfms_joint_B", TorchParametricActionsModelv2
     )
 
     if args.algo == 'DQN':
@@ -222,9 +222,9 @@ if __name__ == '__main__':
 
     if args.algo == 'PPO':
         config = dict({
-            "env": 'env_cfms_joint_A_entropy',
+            "env": 'env_cfms_joint_B',
             "model": {
-                "custom_model": "env_cfms_joint_A_entropy",
+                "custom_model": "env_cfms_joint_B",
                 "vf_share_layers": True,
             },
             "env_config": {
@@ -241,12 +241,12 @@ if __name__ == '__main__':
             "train_batch_size": 4000,
             # "sgd_minibatch_size": 512,
             # "num_sgd_iter": 20,
-            # "vf_loss_coeff": tune.grid_search([0.0009, 0.0005]),
-            "vf_loss_coeff": 0.0005,
+            "vf_loss_coeff": tune.grid_search([0.0009, 0.0005]),
+            # "vf_loss_coeff": 0.0005,
             "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
             "lr": 0.0001,
-            "entropy_coeff": 0.0001
+            # "entropy_coeff": 0.0001
             # "horizon": 32,
             # "timesteps_per_batch": 2048,
         },
