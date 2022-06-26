@@ -194,7 +194,7 @@ if __name__ == '__main__':
     register_env("env_cfms_D", lambda _: ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward,
                                                         'mask': True,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
-    register_env("env_cfms_joint_B", lambda c: MultiEnv(c))
+    register_env("env_cfms_joint_A_entropy", lambda c: MultiEnv(c))
 
     ModelCatalog.register_custom_model(
         "env_cfms_A", TorchParametricActionsModelv2
