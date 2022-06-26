@@ -209,7 +209,7 @@ if __name__ == '__main__':
         "env_cfms_D", TorchParametricActionsModelv2
     )
     ModelCatalog.register_custom_model(
-        "env_cfms_joint_B", TorchParametricActionsModelv2
+        "env_cfms_joint_A_entropy", TorchParametricActionsModelv2
     )
 
     if args.algo == 'DQN':
@@ -222,9 +222,9 @@ if __name__ == '__main__':
 
     if args.algo == 'PPO':
         config = dict({
-            "env": 'env_cfms_joint_B',
+            "env": 'env_cfms_joint_A_entropy',
             "model": {
-                "custom_model": "env_cfms_joint_B",
+                "custom_model": "env_cfms_joint_A_entropy",
                 "vf_share_layers": True,
             },
             "env_config": {
@@ -246,6 +246,7 @@ if __name__ == '__main__':
             "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
             "lr": 0.0001,
+            "entropy_coeff": 0.0001
             # "horizon": 32,
             # "timesteps_per_batch": 2048,
         },
@@ -253,9 +254,9 @@ if __name__ == '__main__':
         algo_config = ppo.DEFAULT_CONFIG.copy()
         algo_config.update(config)
         algo_config['model']['fcnet_activation'] = 'relu'
-        # algo_config['evaluation_interval'] = 100
+        algo_config['evaluation_interval'] = 200
         # algo_config['evaluation_duration'] = 10
-        # algo_config["evaluation_parallel_to_training"]: True
+        algo_config["evaluation_parallel_to_training"]: True
     else:
         algo_config = None
 
