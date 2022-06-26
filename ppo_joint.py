@@ -106,7 +106,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "--final-reward",
-    default='A',
+    default='B',
     type=str,
     help="final reward at the end of successful completion of the episode"
 )
@@ -194,7 +194,7 @@ if __name__ == '__main__':
     register_env("env_cfms_D", lambda _: ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward,
                                                         'mask': True,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
-    register_env("env_cfms_joint", lambda c: MultiEnv(c))
+    register_env("env_cfms_joint_B", lambda c: MultiEnv(c))
 
     ModelCatalog.register_custom_model(
         "env_cfms_A", TorchParametricActionsModelv2
@@ -209,7 +209,7 @@ if __name__ == '__main__':
         "env_cfms_D", TorchParametricActionsModelv2
     )
     ModelCatalog.register_custom_model(
-        "env_cfms_joint", TorchParametricActionsModelv2
+        "env_cfms_joint_B", TorchParametricActionsModelv2
     )
 
     if args.algo == 'DQN':
@@ -222,9 +222,9 @@ if __name__ == '__main__':
 
     if args.algo == 'PPO':
         config = dict({
-            "env": 'env_cfms_joint',
+            "env": 'env_cfms_joint_B',
             "model": {
-                "custom_model": "env_cfms_joint",
+                "custom_model": "env_cfms_joint_B",
                 "vf_share_layers": True,
             },
             "env_config": {
@@ -253,9 +253,9 @@ if __name__ == '__main__':
         algo_config = ppo.DEFAULT_CONFIG.copy()
         algo_config.update(config)
         algo_config['model']['fcnet_activation'] = 'relu'
-        algo_config['evaluation_interval'] = 100
+        # algo_config['evaluation_interval'] = 100
         # algo_config['evaluation_duration'] = 10
-        algo_config["evaluation_parallel_to_training"]: True
+        # algo_config["evaluation_parallel_to_training"]: True
     else:
         algo_config = None
 
