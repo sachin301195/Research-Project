@@ -347,9 +347,12 @@ class ConveyorEnv_B(gym.Env):
         self.current_token, token_dir = current_token(self.current_token, self.trans_fire, action, self.current_place,
                                                       self.step_count, self.error)
         self.token[f"token_{self.current_token[0][1]}"].update(token_dir)
-        self.binding[token_dir["c_place"]].update(
-            {f"token_{self.current_token[0][1]}": self.binding[token_dir['p_place']].
-                pop(f"token_{self.current_token[0][1]}")})
+        if not self.error:
+            self.binding[token_dir["c_place"]].update(
+                {f"token_{self.current_token[0][1]}": self.binding[token_dir['p_place']].
+                    pop(f"token_{self.current_token[0][1]}")})
+        else:
+            self.binding[token_dir["c_place"]].update(token_dir["c_place"])
         if self.eps_step == self.unit_step:
             self.marking_list = list(self.marking.keys())
             if self.version == 'trial':
