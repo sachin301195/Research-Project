@@ -164,7 +164,7 @@ def current_token(token, trans, action, place, step_count, error):
         details['count'] = token[-1]
         token = [tuple(token)]
     else:
-        details = {}
+        details = {'count': token[0][-1], 'p_place': place, 'c_place': place}
 
     return token, details
 
@@ -348,8 +348,8 @@ class ConveyorEnv_A(gym.Env):
         self.current_token, token_dir = current_token(self.current_token, self.trans_fire, action, self.current_place,
                                                       self.step_count, self.error)
         self.token[f"token_{self.current_token[0][1]}"].update(token_dir)
-        if len(token_dir) > 0:
-            self.binding[token_dir["c_place"]].update(
+
+        self.binding[token_dir["c_place"]].update(
                 {f"token_{self.current_token[0][1]}": self.binding[token_dir['p_place']].
                     pop(f"token_{self.current_token[0][1]}")})
         if self.eps_step == self.unit_step:
@@ -435,14 +435,23 @@ class ConveyorEnv_A(gym.Env):
                 except ConstraintError:
                     # print(f'{e1}')
                     self.error = True
+                    self.current_token[0] = list(self.current_token[0])
+                    self.current_token[0][-1] += 1
+                    self.current_token[0] = tuple(self.current_token[0])
                     self.net.place(place).add(self.current_token)
                 except ValueError:
                     # print(f'{e2}: {trans_fire} is not provided with valid substitution.')
                     self.error = True
+                    self.current_token[0] = list(self.current_token[0])
+                    self.current_token[0][-1] += 1
+                    self.current_token[0] = tuple(self.current_token[0])
                     self.net.place(place).add(self.current_token)
                 except Exception:
                     # print(f'{place} and {trans_fire}, something went wrong!!!')
                     self.error = True
+                    self.current_token[0] = list(self.current_token[0])
+                    self.current_token[0][-1] += 1
+                    self.current_token[0] = tuple(self.current_token[0])
                     self.net.place(place).add(self.current_token)
             else:
                 self.error = True
@@ -630,7 +639,7 @@ class ConveyorEnv_A(gym.Env):
             return True
         else:
             # print(f'Returning done as False')
-            if self.current_token[0][-1] > 1000:
+            if self.current_token[0][-1] > 500:
                 self.terminating_in_middle = True
 
                 return True
