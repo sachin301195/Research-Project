@@ -164,7 +164,8 @@ def current_token(token, trans, action, place, step_count, error):
         details['count'] = token[-1]
         token = [tuple(token)]
     else:
-        details = {'count': token[0][-1], 'p_place': place, 'c_place': place}
+        details = {'count': token[0][-1], 'p_place': place, 'c_place': place, 'c_state': token[0][2],
+                   'steps': step_count}
 
     return token, details
 
