@@ -246,7 +246,9 @@ if __name__ == '__main__':
             "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
             "lr": 0.0001,
-            "entropy_coeff": tune.loguniform(0.0001, 0.001)
+            "entropy_coeff": tune.grid_search([tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
+                                               tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
+                                               tune.uniform(0.0001, 0.001)])
             # "horizon": 32,
             # "timesteps_per_batch": 2048,
         },
