@@ -623,10 +623,11 @@ class ConveyorEnv_C(gym.Env):
                           0.01 * self.error - \
                           5 * self.terminating_in_middle + (30 / self.no_of_jobs) * self.termination
         else:
-            self.reward = -0.002 * (not self.error) - \
-                          0.01 * self.error - \
-                          5 * self.terminating_in_middle + (30 / self.no_of_jobs) * self.termination
-        self.reward = np.clip(self.reward, a_min=-30, a_max=30)
+            self.reward = -0.004 * (not self.error) - \
+                          5 * self.terminating_in_middle + (20 / self.no_of_jobs) * self.termination + \
+                          (10 * self.done * (not self.terminating_in_middle))
+            # 0.01 * self.error - \
+        # self.reward = np.clip(self.reward, a_min=-30, a_max=30)
 
         return self.reward
 

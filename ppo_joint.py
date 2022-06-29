@@ -123,13 +123,13 @@ parser.add_argument(
 )
 parser.add_argument(
     "--no_of_jobs",
-    default=10,
+    default=4,
     type=int,
     help="Number of tokens to run in an environment."
 )
 parser.add_argument(
     "--init_jobs",
-    default=4,
+    default=2,
     type=int,
     help="Number of tokens to initialize in an environment. This should be greater than or equal to self.no_of_jobs."
 )
@@ -150,15 +150,31 @@ def setup(algo, no_of_jobs, env, timestamp):
 
 class MultiEnv(gym.Env):
     def __init__(self, env_config):
-        if env_config.worker_index % 4 == 0:
+        # if env_config.worker_index % 4 == 0:
+        #     self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
+        #     self.name = "ConveyorEnv_A"
+        # elif env_config.worker_index % 4 == 1:
+        #     self.env = ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
+        #     self.name = 'ConveyorEnv_B'
+        # elif env_config.worker_index % 4 == 2:
+        #     self.env = ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
+        #     self.name = 'ConveyorEnv_C'
+        # else:
+        #     self.env = ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
+        #     self.name = 'ConveyorEnv_D'
+        if env_config.vector_index % 4 == 0:
             self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
             self.name = "ConveyorEnv_A"
-        elif env_config.worker_index % 4 == 1:
+        elif env_config.vector_index % 4 == 1:
             self.env = ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
             self.name = 'ConveyorEnv_B'
-        elif env_config.worker_index % 4 == 2:
+        elif env_config.vector_index % 4 == 2:
             self.env = ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
             self.name = 'ConveyorEnv_C'
@@ -194,7 +210,7 @@ if __name__ == '__main__':
     register_env("env_cfms_D", lambda _: ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward,
                                                         'mask': True,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
-    register_env("env_cfms_joint_B", lambda c: MultiEnv(c))
+    register_env("env_cfms_joint_vectorIdx", lambda c: MultiEnv(c))
 
     ModelCatalog.register_custom_model(
         "env_cfms_A", TorchParametricActionsModelv2
@@ -209,7 +225,7 @@ if __name__ == '__main__':
         "env_cfms_D", TorchParametricActionsModelv2
     )
     ModelCatalog.register_custom_model(
-        "env_cfms_joint_B", TorchParametricActionsModelv2
+        "env_cfms_joint_vectorIdx", TorchParametricActionsModelv2
     )
 
     if args.algo == 'DQN':
@@ -222,9 +238,9 @@ if __name__ == '__main__':
 
     if args.algo == 'PPO':
         config = dict({
-            "env": 'env_cfms_joint_B',
+            "env": 'env_cfms_joint_vectorIdx',
             "model": {
-                "custom_model": "env_cfms_joint_B",
+                "custom_model": "env_cfms_joint_vectorIdx",
                 "vf_share_layers": True,
             },
             "env_config": {
@@ -241,14 +257,15 @@ if __name__ == '__main__':
             "train_batch_size": 4000,
             # "sgd_minibatch_size": 512,
             # "num_sgd_iter": 20,
-            # "vf_loss_coeff": tune.grid_search([0.01, 0.0009, 0.0005, 0.0001]),
-            "vf_loss_coeff": 0.0005,
+            "vf_loss_coeff": tune.grid_search([0.01, 0.0009, 0.0005, 0.0001, 0.00009]),
+            # "vf_loss_coeff": 0.0005,
             "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
             "lr": 0.0001,
-            "entropy_coeff": tune.grid_search([tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
-                                               tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
-                                               tune.uniform(0.0001, 0.001)])
+            # "entropy_coeff": tune.grid_search([tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
+            #                                    tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
+            #                                    tune.uniform(0.0001, 0.001)]),
+            "num_envs_per_worker": 4,
             # "horizon": 32,
             # "timesteps_per_batch": 2048,
         },
@@ -256,7 +273,7 @@ if __name__ == '__main__':
         algo_config = ppo.DEFAULT_CONFIG.copy()
         algo_config.update(config)
         algo_config['model']['fcnet_activation'] = 'relu'
-        algo_config['evaluation_interval'] = 200
+        algo_config['evaluation_interval'] = 100
         # algo_config['evaluation_duration'] = 10
         algo_config["evaluation_parallel_to_training"]: True
     else:
