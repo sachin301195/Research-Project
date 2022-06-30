@@ -118,7 +118,7 @@ ACTION_MAPPING = {'S': {0: 's1', 1: 'Nan', 2: 'Nan', 3: 'Nan'}, 'S1': {0: 'SN1',
 
 REWARD_MAPPING_W1 = {'N1': ['S1', 'S'], 'A1': ['N1'], 'A2': ['A1'], 'A3': ['A2'], 'N2': ['A3'], 'C1': ['N2'],
                      'C2': ['C1'], 'C3': ['C2'], 'W1': ['C3'], 'D3': ['W1'], 'D2': ['D3'], 'D1': ['D2'],
-                     'N4': ['D3'],  'J3': ['N6'], 'J2': ['J3'], 'J1': ['J2'], 'N9': ['J3'], 'F3': ['N4'], 'F2': ['F3'],
+                     'N4': ['D3'], 'J3': ['N6'], 'J2': ['J3'], 'J1': ['J2'], 'N9': ['J3'], 'F3': ['N4'], 'F2': ['F3'],
                      'F1': ['F2'], 'N3': ['F3'], 'H3': ['N4'], 'H2': ['H3'], 'H1': ['H2'], 'N5': ['H3'], 'L3': ['N5'],
                      'L2': ['L3'], 'L1': ['L2'], 'W2': ['L3'], 'M3': ['W2'], 'M2': ['M3'], 'M1': ['M2'], 'N8': ['M3'],
                      'G3': ['N3'], 'G2': ['G3'], 'G1': ['G2'], 'N6': ['G3'], 'K3': ['N9'], 'K2': ['K3'], 'K1': ['K2'],
@@ -228,7 +228,7 @@ class ConveyorEnv_D(gym.Env):
         self.done = False
         self.start = True
         self.no_of_jobs = self.env_config["no_of_jobs"]
-        self.init_jobs = np.random.randint(low = 1, high = self.no_of_jobs + 1)
+        self.init_jobs = np.random.randint(low=1, high=self.no_of_jobs + 1)
         self.remaining_jobs = self.no_of_jobs - self.init_jobs
         np.random.seed(self.seed)
         self.jobs, self.res, self.quantity = generate_random_N_orders(self.version, self.no_of_jobs, self.seed)
@@ -333,8 +333,8 @@ class ConveyorEnv_D(gym.Env):
             state.extend([0, 0, f_state])
             mask = np.array((1, 0, 0, 0))
         else:
-            c_state = details['c_state']/15
-            f_state = (details['job'] - 1)/14
+            c_state = details['c_state'] / 15
+            f_state = (details['job'] - 1) / 14
             state.extend([details['dir'], c_state, f_state])
             if self.version == 'trial':
                 transition = np.array(list(ACTION_MAPPING_TRIAL[self.next_place].values()))
@@ -395,7 +395,7 @@ class ConveyorEnv_D(gym.Env):
             else:
                 self.next_place = None
         else:
-            self.next_place = self.marking_list[-1-self.eps_step]
+            self.next_place = self.marking_list[-1 - self.eps_step]
         self.done = self._done_status()
         self.info = self._data()
         self.reward = self._calculate_reward()
@@ -652,21 +652,30 @@ class ConveyorEnv_D(gym.Env):
             # 0.01 * self.error
         else:
             if self.current_token[0][-2] in [1, 2, 3]:
-                if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
-                        REWARD_MAPPING_W1[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
-                    self.reward = 1
+                if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1:
+                    if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
+                            REWARD_MAPPING_W1[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
+                        self.reward = 1
+                    else:
+                        self.reward = -1
                 else:
                     self.reward = -1
             elif self.current_token[0][-2] in [4, 8, 12]:
-                if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
-                        REWARD_MAPPING_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
-                    self.reward = 1
+                if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W2:
+                    if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
+                            REWARD_MAPPING_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
+                        self.reward = 1
+                    else:
+                        self.reward = -1
                 else:
                     self.reward = -1
             else:
-                if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
-                        REWARD_MAPPING_W1_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
-                    self.reward = 1
+                if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1_W2:
+                    if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
+                            REWARD_MAPPING_W1_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
+                        self.reward = 1
+                    else:
+                        self.reward = -1
                 else:
                     self.reward = -1
             # 0.01 * self.error - \

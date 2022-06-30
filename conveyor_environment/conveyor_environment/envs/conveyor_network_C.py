@@ -651,21 +651,30 @@ class ConveyorEnv_C(gym.Env):
             # 0.01 * self.error
         else:
             if self.current_token[0][-2] in [1, 2, 3]:
-                if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
-                        REWARD_MAPPING_W1[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
-                    self.reward = 1
+                if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1:
+                    if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
+                            REWARD_MAPPING_W1[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
+                        self.reward = 1
+                    else:
+                        self.reward = -1
                 else:
                     self.reward = -1
             elif self.current_token[0][-2] in [4, 8, 12]:
-                if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
-                        REWARD_MAPPING_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
-                    self.reward = 1
+                if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W2:
+                    if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
+                            REWARD_MAPPING_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
+                        self.reward = 1
+                    else:
+                        self.reward = -1
                 else:
                     self.reward = -1
             else:
-                if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
-                        REWARD_MAPPING_W1_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
-                    self.reward = 1
+                if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1_W2:
+                    if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
+                            REWARD_MAPPING_W1_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
+                        self.reward = 1
+                    else:
+                        self.reward = -1
                 else:
                     self.reward = -1
             # 0.01 * self.error - \
