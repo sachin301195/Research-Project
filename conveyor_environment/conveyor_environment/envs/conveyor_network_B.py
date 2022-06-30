@@ -654,7 +654,7 @@ class ConveyorEnv_B(gym.Env):
                 if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1:
                     if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
                             REWARD_MAPPING_W1[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
-                        self.reward = 0.001
+                        self.reward = -0.001
                     else:
                         self.reward = -0.0004
                 else:
@@ -663,7 +663,7 @@ class ConveyorEnv_B(gym.Env):
                 if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W2:
                     if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
                             REWARD_MAPPING_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
-                        self.reward = 0.001
+                        self.reward = -0.001
                     else:
                         self.reward = -0.004
                 else:
@@ -672,7 +672,7 @@ class ConveyorEnv_B(gym.Env):
                 if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1_W2:
                     if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
                             REWARD_MAPPING_W1_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
-                        self.reward = 0.001
+                        self.reward = -0.001
                     else:
                         self.reward = -0.004
                 else:
