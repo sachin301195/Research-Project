@@ -116,6 +116,28 @@ ACTION_MAPPING = {'S': {0: 's1', 1: 'Nan', 2: 'Nan', 3: 'Nan'}, 'S1': {0: 'SN1',
                   'N7': {0: 'P_P1', 1: 'P_I1', 2: 'Nan', 3: 'N_Q3'}, 'N8': {0: 'P_M1', 1: 'P_Q1', 2: 'P_O1', 3: 'Nan'},
                   'W2': {0: 'Nan', 1: 'P_L1', 2: 'N_M3', 3: 'Nan'}}
 
+REWARD_MAPPING_W1 = {'N1': ['S1', 'S'], 'A1': ['N1'], 'A2': ['A1'], 'A3': ['A2'], 'N2': ['A3'], 'C1': ['N2'],
+                     'C2': ['C1'], 'C3': ['C2'], 'W1': ['C3'], 'D3': ['W1'], 'D2': ['D3'], 'D1': ['D2'],
+                     'N4': ['D3'],  'J3': ['N6'], 'J2': ['J3'], 'J1': ['J2'], 'N9': ['J3'], 'F3': ['N4'], 'F2': ['F3'],
+                     'F1': ['F2'], 'N3': ['F3'], 'H3': ['N4'], 'H2': ['H3'], 'H1': ['H2'], 'N5': ['H3'], 'L3': ['N5'],
+                     'L2': ['L3'], 'L1': ['L2'], 'W2': ['L3'], 'M3': ['W2'], 'M2': ['M3'], 'M1': ['M2'], 'N8': ['M3'],
+                     'G3': ['N3'], 'G2': ['G3'], 'G1': ['G2'], 'N6': ['G3'], 'K3': ['N9'], 'K2': ['K3'], 'K1': ['K2'],
+                     'N0': ['K3', 'O3'], 'O1': ['N8'], 'O2': ['O1'], 'O3': ['O2'], 'T1': ['N0']}
+
+REWARD_MAPPING_W2 = {'N1': ['S1', 'S'], 'A1': ['N1'], 'A2': ['A1'], 'A3': ['A2'], 'N2': ['A3'], 'C1': ['N2'],
+                     'C2': ['C1'], 'C3': ['C2'], 'W1': ['C3'], 'D3': ['W1'], 'D2': ['D3'], 'D1': ['D2'],
+                     'N4': ['D3'], 'H3': ['N4'], 'H2': ['H3'], 'H1': ['H2'], 'N5': ['H3', 'P3'], 'L3': ['N5'],
+                     'L2': ['L3'], 'L1': ['L2'], 'W2': ['L3'], 'M3': ['W2'], 'M2': ['M3'], 'M1': ['M2'], 'N8': ['M3'],
+                     'B3': ['N1'], 'B2': ['B3'], 'B1': ['B2'], 'N9': ['B3'], 'I3': ['N6'], 'I2': ['I3'], 'I1': ['I2'],
+                     'N7': ['I3'], 'N0': ['O3'], 'O1': ['N8'], 'O2': ['O1'], 'O3': ['O2'], 'T1': ['N0'], 'J1': ['N9'],
+                     'J2': ['J1'], 'J3': ['J2'], 'N6': ['J3'], 'P1': ['N7'], 'P2': ['P1'], 'P3': ['P2']}
+
+REWARD_MAPPING_W1_W2 = {'N1': ['S1', 'S'], 'A1': ['N1'], 'A2': ['A1'], 'A3': ['A2'], 'N2': ['A3'], 'C1': ['N2'],
+                        'C2': ['C1'], 'C3': ['C2'], 'W1': ['C3'], 'D3': ['W1'], 'D2': ['D3'], 'D1': ['D2'],
+                        'N4': ['D3'], 'H3': ['N4'], 'H2': ['H3'], 'H1': ['H2'], 'N5': ['H3', 'P3'], 'L3': ['N5'],
+                        'L2': ['L3'], 'L1': ['L2'], 'W2': ['L3'], 'M3': ['W2'], 'M2': ['M3'], 'M1': ['M2'],
+                        'N8': ['M3'], 'N0': ['O3'], 'O1': ['N8'], 'O2': ['O1'], 'O3': ['O2'], 'T1': ['N0']}
+
 
 def generate_random_N_orders(version, no_of_token, seed):
     """ Generates random N orders for the conveying network """
@@ -623,10 +645,30 @@ class ConveyorEnv_D(gym.Env):
             self.reward = -self.current_token[0][-1] * (1 / 100100) * (not self.error) - \
                           0.01 * self.error - \
                           5 * self.terminating_in_middle + (30 / self.no_of_jobs) * self.termination
-        else:
+        elif self.final_reward == 'B':
             self.reward = -0.004 * (not self.error) - \
                           5 * self.terminating_in_middle + (20 / self.no_of_jobs) * self.termination + \
                           (10 * self.done * (not self.terminating_in_middle))
+            # 0.01 * self.error
+        else:
+            if self.current_token[0][-2] in [1, 2, 3]:
+                if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
+                        REWARD_MAPPING_W1[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
+                    self.reward = 1
+                else:
+                    self.reward = -1
+            elif self.current_token[0][-2] in [4, 8, 12]:
+                if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
+                        REWARD_MAPPING_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
+                    self.reward = 1
+                else:
+                    self.reward = -1
+            else:
+                if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
+                        REWARD_MAPPING_W1_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
+                    self.reward = 1
+                else:
+                    self.reward = -1
             # 0.01 * self.error - \
         # self.reward = np.clip(self.reward, a_min=-30, a_max=30)
 
