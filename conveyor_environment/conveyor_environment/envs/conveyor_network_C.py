@@ -654,30 +654,31 @@ class ConveyorEnv_C(gym.Env):
                 if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1:
                     if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
                             REWARD_MAPPING_W1[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
-                        self.reward = 1
+                        self.reward = 0.001
                     else:
-                        self.reward = -1
+                        self.reward = -0.0004
                 else:
-                    self.reward = -1
+                    self.reward = -0.004
             elif self.current_token[0][-2] in [4, 8, 12]:
                 if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W2:
                     if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
                             REWARD_MAPPING_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
-                        self.reward = 1
+                        self.reward = 0.001
                     else:
-                        self.reward = -1
+                        self.reward = -0.004
                 else:
-                    self.reward = -1
+                    self.reward = -0.004
             else:
                 if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1_W2:
                     if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
                             REWARD_MAPPING_W1_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
-                        self.reward = 1
+                        self.reward = 0.001
                     else:
-                        self.reward = -1
+                        self.reward = -0.004
                 else:
-                    self.reward = -1
-            # 0.01 * self.error - \
+                    self.reward = -0.004
+            self.reward += (-5 * self.terminating_in_middle + 20 / self.no_of_jobs * self.termination +
+                            10 * self.done * (not self.terminating_in_middle))
         # self.reward = np.clip(self.reward, a_min=-30, a_max=30)
 
         return self.reward
