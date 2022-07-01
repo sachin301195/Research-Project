@@ -40,12 +40,13 @@ REWARD_RESULTS_PATH = '/reward-results/'
 AVG_OVR_EP_PATH = '/avg_over_ep-results/'
 CHECKPOINT_ROOT = './checkpoints'
 
-NUM_EPISODES = 100
+NUM_EPISODES = 10
 REWARDS = []
 AVG_THROUGHPUT = []
 ORDER_THROUGHPUT = []
 
-env = ConveyorEnv_D({'version': 'full', 'final_reward': 'A', 'mask': True, 'no_of_jobs': 4, 'init_jobs': 2})
+env = ConveyorEnv_A({'version': 'full', 'final_reward': 'A', 'mask': True, 'no_of_jobs': 4, 'init_jobs': 2,
+                     'state_extension': False})
 
 results = []
 episode_data = []

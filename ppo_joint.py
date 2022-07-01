@@ -9,6 +9,7 @@ sys.path.append('./conveyor_environment/snakes_master')
 
 from ray.rllib import agents
 from util import TorchParametricActionModel, TorchParametricActionsModelv1, TorchParametricActionsModelv2
+from util import TorchParametricActionsModelv3
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v1 import ConveyorEnv_v1
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v0 import ConveyorEnv_v0
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v2 import ConveyorEnv_v2
@@ -117,6 +118,11 @@ parser.add_argument(
     help="Run without Tune using a manual train loop instead. In this case,"
          "use ALGO without TensorBoard.")
 parser.add_argument(
+    "--state-extension",
+    default=False,
+    type=bool,
+    help="Use the extended form of the state vector or not")
+parser.add_argument(
     "--local-mode",
     help="Init Ray in local mode for easier debugging.",
     action="store_true"
@@ -152,19 +158,23 @@ class MultiEnv(gym.Env):
     def __init__(self, env_config):
         if env_config.worker_index % 4 == 0:
             self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-                                      'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
+                                      'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
+                                      'state_extension': args.state_extension,})
             self.name = "ConveyorEnv_A"
         elif env_config.worker_index % 4 == 1:
             self.env = ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-                                      'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
+                                      'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
+                                      'state_extension': args.state_extension,})
             self.name = 'ConveyorEnv_B'
         elif env_config.worker_index % 4 == 2:
             self.env = ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-                                      'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
+                                      'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
+                                      'state_extension': args.state_extension,})
             self.name = 'ConveyorEnv_C'
         else:
             self.env = ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-                                      'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
+                                      'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
+                                      'state_extension': args.state_extension,})
             self.name = 'ConveyorEnv_D'
         # if env_config.vector_index % 4 == 0:
         #     self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
@@ -199,34 +209,51 @@ if __name__ == '__main__':
 
     ray.init(local_mode=args.local_mode, object_store_memory=1000000000)
     register_env("env_cfms_A", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True,
+                                                        'mask': True, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_B", lambda _: ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True,
+                                                        'mask': True, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_C", lambda _: ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True,
+                                                        'mask': True, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_D", lambda _: ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True,
+                                                        'mask': True, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_joint_vectorIdx", lambda c: MultiEnv(c))
 
-    ModelCatalog.register_custom_model(
-        "env_cfms_A", TorchParametricActionsModelv2
-    )
-    ModelCatalog.register_custom_model(
-        "env_cfms_B", TorchParametricActionsModelv2
-    )
-    ModelCatalog.register_custom_model(
-        "env_cfms_C", TorchParametricActionsModelv2
-    )
-    ModelCatalog.register_custom_model(
-        "env_cfms_D", TorchParametricActionsModelv2
-    )
-    ModelCatalog.register_custom_model(
-        "env_cfms_joint_vectorIdx", TorchParametricActionsModelv2
-    )
+    if not args.state_extension:
+        ModelCatalog.register_custom_model(
+            "env_cfms_A", TorchParametricActionsModelv2
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_B", TorchParametricActionsModelv2
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_C", TorchParametricActionsModelv2
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_D", TorchParametricActionsModelv2
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_joint_vectorIdx", TorchParametricActionsModelv2
+        )
+    else:
+        ModelCatalog.register_custom_model(
+            "env_cfms_A", TorchParametricActionsModelv3
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_B", TorchParametricActionsModelv3
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_C", TorchParametricActionsModelv3
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_D", TorchParametricActionsModelv3
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_joint_vectorIdx", TorchParametricActionsModelv3
+        )
 
     if args.algo == 'DQN':
         cfg = {
@@ -249,6 +276,7 @@ if __name__ == '__main__':
                 "mask": True,
                 "no_of_jobs": args.no_of_jobs,
                 "init_jobs": args.init_jobs,
+                'state_extension': args.state_extension,
             },
             "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
             "num_workers": 32,  # parallelism

@@ -203,7 +203,9 @@ class ConveyorEnv_B(gym.Env):
         self.no_of_jobs = env_config["no_of_jobs"]
         self.mask = env_config["mask"]
         self.init_jobs = env_config["init_jobs"]
+        self.state_extension = env_config['state_extension']
         self.remaining_jobs = self.no_of_jobs - self.init_jobs
+        self.token_state = None
         self.start = True
         if self.version == 'trial':
             places = 38
@@ -214,7 +216,10 @@ class ConveyorEnv_B(gym.Env):
         else:
             places = 13
         # Observation space represents places:
-        places += 3
+        if self.state_extension:
+            places += 30
+        else:
+            places += 3
         obs_space = spaces.Box(-1, 1, shape=(places,))
         # Action space represents possible transitions
         self.action_space = spaces.Discrete(4)
@@ -284,15 +289,28 @@ class ConveyorEnv_B(gym.Env):
             for place in ACTION_MAPPING_COMPACT.keys():
                 self.binding[place] = {}
         self.binding['T'] = {}
-        for idx, job in enumerate(self.jobs[:self.init_jobs]):
-            self.token[f"token_{idx}"] = {}
-            self.token[f"token_{idx}"]["dir"] = 0
-            self.token[f"token_{idx}"]["job"] = job
-            self.token[f"token_{idx}"]["c_state"] = 0
-            self.token[f"token_{idx}"]["c_place"] = 'S'
-            self.token[f"token_{idx}"]["p_place"] = None
-            self.token[f"token_{idx}"]["count"] = 0
-            self.token[f"token_{idx}"]["steps"] = 0
+        if self.state_extension:
+            self.token_state = [0 for _ in range(30)]
+            for idx, job in enumerate(self.jobs):
+                self.token[f"token_{idx}"] = {}
+                self.token[f"token_{idx}"]["dir"] = 0
+                self.token[f"token_{idx}"]["job"] = job
+                self.token[f"token_{idx}"]["c_state"] = 0
+                self.token[f"token_{idx}"]["c_place"] = 'S'
+                self.token[f"token_{idx}"]["p_place"] = None
+                self.token[f"token_{idx}"]["count"] = 0
+                self.token[f"token_{idx}"]["steps"] = 0
+                self.token_state[idx * 3 + 2] = job
+        else:
+            for idx, job in enumerate(self.jobs):
+                self.token[f"token_{idx}"] = {}
+                self.token[f"token_{idx}"]["dir"] = 0
+                self.token[f"token_{idx}"]["job"] = job
+                self.token[f"token_{idx}"]["c_state"] = 0
+                self.token[f"token_{idx}"]["c_place"] = 'S'
+                self.token[f"token_{idx}"]["p_place"] = None
+                self.token[f"token_{idx}"]["count"] = 0
+                self.token[f"token_{idx}"]["steps"] = 0
         for key, value in self.token.items():
             self.binding['S'].update({key: value})
         state = self._next_observation()
@@ -300,65 +318,128 @@ class ConveyorEnv_B(gym.Env):
         return state
 
     def _next_observation(self):
-        # total_time = float(str(self.total_time_units) + "." + str(self.step_count))
-        state = []
-        details = {}
-        if not self.start:
-            token = list(self.binding[self.next_place].items())[0][0]
-            details = list(self.binding[self.next_place].items())[0][1]
-            # print(token, details)
-        if self.version == 'trial':
-            for place in ACTION_MAPPING_TRIAL.keys():
-                if place in set(self.marking.keys()):
-                    state.append(1)
-                else:
-                    state.append(0)
-        elif self.version == 'trial_compact':
-            for place in ACTION_MAPPING_TRIAL_COMPACT.keys():
-                if place in set(self.marking.keys()):
-                    state.append(1)
-                else:
-                    state.append(0)
-        elif self.version == 'full':
-            for place in ACTION_MAPPING.keys():
-                if place in set(self.marking.keys()):
-                    state.append(1)
-                else:
-                    state.append(0)
-        else:
-            for place in ACTION_MAPPING_COMPACT.keys():
-                if place in set(self.marking.keys()):
-                    state.append(1)
-                else:
-                    state.append(0)
-        if self.start:
-            f_state = (int(self.current_token['f']) - 1) / 14
-            state.extend([0, 0, f_state])
-            mask = np.array((1, 0, 0, 0))
-        else:
-            c_state = details['c_state']/15
-            f_state = (details['job'] - 1)/14
-            state.extend([details['dir'], c_state, f_state])
+        if self.state_extension:
+            state = []
+            details = {}
+            if not self.start:
+                token = list(self.binding[self.next_place].items())[0][0]
+                details = list(self.binding[self.next_place].items())[0][1]
+                # print(token, details)
             if self.version == 'trial':
-                transition = np.array(list(ACTION_MAPPING_TRIAL[self.next_place].values()))
+                for place in ACTION_MAPPING_TRIAL.keys():
+                    if place in set(self.marking.keys()):
+                        state.append(1)
+                    else:
+                        state.append(0)
             elif self.version == 'trial_compact':
-                transition = np.array(list(ACTION_MAPPING_TRIAL_COMPACT[self.next_place].values()))
+                for place in ACTION_MAPPING_TRIAL_COMPACT.keys():
+                    if place in set(self.marking.keys()):
+                        state.append(1)
+                    else:
+                        state.append(0)
             elif self.version == 'full':
-                transition = np.array(list(ACTION_MAPPING[self.next_place].values()))
+                for place in ACTION_MAPPING.keys():
+                    if place in set(self.marking.keys()):
+                        state.append(1)
+                    else:
+                        state.append(0)
             else:
-                transition = np.array(list(ACTION_MAPPING_COMPACT[self.next_place].values()))
-            mask = np.where(transition == 'Nan', 0, 1)
-        state = np.array(state, dtype=np.int16)
+                for place in ACTION_MAPPING_COMPACT.keys():
+                    if place in set(self.marking.keys()):
+                        state.append(1)
+                    else:
+                        state.append(0)
+            if self.start:
+                for token, detail in self.token.items():
+                    idx = int(token[-1]) * 3 + 2
+                    self.token_state[idx] = (self.token_state[idx]) / 15
+                state.extend(self.token_state)
+                mask = np.array((1, 0, 0, 0))
+            else:
+                idx = int(token[-1]) * 3
+                c_state = details['c_state'] / 15
+                self.token_state[idx] = details['dir']
+                self.token_state[idx + 1] = c_state
+                state.extend(self.token_state)
+                if self.version == 'trial':
+                    transition = np.array(list(ACTION_MAPPING_TRIAL[self.next_place].values()))
+                elif self.version == 'trial_compact':
+                    transition = np.array(list(ACTION_MAPPING_TRIAL_COMPACT[self.next_place].values()))
+                elif self.version == 'full':
+                    transition = np.array(list(ACTION_MAPPING[self.next_place].values()))
+                else:
+                    transition = np.array(list(ACTION_MAPPING_COMPACT[self.next_place].values()))
+                mask = np.where(transition == 'Nan', 0, 1)
+            state = np.array(state, dtype=np.float32)
 
-        if self.mask:
-            self.state = {
-                "action_mask": mask,
-                "avail_actions": np.ones(4),
-                "state": state
-            }
+            if self.mask:
+                self.state = {
+                    "action_mask": mask,
+                    "avail_actions": np.ones(4),
+                    "state": state
+                }
+            else:
+                self.state = state
+            self.current_place = self.next_place
         else:
-            self.state = state
-        self.current_place = self.next_place
+            state = []
+            details = {}
+            if not self.start:
+                token = list(self.binding[self.next_place].items())[0][0]
+                details = list(self.binding[self.next_place].items())[0][1]
+                # print(token, details)
+            if self.version == 'trial':
+                for place in ACTION_MAPPING_TRIAL.keys():
+                    if place in set(self.marking.keys()):
+                        state.append(1)
+                    else:
+                        state.append(0)
+            elif self.version == 'trial_compact':
+                for place in ACTION_MAPPING_TRIAL_COMPACT.keys():
+                    if place in set(self.marking.keys()):
+                        state.append(1)
+                    else:
+                        state.append(0)
+            elif self.version == 'full':
+                for place in ACTION_MAPPING.keys():
+                    if place in set(self.marking.keys()):
+                        state.append(1)
+                    else:
+                        state.append(0)
+            else:
+                for place in ACTION_MAPPING_COMPACT.keys():
+                    if place in set(self.marking.keys()):
+                        state.append(1)
+                    else:
+                        state.append(0)
+            if self.start:
+                f_state = (int(self.current_token['f']) - 1) / 14
+                state.extend([0, 0, f_state])
+                mask = np.array((1, 0, 0, 0))
+            else:
+                c_state = details['c_state'] / 15
+                f_state = (details['job'] - 1) / 14
+                state.extend([details['dir'], c_state, f_state])
+                if self.version == 'trial':
+                    transition = np.array(list(ACTION_MAPPING_TRIAL[self.next_place].values()))
+                elif self.version == 'trial_compact':
+                    transition = np.array(list(ACTION_MAPPING_TRIAL_COMPACT[self.next_place].values()))
+                elif self.version == 'full':
+                    transition = np.array(list(ACTION_MAPPING[self.next_place].values()))
+                else:
+                    transition = np.array(list(ACTION_MAPPING_COMPACT[self.next_place].values()))
+                mask = np.where(transition == 'Nan', 0, 1)
+            state = np.array(state, dtype=np.float32)
+
+            if self.mask:
+                self.state = {
+                    "action_mask": mask,
+                    "avail_actions": np.ones(4),
+                    "state": state
+                }
+            else:
+                self.state = state
+            self.current_place = self.next_place
 
         return self.state
 
