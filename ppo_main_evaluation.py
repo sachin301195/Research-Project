@@ -378,7 +378,7 @@ if __name__ == '__main__':
             "num_workers": 32,  # parallelism
             "framework": 'torch',
             "rollout_fragment_length": 200,
-            "train_batch_size": 64000,
+            "train_batch_size": 6400,
             # "sgd_minibatch_size": 512,
             # "num_sgd_iter": 20,
             "vf_loss_coeff": tune.grid_search([0.0009, 0.0005]),
