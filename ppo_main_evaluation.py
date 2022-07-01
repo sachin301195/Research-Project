@@ -364,6 +364,7 @@ if __name__ == '__main__':
             "model": {
                 "custom_model": f"env_cfms_{args.env[-1]}",
                 "vf_share_layers": True,
+                "fcnet-hiddens": [256, 256, 256]
             },
             "env_config": {
                 "version": "full",
@@ -376,16 +377,16 @@ if __name__ == '__main__':
             "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
             "num_workers": 32,  # parallelism
             "framework": 'torch',
-            "rollout_fragment_length": 125,
-            "train_batch_size": 4000,
+            "rollout_fragment_length": 1250,
+            "train_batch_size": 40000,
             # "sgd_minibatch_size": 512,
             # "num_sgd_iter": 20,
-            "vf_loss_coeff": tune.grid_search([0.001, 0.0009, 0.0005]),
+            "vf_loss_coeff": tune.grid_search([0.0009, 0.0005]),
             # "vf_loss_coeff": 0.0001,
             "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
             "lr": 0.0001,
-            # "horizon": 32,
+            # "horizon": 500*args.no_of_jobs,
             # "timesteps_per_batch": 2048,
         },
             **cfg)
