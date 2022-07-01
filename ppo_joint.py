@@ -150,31 +150,15 @@ def setup(algo, no_of_jobs, env, timestamp):
 
 class MultiEnv(gym.Env):
     def __init__(self, env_config):
-        # if env_config.worker_index % 4 == 0:
-        #     self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
-        #     self.name = "ConveyorEnv_A"
-        # elif env_config.worker_index % 4 == 1:
-        #     self.env = ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
-        #     self.name = 'ConveyorEnv_B'
-        # elif env_config.worker_index % 4 == 2:
-        #     self.env = ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
-        #     self.name = 'ConveyorEnv_C'
-        # else:
-        #     self.env = ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
-        #     self.name = 'ConveyorEnv_D'
-        if env_config.vector_index % 4 == 0:
+        if env_config.worker_index % 4 == 0:
             self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
             self.name = "ConveyorEnv_A"
-        elif env_config.vector_index % 4 == 1:
+        elif env_config.worker_index % 4 == 1:
             self.env = ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
             self.name = 'ConveyorEnv_B'
-        elif env_config.vector_index % 4 == 2:
+        elif env_config.worker_index % 4 == 2:
             self.env = ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
             self.name = 'ConveyorEnv_C'
@@ -182,6 +166,22 @@ class MultiEnv(gym.Env):
             self.env = ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
             self.name = 'ConveyorEnv_D'
+        # if env_config.vector_index % 4 == 0:
+        #     self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
+        #     self.name = "ConveyorEnv_A"
+        # elif env_config.vector_index % 4 == 1:
+        #     self.env = ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
+        #     self.name = 'ConveyorEnv_B'
+        # elif env_config.vector_index % 4 == 2:
+        #     self.env = ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
+        #     self.name = 'ConveyorEnv_C'
+        # else:
+        #     self.env = ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs})
+        #     self.name = 'ConveyorEnv_D'
         self.action_space = self.env.action_space
         self.observation_space = self.env.observation_space
 
