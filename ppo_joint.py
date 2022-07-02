@@ -137,7 +137,7 @@ parser.add_argument(
     "--init_jobs",
     default=4,
     type=int,
-    help="Number of tokens to initialize in an environment. This should be greater than or equal to self.no_of_jobs."
+    help="Number of tokens to initialize in an environment. This should be less than or equal to self.no_of_jobs."
 )
 
 
@@ -159,22 +159,22 @@ class MultiEnv(gym.Env):
         if env_config.worker_index % 4 == 0:
             self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
-                                      'state_extension': args.state_extension,})
+                                      'state_extension': args.state_extension, })
             self.name = "ConveyorEnv_A"
         elif env_config.worker_index % 4 == 1:
             self.env = ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
-                                      'state_extension': args.state_extension,})
+                                      'state_extension': args.state_extension, })
             self.name = 'ConveyorEnv_B'
         elif env_config.worker_index % 4 == 2:
             self.env = ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
-                                      'state_extension': args.state_extension,})
+                                      'state_extension': args.state_extension, })
             self.name = 'ConveyorEnv_C'
         else:
             self.env = ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
-                                      'state_extension': args.state_extension,})
+                                      'state_extension': args.state_extension, })
             self.name = 'ConveyorEnv_D'
         # if env_config.vector_index % 4 == 0:
         #     self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
@@ -220,7 +220,7 @@ if __name__ == '__main__':
     register_env("env_cfms_D", lambda _: ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward,
                                                         'mask': True, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
-    register_env("env_cfms_joint_vectorIdx", lambda c: MultiEnv(c))
+    register_env("env_cfms_joint", lambda c: MultiEnv(c))
 
     if not args.state_extension:
         ModelCatalog.register_custom_model(
@@ -236,7 +236,7 @@ if __name__ == '__main__':
             "env_cfms_D", TorchParametricActionsModelv2
         )
         ModelCatalog.register_custom_model(
-            "env_cfms_joint_vectorIdx", TorchParametricActionsModelv2
+            "env_cfms_joint", TorchParametricActionsModelv2
         )
     else:
         ModelCatalog.register_custom_model(
@@ -252,7 +252,7 @@ if __name__ == '__main__':
             "env_cfms_D", TorchParametricActionsModelv3
         )
         ModelCatalog.register_custom_model(
-            "env_cfms_joint_vectorIdx", TorchParametricActionsModelv3
+            "env_cfms_joint", TorchParametricActionsModelv3
         )
 
     if args.algo == 'DQN':
@@ -265,9 +265,9 @@ if __name__ == '__main__':
 
     if args.algo == 'PPO':
         config = dict({
-            "env": 'env_cfms_joint_vectorIdx',
+            "env": 'env_cfms_joint',
             "model": {
-                "custom_model": "env_cfms_joint_vectorIdx",
+                "custom_model": "env_cfms_joint",
                 "vf_share_layers": True,
             },
             "env_config": {
