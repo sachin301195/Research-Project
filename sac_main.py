@@ -334,32 +334,32 @@ if __name__ == '__main__':
     register_env("env_cfms_D", lambda _: ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward,
                                                         'mask': args.action_masking, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
-    if not args.state_extension:
-        ModelCatalog.register_custom_model(
-            "env_cfms_A", TorchParametricActionModel
-        )
-        ModelCatalog.register_custom_model(
-            "env_cfms_B", TorchParametricActionModel
-        )
-        ModelCatalog.register_custom_model(
-            "env_cfms_C", TorchParametricActionModel
-        )
-        ModelCatalog.register_custom_model(
-            "env_cfms_D", TorchParametricActionModel
-        )
-    else:
-        ModelCatalog.register_custom_model(
-            "env_cfms_A", TorchParametricActionModel
-        )
-        ModelCatalog.register_custom_model(
-            "env_cfms_B", TorchParametricActionModel
-        )
-        ModelCatalog.register_custom_model(
-            "env_cfms_C", TorchParametricActionModel
-        )
-        ModelCatalog.register_custom_model(
-            "env_cfms_D", TorchParametricActionModel
-        )
+    # if not args.state_extension:
+    #     ModelCatalog.register_custom_model(
+    #         "env_cfms_A", TorchParametricActionModel
+    #     )
+    #     ModelCatalog.register_custom_model(
+    #         "env_cfms_B", TorchParametricActionModel
+    #     )
+    #     ModelCatalog.register_custom_model(
+    #         "env_cfms_C", TorchParametricActionModel
+    #     )
+    #     ModelCatalog.register_custom_model(
+    #         "env_cfms_D", TorchParametricActionModel
+    #     )
+    # else:
+    #     ModelCatalog.register_custom_model(
+    #         "env_cfms_A", TorchParametricActionModel
+    #     )
+    #     ModelCatalog.register_custom_model(
+    #         "env_cfms_B", TorchParametricActionModel
+    #     )
+    #     ModelCatalog.register_custom_model(
+    #         "env_cfms_C", TorchParametricActionModel
+    #     )
+    #     ModelCatalog.register_custom_model(
+    #         "env_cfms_D", TorchParametricActionModel
+    #     )
 
     if args.algo == 'DQN':
         cfg = {
