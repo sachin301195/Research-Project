@@ -6,6 +6,8 @@ import time
 from pathlib import Path
 
 from ray.rllib.agents.dqn.dqn_torch_model import DQNTorchModel
+from ray.rllib.agents.sac.sac_torch_model import SACTorchModel
+from ray.rllib.agents.sac.sac_torch_policy import SACTorchPolicy
 from ray.rllib.models.torch.fcnet import FullyConnectedNetwork as TorchFC
 from ray.rllib.utils.framework import try_import_torch
 from ray.rllib.utils.torch_ops import FLOAT_MIN, FLOAT_MAX
@@ -56,6 +58,36 @@ class TorchParametricActionModel(DQNTorchModel):
 
     def value_function(self):
         return self.action_model.value_function()
+
+
+class TorchParametricActionModelv4(SACTorchModel):
+    """
+    : This network to be used without action_masking
+    """
+    def __init__(self,
+                 obs_space,
+                 action_space,
+                 num_outputs,
+                 model_config,
+                 name,
+                 policy_model_config,
+                 q_model_config,
+                 **kwargs):
+        SACTorchModel.__init__(self, obs_space, action_space, num_outputs, model_config, name, **kwargs)
+        self.q_model = self.build_q_model(obs_space, action_space, num_outputs, q_model_config, name)
+        self.policy_model = self.build_policy_model(obs_space, num_outputs, policy_model_config, name)
+
+    #     self.action_model = TorchFC(obs_space, action_space, num_outputs, model_config, name)
+    #
+    # def forward(self, input_dict,
+    #             state,
+    #             seq_lens):
+    #     input_dict['obs'] = input_dict['obs'].float()
+    #     fc_out, _ = self.action_model(input_dict, state, seq_lens)
+    #     return fc_out, []
+    #
+    # def value_function(self):
+    #     return self.action_model.value_function()
 
 
 class TorchParametricActionsModelv1(DQNTorchModel):
