@@ -358,8 +358,10 @@ class ConveyorEnv_B(gym.Env):
             else:
                 idx = int(token[-1]) * 3
                 c_state = details['c_state'] / 15
+                f_state = (details['job'] - 1) / 14
                 self.token_state[idx] = details['dir']
                 self.token_state[idx + 1] = c_state
+                self.token_state[idx + 2] = f_state
                 state.extend(self.token_state)
                 if self.version == 'trial':
                     transition = np.array(list(ACTION_MAPPING_TRIAL[self.next_place].values()))
