@@ -290,6 +290,7 @@ if __name__ == '__main__':
             "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
             "lr": 0.0001,
+            "reuse_actors": True,
             # "entropy_coeff": tune.grid_search([tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
             #                                    tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
             #                                    tune.uniform(0.0001, 0.001)]),
@@ -301,7 +302,7 @@ if __name__ == '__main__':
         algo_config = ppo.DEFAULT_CONFIG.copy()
         algo_config.update(config)
         algo_config['model']['fcnet_activation'] = 'relu'
-        algo_config['evaluation_interval'] = 100
+        algo_config['evaluation_interval'] = 50
         # algo_config['evaluation_duration'] = 10
         algo_config["evaluation_parallel_to_training"]: True
     else:
@@ -317,7 +318,7 @@ if __name__ == '__main__':
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
     result = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
-                      checkpoint_at_end=True)
+                      checkpoint_at_end=True, checkpoint_freq=50)
     logger.info(result)
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')
