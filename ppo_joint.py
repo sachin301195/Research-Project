@@ -290,7 +290,6 @@ if __name__ == '__main__':
             "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
             "lr": 0.0001,
-            "reuse_actors": True,
             # "entropy_coeff": tune.grid_search([tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
             #                                    tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
             #                                    tune.uniform(0.0001, 0.001)]),
@@ -318,7 +317,7 @@ if __name__ == '__main__':
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
     result = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
-                      checkpoint_at_end=True, checkpoint_freq=50)
+                      checkpoint_at_end=True, checkpoint_freq=50, reuse_actors=True)
     logger.info(result)
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')
