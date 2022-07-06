@@ -64,17 +64,18 @@ class TorchParametricActionModelv4(SACTorchModel):
     """
     : This network to be used without action_masking
     """
-    def __init__(self,
-                 obs_space,
-                 action_space,
-                 num_outputs,
-                 model_config,
-                 name,
-                 policy_model_config,
-                 q_model_config,
-                 **kwargs):
-        SACTorchModel.__init__(self, obs_space, action_space, num_outputs, model_config, name, policy_model_config,
-                               q_model_config, **kwargs)
+    pass
+    # def __init__(self,
+    #              obs_space,
+    #              action_space,
+    #              num_outputs,
+    #              model_config,
+    #              name,
+    #              policy_model_config,
+    #              q_model_config,
+    #              **kwargs):
+    #     SACTorchModel.__init__(self, obs_space, action_space, num_outputs, model_config, name, policy_model_config,
+    #                            q_model_config, **kwargs)
         # self.q_model = self.build_q_model(obs_space, action_space, num_outputs, q_model_config, name)
         # self.policy_model = self.build_policy_model(obs_space, num_outputs, policy_model_config, name)
 
@@ -177,6 +178,7 @@ class TorchParametricActionsModelv2(DQNTorchModel):
 
     def value_function(self):
         return self.action_model.value_function()
+
 
 class TorchParametricActionsModelv3(DQNTorchModel):
     """
