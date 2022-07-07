@@ -394,7 +394,7 @@ if __name__ == '__main__':
         algo_config.update(config)
         # algo_config['model']['fcnet_activation'] = 'relu'
         algo_config['evaluation_interval'] = 50
-        algo_config['evaluation_duration'] = 10
+        # algo_config['evaluation_duration'] = 10
         algo_config["evaluation_parallel_to_training"]: True
     else:
         algo_config = None
