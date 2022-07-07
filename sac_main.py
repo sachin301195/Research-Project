@@ -359,7 +359,8 @@ if __name__ == '__main__':
 
     if args.algo == 'SAC':
         config = dict({
-            "env": f"env_cfms_{args.env[-1]}",
+            # "env": f"env_cfms_{args.env[-1]}",
+            "env": tune.grid_search(['env_cfms_A', 'env_cfms_B', 'env_cfms_C', 'env_cfms_D']),
             "model": {
                 "custom_model": f"env_cfms_{args.env[-1]}",
                 "vf_share_layers": True,
@@ -367,11 +368,11 @@ if __name__ == '__main__':
             },
             "env_config": {
                 "version": "full",
-                "final_reward": args.final_reward,
+                "final_reward": tune.grid_search(['A', 'B', 'C']),
                 "mask": args.action_masking,
                 "no_of_jobs": args.no_of_jobs,
                 "init_jobs": args.init_jobs,
-                'state_extension': args.state_extension,
+                'state_extension': tune.grid_search([True, False]),
             },
             "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
             "num_workers": 0,  # parallelism
