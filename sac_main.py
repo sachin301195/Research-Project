@@ -393,14 +393,14 @@ if __name__ == '__main__':
         algo_config = sac.DEFAULT_CONFIG.copy()
         algo_config.update(config)
         # algo_config['model']['fcnet_activation'] = 'relu'
-        algo_config['evaluation_interval'] = 100
-        # algo_config['evaluation_duration'] = 10
+        algo_config['evaluation_interval'] = 50
+        algo_config['evaluation_duration'] = 10
         algo_config["evaluation_parallel_to_training"]: True
     else:
         algo_config = None
 
     stop = {
-        "training_iteration": 100 * args.no_of_jobs
+        "training_iteration": 4000 * args.no_of_jobs
     }
     plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, args.env, timestamp)
 
@@ -415,7 +415,8 @@ if __name__ == '__main__':
         print('...............................................................................\n'
               '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
         result = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
-                          checkpoint_at_end=True)
+                          checkpoint_at_end=True, checkpoint_freq=50, checkpoint_score_attr = "min-episode_len_mean",
+                          verbose=1)
         logger.info(result)
         print('...............................................................................\n'
               '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')
