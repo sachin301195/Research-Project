@@ -507,7 +507,7 @@ class ConveyorEnv_D(gym.Env):
 
         if self.trans_fire is not 'Nan':
             self.termination = False
-            if self.trans_fire == 'w1' or 'w2':
+            if self.trans_fire == 'w1' or self.trans_fire == 'w2':
                 self.trans_fire = self._resolve_workstations(self.trans_fire, action)
             self.modes = self.net.transition(self.trans_fire).modes()
             if len(self.modes) != 0:
@@ -562,6 +562,33 @@ class ConveyorEnv_D(gym.Env):
             else:
                 self.error = True
         else:
+            # print(place)
+            # print(self.net.get_marking())
+            for trans in list(ACTION_MAPPING[place].values()):
+                if trans != 'Nan' and trans != 'P_J1' and trans != 'P_J2':
+                    # print(trans)
+                    if trans == 'w1':
+                        if place == 'D3':
+                            self.modes = self.net.transition('D0W1').modes()
+                        else:
+                            self.modes = self.net.transition('C0W1').modes()
+                    elif trans == 'w2':
+                        if place == 'L1':
+                            self.modes = self.net.transition('L0W2').modes()
+                        else:
+                            self.modes = self.net.transition('M0W2').modes()
+                    else:
+                        self.modes = self.net.transition(trans).modes()
+                    # print(self.modes)
+                    self.current_token = [(self.modes[0]['dir'], self.modes[0]['sq_no'], self.modes[0]['c'],
+                                           self.modes[0]['f'], self.modes[0]['count'] + 1)]
+                    self.current_token[0] = tuple(self.current_token[0])
+                    if place == 'S':
+                        self.net.transition(self.trans_fire).fire(self.modes[0])
+                    else:
+                        self.net.place(place).empty()
+                    self.net.place(place).add(self.current_token)
+                    break
             self.error = True
 
     def _resolve_workstations(self, trans, action):

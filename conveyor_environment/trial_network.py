@@ -110,9 +110,12 @@ class ConveyorNetwork:
             else:
                 self.transition.update({i: Transition('%s' % i)})
             n.add_transition(self.transition[i])
+        n.add_transition(Transition('Nan'))
 
         # adding input and output
         # Conveyor S
+        n.add_input('S', 'Nan',
+                    Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
         n.add_input('S', 's1',
                     Tuple([Variable('dir'), Variable('sq_no'), Variable('c'), Variable('f'), Variable('count')]))
         n.add_output('S1', 's1',
@@ -746,15 +749,17 @@ class ConveyorNetwork:
 
         return n, self.transition
 
-#
+
 # trial_net = ConveyorNetwork([15, 14], [7, 5, 5, 5, 5], [4, 3])
 # net, t = trial_net.conveyor_petrinet()
 # print(net.get_marking())
 # mark = net.get_marking()
 # print(mark['S'])
-
-# net.draw('Network.png')
+#
+# # net.draw('Network.png')
 # modes = net.transition('s1').modes()
+# net.remove_marking(mark)
+# mark = net.Place('S').remove
 # net.transition('s1').fire(modes[0])
 # modes = net.transition('s1').modes()
 # m = net.get_marking()

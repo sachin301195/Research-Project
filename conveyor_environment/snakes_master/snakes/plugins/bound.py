@@ -144,7 +144,8 @@ def extend (module) :
                 used a a single value instead of as a collection
             @type tokens: `collection`
             """
-            if len(self.tokens) - len(list(iterate(tokens))) < self._bound_min :
+            # if len(self.tokens) - len(list(iterate(tokens))) < self._bound_min :
+            if len(self.tokens) - 1 < self._bound_min:
                 raise ConstraintError("lower bound of place %r reached" % self.name)
             module.Place.remove(self, tokens)
         def reset (self, tokens) :

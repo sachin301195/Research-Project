@@ -45,7 +45,7 @@ REWARDS = []
 AVG_THROUGHPUT = []
 ORDER_THROUGHPUT = []
 
-env = ConveyorEnv_A({'version': 'full', 'final_reward': 'A', 'mask': True, 'no_of_jobs': 4, 'init_jobs': 2,
+env = ConveyorEnv_A({'version': 'full', 'final_reward': 'A', 'mask': False, 'no_of_jobs': 4, 'init_jobs': 2,
                      'state_extension': False})
 
 results = []
@@ -61,30 +61,36 @@ time_begin = time.time()
 episode_save_counter = 0
 best_avg_reward = -1000000
 episode_completion_time = []
+mask = False
 
 for n in range(NUM_EPISODES):
     done = False
     score = 0
     step_count = 0
     obs = env.reset()
-    actions = obs['action_mask']
-    # print(actions)
+    if mask:
+        actions = obs['action_mask']
+        # print(actions)
+    else:
+        final_actions = [0, 1, 2, 3]
 
     logger.info(f"Episode_no: {n}")
 
     while not done:
-        final_actions = []
-        for idx, a in enumerate(actions):
-            if a != 0:
-                final_actions.append(idx)
-        # print(final_actions)
+        if mask:
+            final_actions = []
+            for idx, a in enumerate(actions):
+                if a != 0:
+                    final_actions.append(idx)
+            # print(final_actions)
         action = random.choice(final_actions)
         # print(action)
         obs, reward, done, info = env.step(action)
         score += reward
         step_count += 1
         # actions = list(obs['action_mask'])
-        actions = obs['action_mask']
+        if mask:
+            actions = obs['action_mask']
         if len(info) > 0:
             logger.info(info)
         # info = env.render()
