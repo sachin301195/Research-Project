@@ -39,6 +39,7 @@ import ray
 from ray import tune
 from ray.rllib.agents import dqn
 from ray.rllib.agents import ppo
+from ray.rllib.agents import a3c
 from ray.rllib.env.env_context import EnvContext
 from ray.rllib.models import ModelCatalog
 from ray.rllib.models.tf.tf_modelv2 import TFModelV2
@@ -156,17 +157,17 @@ def setup(algo, no_of_jobs, env, timestamp):
 
 class MultiEnv(gym.Env):
     def __init__(self, env_config):
-        # if env_config.worker_index % 4 == 0:
-        #     self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
-        #                               'state_extension': args.state_extension, })
-        #     self.name = "ConveyorEnv_A"
         if env_config.worker_index % 4 == 0:
+            self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+                                      'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
+                                      'state_extension': args.state_extension, })
+            self.name = "ConveyorEnv_A"
+        if env_config.worker_index % 4 == 1:
             self.env = ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
                                       'state_extension': args.state_extension, })
             self.name = 'ConveyorEnv_B'
-        elif env_config.worker_index % 4 == 1:
+        elif env_config.worker_index % 4 == 2:
             self.env = ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
                                       'state_extension': args.state_extension, })
@@ -263,7 +264,7 @@ if __name__ == '__main__':
     else:
         cfg = {}
 
-    if args.algo == 'PPO':
+    if args.algo == 'PPO' or args.algo == 'A3C':
         config = dict({
             "env": 'env_cfms_joint',
             "model": {
@@ -272,22 +273,22 @@ if __name__ == '__main__':
             },
             "env_config": {
                 "version": "full",
-                "final_reward": tune.grid_search(['A', 'C']),
+                "final_reward": tune.grid_search(['A', 'B', 'C']),
                 "mask": True,
                 "no_of_jobs": args.no_of_jobs,
                 "init_jobs": args.init_jobs,
                 'state_extension': tune.grid_search([True, False]),
             },
             "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-            "num_workers": 33,  # parallelism
+            "num_workers": 32,  # parallelism
             "framework": 'torch',
             "rollout_fragment_length": 125,
-            "train_batch_size": 4125,
+            "train_batch_size": 4000,
             # "sgd_minibatch_size": 512,
             # "num_sgd_iter": 20,
             "vf_loss_coeff": tune.grid_search([0.0009, 0.0005]),
             # "vf_loss_coeff": 0.0005,
-            "vf_clip_param": 10,
+            # "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
             "lr": 0.0001,
             # "entropy_coeff": tune.grid_search([tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
@@ -317,7 +318,8 @@ if __name__ == '__main__':
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
     result = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
-                      checkpoint_at_end=True, checkpoint_freq=50, reuse_actors=True)
+                      checkpoint_at_end=True, checkpoint_freq=50, reuse_actors=True, verbose=3,
+                      checkpoint_score_attr='min-episode_len_mean')
     logger.info(result)
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')

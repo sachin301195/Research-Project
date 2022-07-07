@@ -524,7 +524,7 @@ class ConveyorEnv_D(gym.Env):
                         print(f'\n Termination of token ',
                               f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, '
                               f'f: {self.modes[0]["f"]}, count: {self.modes[0]["count"]}')
-                    value = 0.1
+                    value = 0.05
                     if self.trans_fire == 's1':
                         self.trans_fire = 'SN1'
                         self.modes = self.net.transition('SN1').modes()
