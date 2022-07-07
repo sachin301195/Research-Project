@@ -299,7 +299,12 @@ if __name__ == '__main__':
             # "timesteps_per_batch": 2048,
         },
             **cfg)
-        algo_config = ppo.DEFAULT_CONFIG.copy()
+        if args.algo == 'PPO':
+            algo_config = ppo.DEFAULT_CONFIG.copy()
+        elif args.algo == 'A3C':
+            algo_config = a3c.DEFAULT_CONFIG.copy()
+        else:
+            algo_config = dqn.DEFAULT_CONFIG.copy()
         algo_config.update(config)
         algo_config['model']['fcnet_activation'] = 'relu'
         algo_config['evaluation_interval'] = 50
