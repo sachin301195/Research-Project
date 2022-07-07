@@ -38,6 +38,8 @@ import ray
 from ray import tune
 from ray.rllib.agents import dqn
 from ray.rllib.agents import ppo
+from ray.rllib.agents import a3c
+from ray.rllib.agents import ddpg
 from ray.rllib.env.env_context import EnvContext
 from ray.rllib.models import ModelCatalog
 from ray.rllib.models.tf.tf_modelv2 import TFModelV2
@@ -358,7 +360,7 @@ if __name__ == '__main__':
     else:
         cfg = {}
 
-    if args.algo == 'PPO':
+    if args.algo == 'PPO' or args.algo == 'A3C':
         config = dict({
             "env": f"env_cfms_{args.env[-1]}",
             "model": {
@@ -390,7 +392,12 @@ if __name__ == '__main__':
             # "timesteps_per_batch": 2048,
         },
             **cfg)
-        algo_config = ppo.DEFAULT_CONFIG.copy()
+        if args.algo == 'PPO':
+            algo_config = ppo.DEFAULT_CONFIG.copy()
+        elif args.algo == 'A3C':
+            algo_config = a3c.DEFAULT_CONFIG.copy()
+        else:
+            algo_config = dqn.DEFAULT_CONFIG.copy()
         algo_config.update(config)
         algo_config['model']['fcnet_activation'] = 'relu'
         algo_config['evaluation_interval'] = 100
