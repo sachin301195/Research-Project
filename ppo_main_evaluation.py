@@ -400,7 +400,7 @@ if __name__ == '__main__':
             algo_config = dqn.DEFAULT_CONFIG.copy()
         algo_config.update(config)
         algo_config['model']['fcnet_activation'] = 'relu'
-        algo_config['evaluation_interval'] = 100
+        algo_config['evaluation_interval'] = 50
         # algo_config['evaluation_duration'] = 10
         algo_config["evaluation_parallel_to_training"]: True
     else:
@@ -422,7 +422,8 @@ if __name__ == '__main__':
         print('...............................................................................\n'
               '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
         result = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
-                          checkpoint_at_end=True)
+                          checkpoint_at_end=True, checkpoint_freq=50, verbose=3,
+                          checkpoint_score_attr='min-episode_len_mean')
         logger.info(result)
         print('...............................................................................\n'
               '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')
