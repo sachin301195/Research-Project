@@ -385,7 +385,7 @@ if __name__ == '__main__':
             # "num_sgd_iter": 20,
             "vf_loss_coeff": tune.grid_search([0.0009, 0.0005]),
             # "vf_loss_coeff": 0.0001,
-            "vf_clip_param": 10,
+            # "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
             "lr": 0.0001
             # "horizon": 500*args.no_of_jobs,
