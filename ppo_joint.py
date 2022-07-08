@@ -40,6 +40,7 @@ from ray import tune
 from ray.rllib.agents import dqn
 from ray.rllib.agents import ppo
 from ray.rllib.agents import a3c
+from ray.rllib.agents import impala
 from ray.rllib.env.env_context import EnvContext
 from ray.rllib.models import ModelCatalog
 from ray.rllib.models.tf.tf_modelv2 import TFModelV2
@@ -86,7 +87,7 @@ parser.add_argument(
     "--algo",
     type=str,
     default="PPO",
-    choices=["PPO", "SAC", "A2C", "A3C", "DQN", "DDPG", "APEX", "APEX_DDPG", "PG"],
+    choices=["PPO", "SAC", "A2C", "A3C", "DQN", "IMPALA", "APEX", "APEX_DDPG", "PG"],
     help="The RLlib-registered algorithm to use.")
 parser.add_argument(
     "--framework",
@@ -157,17 +158,17 @@ def setup(algo, no_of_jobs, env, timestamp):
 
 class MultiEnv(gym.Env):
     def __init__(self, env_config):
-        if env_config.worker_index % 4 == 0:
-            self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-                                      'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
-                                      'state_extension': args.state_extension, })
-            self.name = "ConveyorEnv_A"
-        if env_config.worker_index % 4 == 1:
+        # if env_config.worker_index % 4 == 0:
+        #     self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
+        #                               'state_extension': args.state_extension, })
+        #     self.name = "ConveyorEnv_A"
+        if env_config.worker_index % 3 == 0:
             self.env = ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
                                       'state_extension': args.state_extension, })
             self.name = 'ConveyorEnv_B'
-        elif env_config.worker_index % 4 == 2:
+        elif env_config.worker_index % 3 == 1:
             self.env = ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
                                       'state_extension': args.state_extension, })
@@ -290,7 +291,7 @@ if __name__ == '__main__':
             # "vf_loss_coeff": 0.0005,
             # "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
-            "lr": 0.0001,
+            "lr": tune.grid_search([0.0001, 0.00005, 0.00001])
             # "entropy_coeff": tune.grid_search([tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
             #                                    tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
             #                                    tune.uniform(0.0001, 0.001)]),
