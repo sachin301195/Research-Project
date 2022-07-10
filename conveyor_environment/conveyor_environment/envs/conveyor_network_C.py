@@ -759,7 +759,7 @@ class ConveyorEnv_C(gym.Env):
                           5 * self.terminating_in_middle + (30 / self.no_of_jobs) * self.termination
         elif self.final_reward == 'B':
             diff = 40 / (self.no_of_jobs * (self.no_of_jobs - 1))
-            self.reward = - 0.004 * (not self.error) - 0.008 * self.error * (not self.done) \
+            self.reward = - 0.001 * (not self.error) - 0.002 * self.error * (not self.done) \
                           - 5 * self.terminating_in_middle + diff * self.exit_count * self.termination \
                           + 10 * self.done * (not self.terminating_in_middle)
         else:
@@ -805,7 +805,7 @@ class ConveyorEnv_C(gym.Env):
             return True
         else:
             # print(f'Returning done as False')
-            if self.current_token[0][-1] > 500:
+            if self.current_token[0][-1] > 1000:
                 self.terminating_in_middle = True
                 print(f"Termination_in_middle with steps: {self.step_count}")
 
