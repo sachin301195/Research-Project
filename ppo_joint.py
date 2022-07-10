@@ -3,6 +3,8 @@ import platform
 import logging
 import getpass
 import sys
+from abc import ABC
+
 import gym
 
 sys.path.append('./conveyor_environment/snakes_master')
@@ -156,19 +158,19 @@ def setup(algo, no_of_jobs, env, timestamp):
     return plots_save_path, agent_save_path, best_agent_save_path
 
 
-class MultiEnv(gym.Env):
+class MultiEnv(gym.Env, ABC):
     def __init__(self, env_config):
-        # if env_config.worker_index % 4 == 0:
-        #     self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
-        #                               'state_extension': args.state_extension, })
-        #     self.name = "ConveyorEnv_A"
-        if env_config.worker_index % 3 == 0:
+        if env_config.worker_index % 4 == 0:
+            self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+                                      'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
+                                      'state_extension': args.state_extension, })
+            self.name = "ConveyorEnv_A"
+        elif env_config.worker_index % 4 == 1:
             self.env = ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
                                       'state_extension': args.state_extension, })
             self.name = 'ConveyorEnv_B'
-        elif env_config.worker_index % 3 == 1:
+        elif env_config.worker_index % 4 == 2:
             self.env = ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
                                       'state_extension': args.state_extension, })
@@ -274,7 +276,7 @@ if __name__ == '__main__':
             },
             "env_config": {
                 "version": "full",
-                "final_reward": tune.grid_search(['A', 'B', 'C']),
+                "final_reward": args.final_reward,
                 "mask": True,
                 "no_of_jobs": args.no_of_jobs,
                 "init_jobs": args.init_jobs,
@@ -291,7 +293,7 @@ if __name__ == '__main__':
             # "vf_loss_coeff": 0.0005,
             # "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
-            "lr": tune.grid_search([0.0001, 0.00005, 0.00001])
+            "lr": 0.0001
             # "entropy_coeff": tune.grid_search([tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
             #                                    tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
             #                                    tune.uniform(0.0001, 0.001)]),

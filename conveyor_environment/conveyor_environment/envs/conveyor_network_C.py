@@ -204,6 +204,7 @@ class ConveyorEnv_C(gym.Env):
         self.remaining_jobs = self.no_of_jobs - self.init_jobs
         self.start = True
         self.token_state = None
+        self.exit_count = -1
         if self.version == 'trial':
             places = 38
         elif self.version == 'trial_compact':
@@ -233,6 +234,7 @@ class ConveyorEnv_C(gym.Env):
         self.seed = seeding.create_seed(max_bytes=4)
         self.done = False
         self.start = True
+        self.exit_count = -1
         self.no_of_jobs = self.env_config["no_of_jobs"]
         self.init_jobs = self.env_config["init_jobs"]
         self.remaining_jobs = self.no_of_jobs - self.init_jobs
@@ -524,6 +526,7 @@ class ConveyorEnv_C(gym.Env):
                         print(f'\n Termination of token ',
                               f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, '
                               f'f: {self.modes[0]["f"]}, count: {self.modes[0]["count"]}')
+                        self.exit_count += 1
                         if self.remaining_jobs > 0:
                             # Random token introduced after termination
                             if self.remaining_jobs > 1:
@@ -755,9 +758,10 @@ class ConveyorEnv_C(gym.Env):
                           0.01 * self.error - \
                           5 * self.terminating_in_middle + (30 / self.no_of_jobs) * self.termination
         elif self.final_reward == 'B':
-            self.reward = -0.004 * (not self.error) - 0.008 * self.error -\
-                          5 * self.terminating_in_middle + (20 / self.no_of_jobs) * self.termination + \
-                          (10 * self.done * (not self.terminating_in_middle))
+            diff = 40 / (self.no_of_jobs * (self.no_of_jobs - 1))
+            self.reward = - 0.004 * (not self.error) - 0.008 * self.error * (not self.done) \
+                          - 5 * self.terminating_in_middle + diff * self.exit_count * self.termination \
+                          + 10 * self.done * (not self.terminating_in_middle)
         else:
             if self.current_token[0][-2] in [1, 2, 3]:
                 if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1:
