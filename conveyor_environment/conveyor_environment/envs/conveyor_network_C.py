@@ -202,6 +202,7 @@ class ConveyorEnv_C(gym.Env):
         self.init_jobs = env_config["init_jobs"]
         self.state_extension = env_config['state_extension']
         self.remaining_jobs = self.no_of_jobs - self.init_jobs
+        self.diff = 40 / (self.no_of_jobs * (self.no_of_jobs - 1))
         self.start = True
         self.token_state = None
         self.exit_count = -1
@@ -754,13 +755,13 @@ class ConveyorEnv_C(gym.Env):
         # else:
         #     self.reward = -1
         if self.final_reward == 'A':
-            self.reward = -self.current_token[0][-1] * (1 / 100100) * (not self.error) - \
+            self.reward = -self.current_token[0][-1] * (1 / 100100) * (not self.error) * (not self.done) - \
                           0.01 * self.error - \
-                          5 * self.terminating_in_middle + (30 / self.no_of_jobs) * self.termination
+                          5 * self.terminating_in_middle + self.diff * self.exit_count * self.termination \
+                          + 10 * self.done * (not self.terminating_in_middle)
         elif self.final_reward == 'B':
-            diff = 40 / (self.no_of_jobs * (self.no_of_jobs - 1))
             self.reward = - 0.001 * (not self.error) - 0.002 * self.error * (not self.done) \
-                          - 5 * self.terminating_in_middle + diff * self.exit_count * self.termination \
+                          - 5 * self.terminating_in_middle + self.diff * self.exit_count * self.termination \
                           + 10 * self.done * (not self.terminating_in_middle)
         else:
             if self.current_token[0][-2] in [1, 2, 3]:
@@ -790,8 +791,8 @@ class ConveyorEnv_C(gym.Env):
                         self.reward = -0.01
                 else:
                     self.reward = -0.01
-            self.reward += (-5 * self.terminating_in_middle + 20 / self.no_of_jobs * self.termination +
-                            10 * self.done * (not self.terminating_in_middle))
+            self.reward += (-5 * self.terminating_in_middle + self.diff * self.exit_count * self.termination
+                            + 10 * self.done * (not self.terminating_in_middle))
         # self.reward = np.clip(self.reward, a_min=-30, a_max=30)
 
         return self.reward
