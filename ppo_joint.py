@@ -276,7 +276,7 @@ if __name__ == '__main__':
             },
             "env_config": {
                 "version": "full",
-                "final_reward": tune.grid_search(['A', 'B', 'C']),
+                "final_reward": tune.grid_search(['A', 'B']),
                 "mask": True,
                 "no_of_jobs": args.no_of_jobs,
                 "init_jobs": args.init_jobs,
@@ -293,7 +293,8 @@ if __name__ == '__main__':
             # "vf_loss_coeff": 0.0005,
             # "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
-            "lr": 0.0001
+            "lr": 0.0001,
+            "lambda": tune.grid_search([0.9, 0.93, 0.95, 0.98, 1])
             # "entropy_coeff": tune.grid_search([tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
             #                                    tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
             #                                    tune.uniform(0.0001, 0.001)]),
@@ -317,7 +318,7 @@ if __name__ == '__main__':
         algo_config = None
 
     stop = {
-        "training_iteration": 200 * args.no_of_jobs,
+        "training_iteration": 100 * args.no_of_jobs,
     }
     plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, args.env, timestamp)
 
