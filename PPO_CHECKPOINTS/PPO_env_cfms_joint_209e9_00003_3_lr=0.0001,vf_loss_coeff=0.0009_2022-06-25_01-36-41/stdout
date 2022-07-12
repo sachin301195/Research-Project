@@ -1,0 +1,644 @@
+jobs [14  2  2 12], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 14, f: 14, count: 51
+
+ Termination of token  
+ token : 1, c: 2, f: 2, count: 59
+
+ Termination of token  
+ token : 3, c: 12, f: 12, count: 103
+
+ Termination of token  
+ token : 2, c: 2, f: 2, count: 173
+jobs [10 11  3 10], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 11, f: 11, count: 41
+
+ Termination of token  
+ token : 3, c: 10, f: 10, count: 69
+
+ Termination of token  
+ token : 0, c: 10, f: 10, count: 71
+
+ Termination of token  
+ token : 2, c: 3, f: 3, count: 229
+jobs [ 1 13  3  8], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 1, f: 1, count: 53
+
+ Termination of token  
+ token : 1, c: 13, f: 13, count: 79
+
+ Termination of token  
+ token : 3, c: 8, f: 8, count: 83
+
+ Termination of token  
+ token : 2, c: 3, f: 3, count: 85
+jobs [ 2 11  4  3], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 3, f: 3, count: 63
+
+ Termination of token  
+ token : 1, c: 11, f: 11, count: 91
+
+ Termination of token  
+ token : 0, c: 2, f: 2, count: 93
+
+ Termination of token  
+ token : 2, c: 4, f: 4, count: 95
+jobs [ 8  5  2 15], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 2, f: 2, count: 49
+
+ Termination of token  
+ token : 1, c: 5, f: 5, count: 103
+
+ Termination of token  
+ token : 0, c: 8, f: 8, count: 151
+
+ Termination of token  
+ token : 3, c: 15, f: 15, count: 495
+jobs [11  2 12  9], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 11, f: 11, count: 55
+
+ Termination of token  
+ token : 1, c: 2, f: 2, count: 117
+
+ Termination of token  
+ token : 2, c: 12, f: 12, count: 141
+
+ Termination of token  
+ token : 3, c: 9, f: 9, count: 289
+jobs [ 7 13 11 14], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 11, f: 11, count: 47
+
+ Termination of token  
+ token : 3, c: 14, f: 14, count: 47
+
+ Termination of token  
+ token : 1, c: 13, f: 13, count: 57
+
+ Termination of token  
+ token : 0, c: 7, f: 7, count: 121
+jobs [ 4  9  6 15], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 6, f: 6, count: 37
+
+ Termination of token  
+ token : 3, c: 15, f: 15, count: 39
+
+ Termination of token  
+ token : 0, c: 4, f: 4, count: 55
+
+ Termination of token  
+ token : 1, c: 9, f: 9, count: 153
+jobs [14 15  5 15], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 15, f: 15, count: 39
+
+ Termination of token  
+ token : 0, c: 14, f: 14, count: 39
+
+ Termination of token  
+ token : 3, c: 15, f: 15, count: 45
+
+ Termination of token  
+ token : 2, c: 5, f: 5, count: 217
+jobs [ 4  5 12  8], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 8, f: 8, count: 33
+
+ Termination of token  
+ token : 2, c: 12, f: 12, count: 39
+
+ Termination of token  
+ token : 0, c: 4, f: 4, count: 45
+
+ Termination of token  
+ token : 1, c: 5, f: 5, count: 63
+jobs [ 9  7 12 13], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 9, f: 9, count: 31
+
+ Termination of token  
+ token : 1, c: 7, f: 7, count: 31
+
+ Termination of token  
+ token : 3, c: 13, f: 13, count: 31
+
+ Termination of token  
+ token : 2, c: 12, f: 12, count: 37
+jobs [ 1 15  7 15], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 1, f: 1, count: 31
+
+ Termination of token  
+ token : 1, c: 15, f: 15, count: 31
+
+ Termination of token  
+ token : 3, c: 15, f: 15, count: 33
+
+ Termination of token  
+ token : 2, c: 7, f: 7, count: 35
+jobs [10  3  4 14], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 10, f: 10, count: 33
+
+ Termination of token  
+ token : 2, c: 4, f: 4, count: 31
+
+ Termination of token  
+ token : 3, c: 14, f: 14, count: 31
+
+ Termination of token  
+ token : 1, c: 3, f: 3, count: 37
+jobs [ 6 11 11  3], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 6, f: 6, count: 33
+
+ Termination of token  
+ token : 2, c: 11, f: 11, count: 31
+
+ Termination of token  
+ token : 3, c: 3, f: 3, count: 31
+
+ Termination of token  
+ token : 1, c: 11, f: 11, count: 37
+jobs [ 2 15  5 15], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 2, f: 2, count: 33
+
+ Termination of token  
+ token : 2, c: 5, f: 5, count: 31
+
+ Termination of token  
+ token : 3, c: 15, f: 15, count: 31
+
+ Termination of token  
+ token : 1, c: 15, f: 15, count: 37
+jobs [9 1 2 7], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 9, f: 9, count: 33
+
+ Termination of token  
+ token : 2, c: 2, f: 2, count: 31
+
+ Termination of token  
+ token : 3, c: 7, f: 7, count: 31
+
+ Termination of token  
+ token : 1, c: 1, f: 1, count: 39
+jobs [ 8 10  4  4], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 8, f: 8, count: 35
+
+ Termination of token  
+ token : 2, c: 4, f: 4, count: 31
+
+ Termination of token  
+ token : 3, c: 4, f: 4, count: 33
+
+ Termination of token  
+ token : 1, c: 10, f: 10, count: 43
+jobs [10 11  9  8], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 10, f: 10, count: 33
+
+ Termination of token  
+ token : 2, c: 9, f: 9, count: 31
+
+ Termination of token  
+ token : 3, c: 8, f: 8, count: 31
+
+ Termination of token  
+ token : 1, c: 11, f: 11, count: 37
+jobs [12  9  7 15], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 12, f: 12, count: 33
+
+ Termination of token  
+ token : 2, c: 7, f: 7, count: 31
+
+ Termination of token  
+ token : 3, c: 15, f: 15, count: 31
+
+ Termination of token  
+ token : 1, c: 9, f: 9, count: 37
+jobs [15  2  5  5], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 15, f: 15, count: 33
+
+ Termination of token  
+ token : 2, c: 5, f: 5, count: 31
+
+ Termination of token  
+ token : 3, c: 5, f: 5, count: 31
+
+ Termination of token  
+ token : 1, c: 2, f: 2, count: 37
+jobs [ 1 10  1  6], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 1, f: 1, count: 31
+
+ Termination of token  
+ token : 2, c: 1, f: 1, count: 31
+
+ Termination of token  
+ token : 3, c: 6, f: 6, count: 31
+
+ Termination of token  
+ token : 1, c: 10, f: 10, count: 35
+jobs [ 9  1 15  6], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 9, f: 9, count: 31
+
+ Termination of token  
+ token : 2, c: 15, f: 15, count: 31
+
+ Termination of token  
+ token : 3, c: 6, f: 6, count: 31
+
+ Termination of token  
+ token : 1, c: 1, f: 1, count: 35
+jobs [ 2 15  9  4], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 2, f: 2, count: 31
+
+ Termination of token  
+ token : 1, c: 15, f: 15, count: 31
+
+ Termination of token  
+ token : 3, c: 4, f: 4, count: 33
+
+ Termination of token  
+ token : 2, c: 9, f: 9, count: 33
+jobs [ 4  9  7 10], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 4, f: 4, count: 31
+
+ Termination of token  
+ token : 1, c: 9, f: 9, count: 31
+
+ Termination of token  
+ token : 3, c: 10, f: 10, count: 31
+
+ Termination of token  
+ token : 2, c: 7, f: 7, count: 35
+jobs [3 8 8 3], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 3, f: 3, count: 31
+
+ Termination of token  
+ token : 1, c: 8, f: 8, count: 31
+
+ Termination of token  
+ token : 3, c: 3, f: 3, count: 31
+
+ Termination of token  
+ token : 2, c: 8, f: 8, count: 35
+jobs [ 8  5 13 15], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 8, f: 8, count: 33
+
+ Termination of token  
+ token : 2, c: 13, f: 13, count: 31
+
+ Termination of token  
+ token : 3, c: 15, f: 15, count: 33
+
+ Termination of token  
+ token : 1, c: 5, f: 5, count: 39
+jobs [12  2  3 14], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 12, f: 12, count: 31
+
+ Termination of token  
+ token : 1, c: 2, f: 2, count: 31
+
+ Termination of token  
+ token : 3, c: 14, f: 14, count: 31
+
+ Termination of token  
+ token : 2, c: 3, f: 3, count: 37
+jobs [ 1 14 10 12], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 1, f: 1, count: 31
+
+ Termination of token  
+ token : 1, c: 14, f: 14, count: 31
+
+ Termination of token  
+ token : 3, c: 12, f: 12, count: 31
+
+ Termination of token  
+ token : 2, c: 10, f: 10, count: 35
+jobs [ 6 13 11 15], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 6, f: 6, count: 31
+
+ Termination of token  
+ token : 1, c: 13, f: 13, count: 31
+
+ Termination of token  
+ token : 2, c: 11, f: 11, count: 31
+
+ Termination of token  
+ token : 3, c: 15, f: 15, count: 37
+jobs [ 1 11  6 11], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 1, f: 1, count: 31
+
+ Termination of token  
+ token : 2, c: 6, f: 6, count: 31
+
+ Termination of token  
+ token : 3, c: 11, f: 11, count: 31
+
+ Termination of token  
+ token : 1, c: 11, f: 11, count: 35
+jobs [7 6 2 3], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 7, f: 7, count: 31
+
+ Termination of token  
+ token : 1, c: 6, f: 6, count: 31
+
+ Termination of token  
+ token : 2, c: 2, f: 2, count: 31
+
+ Termination of token  
+ token : 3, c: 3, f: 3, count: 35
+jobs [14 11  6 11], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 14, f: 14, count: 31
+
+ Termination of token  
+ token : 1, c: 11, f: 11, count: 31
+
+ Termination of token  
+ token : 2, c: 6, f: 6, count: 31
+
+ Termination of token  
+ token : 3, c: 11, f: 11, count: 37
+jobs [15  1  3  2], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 15, f: 15, count: 31
+
+ Termination of token  
+ token : 1, c: 1, f: 1, count: 31
+
+ Termination of token  
+ token : 2, c: 3, f: 3, count: 31
+
+ Termination of token  
+ token : 3, c: 2, f: 2, count: 35
+jobs [ 7 13  6 12], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 7, f: 7, count: 31
+
+ Termination of token  
+ token : 1, c: 13, f: 13, count: 31
+
+ Termination of token  
+ token : 2, c: 6, f: 6, count: 31
+
+ Termination of token  
+ token : 3, c: 12, f: 12, count: 35
+jobs [14  4  3 10], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 14, f: 14, count: 31
+
+ Termination of token  
+ token : 1, c: 4, f: 4, count: 31
+
+ Termination of token  
+ token : 2, c: 3, f: 3, count: 31
+
+ Termination of token  
+ token : 3, c: 10, f: 10, count: 35
+jobs [ 6 15  1 13], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 6, f: 6, count: 31
+
+ Termination of token  
+ token : 1, c: 15, f: 15, count: 31
+
+ Termination of token  
+ token : 2, c: 1, f: 1, count: 31
+
+ Termination of token  
+ token : 3, c: 13, f: 13, count: 35
+jobs [12 14  4  1], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 12, f: 12, count: 31
+
+ Termination of token  
+ token : 1, c: 14, f: 14, count: 31
+
+ Termination of token  
+ token : 2, c: 4, f: 4, count: 31
+
+ Termination of token  
+ token : 3, c: 1, f: 1, count: 35
+jobs [ 9  3  1 13], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 9, f: 9, count: 31
+
+ Termination of token  
+ token : 1, c: 3, f: 3, count: 31
+
+ Termination of token  
+ token : 2, c: 1, f: 1, count: 31
+
+ Termination of token  
+ token : 3, c: 13, f: 13, count: 35
+jobs [12 15  4  5], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 12, f: 12, count: 31
+
+ Termination of token  
+ token : 1, c: 15, f: 15, count: 31
+
+ Termination of token  
+ token : 2, c: 4, f: 4, count: 31
+
+ Termination of token  
+ token : 3, c: 5, f: 5, count: 37
+jobs [11 10  1  1], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 11, f: 11, count: 31
+
+ Termination of token  
+ token : 1, c: 10, f: 10, count: 31
+
+ Termination of token  
+ token : 2, c: 1, f: 1, count: 31
+
+ Termination of token  
+ token : 3, c: 1, f: 1, count: 35
+jobs [11  8 12  5], resources [4, 1, 1, 1, 1], quantity [1 1 1 1]
+................................................
+                       A                        
+................................................

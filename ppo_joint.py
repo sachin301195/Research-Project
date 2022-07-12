@@ -283,17 +283,17 @@ if __name__ == '__main__':
                 'state_extension': args.state_extension,
             },
             "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-            "num_workers": 32,  # parallelism
+            "num_workers": 1,  # parallelism
             "framework": 'torch',
             "rollout_fragment_length": 125,
             "train_batch_size": 4000,
             # "sgd_minibatch_size": 512,
             # "num_sgd_iter": 20,
-            "vf_loss_coeff": 0.0005,
+            "vf_loss_coeff": 0.0009,
             # "vf_loss_coeff": 0.0005,
             # "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
-            "lr": 0.00009,
+            "lr": 0.0001,
             "lambda": 0.95
             # "entropy_coeff": tune.grid_search([tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
             #                                    tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
@@ -329,7 +329,9 @@ if __name__ == '__main__':
           '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
     result = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
                       checkpoint_at_end=True, checkpoint_freq=50, reuse_actors=False, verbose=3,
-                      checkpoint_score_attr='min-episode_len_mean')
+                      checkpoint_score_attr='min-episode_len_mean',
+                      restore="PPO_CHECKPOINTS/PPO_env_cfms_joint_209e9_00003_3_lr=0.0001,"
+                              "vf_loss_coeff=0.0009_2022-06-25_01-36-41/checkpoint_000400/checkpoint-400")
     logger.info(result)
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')
