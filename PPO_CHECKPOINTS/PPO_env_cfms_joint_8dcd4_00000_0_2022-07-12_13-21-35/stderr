@@ -1,0 +1,62 @@
+[WARNING 2022-07-12 13:21:47,263] util.py: 53  Install gputil for GPU system monitoring.
+[INFO 2022-07-12 13:21:47,287] trainable.py: 378  Restored on 172.17.0.5 from checkpoint: /home/rl/Research-Project/agents_runs/MultiEnv/PPO/4/2022-07-12_best_agents/PPO/PPO_env_cfms_joint_8dcd4_00000_0_2022-07-12_13-21-35/tmpfc98dtk5restore_from_object/checkpoint-400
+[INFO 2022-07-12 13:21:47,287] trainable.py: 385  Current state after restoring: {'_iteration': 400, '_timesteps_total': None, '_time_total': 3737.1509985923767, '_episodes_total': 7902}
+/root/miniconda3/envs/cfms/lib/python3.6/site-packages/numpy/core/_methods.py:160: RuntimeWarning: overflow encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims)
+[ERROR 2022-07-12 14:02:51,842] worker.py: 409  SystemExit was raised from the worker
+Traceback (most recent call last):
+  File "python/ray/_raylet.pyx", line 595, in ray._raylet.task_execution_handler
+  File "python/ray/_raylet.pyx", line 453, in ray._raylet.execute_task
+  File "python/ray/_raylet.pyx", line 490, in ray._raylet.execute_task
+  File "python/ray/_raylet.pyx", line 497, in ray._raylet.execute_task
+  File "python/ray/_raylet.pyx", line 501, in ray._raylet.execute_task
+  File "python/ray/_raylet.pyx", line 451, in ray._raylet.execute_task.function_executor
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/_private/function_manager.py", line 563, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/tune/trainable.py", line 173, in train_buffered
+    result = self.train()
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/rllib/agents/trainer.py", line 594, in train
+    result = Trainable.train(self)
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/tune/trainable.py", line 232, in train
+    result = self.step()
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/rllib/agents/trainer_template.py", line 173, in step
+    res = next(self.train_exec_impl)
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/util/iter.py", line 756, in __next__
+    return next(self.built_iterator)
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/util/iter.py", line 843, in apply_filter
+    for item in it:
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/util/iter.py", line 843, in apply_filter
+    for item in it:
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  [Previous line repeated 1 more time]
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/util/iter.py", line 876, in apply_flatten
+    for item in it:
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/util/iter.py", line 828, in add_wait_hooks
+    item = next(it)
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  [Previous line repeated 1 more time]
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/util/iter.py", line 471, in base_iterator
+    yield ray.get(futures, timeout=timeout)
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/_private/client_mode_hook.py", line 62, in wrapper
+    return func(*args, **kwargs)
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/worker.py", line 1488, in get
+    object_refs, timeout=timeout)
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/worker.py", line 329, in get_objects
+    object_refs, self.current_task_id, timeout_ms)
+  File "/root/miniconda3/envs/cfms/lib/python3.6/site-packages/ray/worker.py", line 406, in sigterm_handler
+    sys.exit(1)
+SystemExit: 1

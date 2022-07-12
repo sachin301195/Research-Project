@@ -45,7 +45,7 @@ REWARDS = []
 AVG_THROUGHPUT = []
 ORDER_THROUGHPUT = []
 
-env = ConveyorEnv_A({'version': 'full', 'final_reward': 'A', 'mask': False, 'no_of_jobs': 4, 'init_jobs': 2,
+env = ConveyorEnv_A({'version': 'full', 'final_reward': 'B', 'mask': True, 'no_of_jobs': 4, 'init_jobs': 2,
                      'state_extension': False})
 
 results = []

@@ -7,7 +7,8 @@ import sys
 sys.path.append('./conveyor_environment/snakes_master')
 
 from ray.rllib import agents
-from util import TorchParametricActionModel, TorchParametricActionsModelv1, TorchParametricActionsModelv2
+from util import TorchParametricActionModel, TorchParametricActionsModelv1, TorchParametricActionsModelv2, \
+    TorchParametricActionsModelv3
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v1 import ConveyorEnv_v1
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v0 import ConveyorEnv_v0
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v2 import ConveyorEnv_v2
@@ -171,88 +172,49 @@ parser.add_argument(
     help="Run without Tune using a manual train loop instead. In this case,"
          "use ALGO without TensorBoard.")
 parser.add_argument(
+    "--state-extension",
+    default=False,
+    type=bool,
+    help="Use the extended form of the state vector or not")
+parser.add_argument(
     "--local-mode",
     help="Init Ray in local mode for easier debugging.",
     action="store_true"
 )
 parser.add_argument(
     "--no_of_jobs",
-    default=4,
+    default=63,
     type=int,
     help="Number of tokens to run in an environment."
 )
 parser.add_argument(
     "--init_jobs",
-    default=2,
+    default=4,
     type=int,
     help="Number of tokens to initialize in an environment. This should be greater than or equal to self.no_of_jobs."
 )
 
 
-def train(config: dir):
-    agent = ppo.PPOTrainer(config=config, env=ConveyorEnv_A)
-    results = []
-    episode_data = []
-    MAX_TRAINING_EPISODES = 2000
-    # TIMESTEPS_PER_EPISODE = 5400/5
-    run = 1
-    best_reward_cum = -10000000
-    logger.debug('Start Training.')
-    time_begin = time.time()
-    episode_save_counter = 0
-    while True:
-        # print('I am in while')
-        logger.info(f"Runs #: {run}")
-        run += 1
-        results = agent.train()
-        logger.info(f"Mean Rewards: {results['episode_reward_mean']}")
-        logger.info(f"Episodes this Iteration {results['episodes_this_iter']}")
-        logger.info(f"Episodes total {results['episodes_total']}")
-        logger.info(f"Timesteps total {results['timesteps_total']}")
-        if results['episode_reward_mean'] > best_reward_cum:
-            best_reward_cum = results['episode_reward_mean']
-            agent.save(best_agent_save_path)
-            logger.info('saved new best agent')
-        if results['episodes_total'] > episode_save_counter:
-            logger.info('saved new agent')
-            best_agent_checkpoint = agent.save(agent_save_path)
-            episode_save_counter += 1
-            logger.info("Clearing the nohup.out log file")
-            os.system("> nohup.out")
-
-        # results['timesteps_total'] >= MAX_TRAINING_EPISODES * TIMESTEPS_PER_EPISODE:
-        if results['episodes_total'] > MAX_TRAINING_EPISODES:
-            agent.save(agent_save_path)
-            logger.info('saved last agent')
-            break
-
-    # Measure Time
-    time_end = time.time()
-    time_diff = time_end - time_begin
-    time_diff_h = int(time_diff / 3600)
-    time_diff_min = int((time_diff - time_diff_h * 3600) / 60)
-    time_diff_sec = int(time_diff - time_diff_h * 3600 - time_diff_min * 60)
-    logger.info(f'Training took {time_diff_h}h, {time_diff_min}m and {time_diff_sec}s.')
-    logger.debug('Training successful.')
-
-    return best_agent_checkpoint
-
-
-def evaluate(ppo_config: dir, path, plots_save_path):
-    f = []
-    cnt = 0
-    for root, dirs, files in os.walk(best_agent_save_path):
-        for idx, name in enumerate(files):
-            if cnt % 3 == 0 and cnt > 0:
-                if idx == 1:
-                    f.append(os.path.join(root, name))
-        cnt += 1
-    ppo_config["num_workers"] = 0
+def evaluate(algo, algo_config: dir, plots_save_path):
+    # f = []
+    # cnt = 0
+    # for root, dirs, files in os.walk(best_agent_save_path):
+    #     for idx, name in enumerate(files):
+    #         if cnt % 3 == 0 and cnt > 0:
+    #             if idx == 1:
+    #                 f.append(os.path.join(root, name))
+    #     cnt += 1
+    # f = [r'./agents_runs/ConveyorEnv_A/PPO/4/checkpoint_000400/checkpoint-400']
+    f = [r'PPO_CHECKPOINTS/PPO_env_cfms_joint_209e9_00003_3_lr=0.0001,vf_loss_coeff=0.0009_2022-06-25_01-36-41/'
+         r'checkpoint_000400/checkpoint-400']
     for no, path in enumerate(f):
         try:
-            ppo_config['lr'] = VALUE[no]['lr']
-            ppo_config['vf_loss_coeff'] = VALUE[no]['vf_loss_coeff']
-            agent = ppo.PPOTrainer(config=ppo_config, env=ConveyorEnv_A)
+            # ppo_config['lr'] = VALUE[no]['lr']
+            # ppo_config['vf_loss_coeff'] = VALUE[no]['vf_loss_coeff']
+            if algo == 'PPO':
+                agent = ppo.PPOTrainer(config=algo_config, env=ConveyorEnv_A)
+            else:
+                agent = ppo.PPOTrainer(config=algo_config, env=ConveyorEnv_A)
             # agent.restore(f'{checkpoint_path}/checkpoint_{no}/checkpoint-{no}')
             agent.restore(path)
             # agent.restore(f'agents_runs/ConveyorEnv_v4/DQN_best_agents/{checkpoint}/checkpoint-{checkpoint_nr}')
@@ -263,14 +225,16 @@ def evaluate(ppo_config: dir, path, plots_save_path):
             run = 1
             best_reward_cum = -10000000
             episode_save_counter = 0
-            if no < 15:
-                env = ConveyorEnv_A(
-                    {'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': args.no_of_jobs,
-                     'init_jobs': args.init_jobs})
-            else:
-                env = ConveyorEnv_B(
-                    {'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': args.no_of_jobs,
-                     'init_jobs': args.init_jobs})
+            # if no < 15:
+            #     env = ConveyorEnv_A(
+            #         {'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': args.no_of_jobs,
+            #          'init_jobs': args.init_jobs})
+            # else:
+            #     env = ConveyorEnv_B(
+            #         {'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': args.no_of_jobs,
+            #          'init_jobs': args.init_jobs})
+            env = ConveyorEnv_B({'version': 'full', 'final_reward': 1000, 'mask': True, 'no_of_jobs': args.no_of_jobs,
+                                 'init_jobs': args.init_jobs, 'state_extension': args.state_extension})
             # plt.figure()
             time.sleep(10)
             SCORE_OVERALL = []
@@ -364,30 +328,43 @@ if __name__ == '__main__':
 
     ray.init(local_mode=args.local_mode, object_store_memory=1000000000)
     register_env("env_cfms_A", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True,
+                                                        'mask': True, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_B", lambda _: ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True,
+                                                        'mask': True, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_C", lambda _: ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True,
+                                                        'mask': True, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_D", lambda _: ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True,
+                                                        'mask': True, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
-
-    ModelCatalog.register_custom_model(
-        "env_cfms_A", TorchParametricActionsModelv2
-    )
-    ModelCatalog.register_custom_model(
-        "env_cfms_B", TorchParametricActionsModelv2
-    )
-    ModelCatalog.register_custom_model(
-        "env_cfms_C", TorchParametricActionsModelv2
-    )
-    ModelCatalog.register_custom_model(
-        "env_cfms_D", TorchParametricActionsModelv2
-    )
+    if not args.state_extension:
+        ModelCatalog.register_custom_model(
+            "env_cfms_A", TorchParametricActionsModelv2
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_B", TorchParametricActionsModelv2
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_C", TorchParametricActionsModelv2
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_D", TorchParametricActionsModelv2
+        )
+    else:
+        ModelCatalog.register_custom_model(
+            "env_cfms_A", TorchParametricActionsModelv3
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_B", TorchParametricActionsModelv3
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_C", TorchParametricActionsModelv3
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_D", TorchParametricActionsModelv3
+        )
 
     if args.algo == 'DQN':
         cfg = {
@@ -408,17 +385,18 @@ if __name__ == '__main__':
                 "version": "full",
                 "final_reward": args.final_reward,
                 "mask": True,
+                'state_extension': args.state_extension,
                 "no_of_jobs": args.no_of_jobs,
                 "init_jobs": args.init_jobs,
             },
             "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-            "num_workers": 32,  # parallelism
+            "num_workers": 0,  # parallelism
             "framework": 'torch',
             "rollout_fragment_length": 125,
             "train_batch_size": 4000,
             # "sgd_minibatch_size": 512,
             # "num_sgd_iter": 20,
-            "vf_loss_coeff": tune.grid_search([0.0009, 0.0005]),
+            "vf_loss_coeff": 0.0009,
             # "vf_loss_coeff": 0.0001,
             "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
@@ -436,33 +414,10 @@ if __name__ == '__main__':
     else:
         algo_config = None
 
-    stop = {
-        "training_iteration": 100 * args.no_of_jobs
-    }
     plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, args.env, timestamp)
 
-    if args.no_tune:
-        print("Running manual train loop without Ray Tune")
-        # checkpoint_path = train(algo_config)
-        best_agent_save_path = "agents_runs/2022-06-12_best_agents"
-        evaluate(algo_config, best_agent_save_path, plots_save_path)
-
-    else:
-        # automated run with tune and grid search and Tensorboard
-        print("Training with Ray Tune.")
-        print('...............................................................................\n'
-              '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
-        result_A = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
-                          checkpoint_at_end=True)
-        print('...............................................................................\n'
-              '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')
-        evaluate(algo_config, best_agent_save_path, plots_save_path)
-        # algo_config.update({"env": "env_cfms_B", "model": {
-        #         "custom_model": "env_cfms_A"}})
-        # plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, 'ConveyorEnv_B',
-        #                                                                timestamp)
-        # result_B = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
-        #                   checkpoint_at_end=True)
-        # evaluate(algo_config, best_agent_save_path, plots_save_path)
+    print("Running manual train loop without Ray Tune")
+    # checkpoint_path = train(algo_config)
+    evaluate(args.algo, algo_config, plots_save_path)
 
     ray.shutdown()
