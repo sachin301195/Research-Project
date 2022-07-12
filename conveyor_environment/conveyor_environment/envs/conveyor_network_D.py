@@ -757,7 +757,7 @@ class ConveyorEnv_D(gym.Env):
         #     self.reward = -1
         if self.final_reward == 'A':
             self.reward = -self.current_token[0][-1] * (1 / 100100) * (not self.error) * (not self.done) - \
-                          0.01 * self.error - \
+                          0.002 * self.error - \
                           5 * self.terminating_in_middle + self.diff * self.exit_count * self.termination \
                           + 10 * self.done * (not self.terminating_in_middle)
         elif self.final_reward == 'B':
@@ -771,31 +771,31 @@ class ConveyorEnv_D(gym.Env):
                 if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1:
                     if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
                             REWARD_MAPPING_W1[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
-                        self.reward = -0.001
+                        self.reward = -0.0001
                     else:
-                        self.reward = -0.01
+                        self.reward = -0.001
                 else:
-                    self.reward = -0.01
+                    self.reward = -0.001
             elif self.current_token[0][-2] in [4, 8, 12]:
                 if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W2:
                     if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
                             REWARD_MAPPING_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
-                        self.reward = -0.001
+                        self.reward = -0.0001
                     else:
-                        self.reward = -0.01
+                        self.reward = -0.001
                 else:
-                    self.reward = -0.01
+                    self.reward = -0.001
             else:
                 if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1_W2:
                     if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
                             REWARD_MAPPING_W1_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
-                        self.reward = -0.001
+                        self.reward = -0.0001
                     else:
-                        self.reward = -0.01
+                        self.reward = -0.001
                 else:
-                    self.reward = -0.01
-            self.reward += (-5 * self.terminating_in_middle + self.diff * self.exit_count * self.termination
-                            + 10 * self.done * (not self.terminating_in_middle))
+                    self.reward = -0.001
+            self.reward += (-0.002 * self.error - 5 * self.terminating_in_middle + self.diff * self.exit_count *
+                            self.termination + 10 * self.done * (not self.terminating_in_middle))
         # self.reward = np.clip(self.reward, a_min=-30, a_max=30)
 
         return self.reward
