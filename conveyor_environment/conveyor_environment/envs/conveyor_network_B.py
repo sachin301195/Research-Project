@@ -760,11 +760,11 @@ class ConveyorEnv_B(gym.Env):
                           5 * self.terminating_in_middle + self.diff * self.exit_count * self.termination \
                           + 10 * self.done * (not self.terminating_in_middle)
         elif self.final_reward == 'B':
-            # self.reward = - 0.001 * (not self.error) - 0.002 * self.error * (not self.done) \
-            #               - 5 * self.terminating_in_middle + self.diff * self.exit_count * self.termination \
-            #               + 10 * self.done * (not self.terminating_in_middle)
-            self.reward = - 0.002 * (not self.error) - 0.01 * self.error * (not self.done) \
-                          - 5 * self.terminating_in_middle + ((30 / self.no_of_jobs) * self.termination)
+            self.reward = - 0.001 * (not self.error) - 0.002 * self.error * (not self.done) \
+                          - 5 * self.terminating_in_middle + self.diff * self.exit_count * self.termination \
+                          + 10 * self.done * (not self.terminating_in_middle)
+            # self.reward = - 0.002 * (not self.error) - 0.01 * self.error * (not self.done) \
+            #               - 5 * self.terminating_in_middle + ((30 / self.no_of_jobs) * self.termination)
         else:
             if self.current_token[0][-2] in [1, 2, 3]:
                 if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1:
