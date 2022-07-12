@@ -318,7 +318,7 @@ if __name__ == '__main__':
 
     stop = {
         # "training_iteration": 100 * args.no_of_jobs,
-        "episode_reward_mean": 30 - (35 * args.no_of_jobs * 0.002),
+        "episode_reward_mean": 30 - (39 * args.no_of_jobs * 0.002),
     }
     plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, args.env, timestamp)
 
@@ -328,9 +328,7 @@ if __name__ == '__main__':
           '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
     result = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
                       checkpoint_at_end=True, checkpoint_freq=50, reuse_actors=False, verbose=3,
-                      checkpoint_score_attr='min-episode_len_mean',
-                      restore="PPO_CHECKPOINTS/PPO_env_cfms_joint_8dcd4_00000_0_2022-07-12_13-21-35/"
-                              "checkpoint_000800/checkpoint-800")
+                      checkpoint_score_attr='min-episode_len_mean')
     logger.info(result)
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')
