@@ -283,7 +283,7 @@ if __name__ == '__main__':
                 'state_extension': args.state_extension,
             },
             "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-            "num_workers": 1,  # parallelism
+            "num_workers": 32,  # parallelism
             "framework": 'torch',
             "rollout_fragment_length": 125,
             "train_batch_size": 4000,
