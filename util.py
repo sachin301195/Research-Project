@@ -267,11 +267,12 @@ class TorchParametricActionsModelv5(TorchModelV2):
         inf_mask = torch.clamp(torch.log(action_mask), FLOAT_MIN, FLOAT_MAX)
 
         # Compute the predicted action embedding
+        obs = input_dict["obs"]["state"]
         action_embed, _ = self.action_model({"obs": input_dict["obs"]["state"]})
         self._last_batch_size = (action_embed + inf_mask).shape[0]
 
         # state is empty
-        return (action_embed + inf_mask) * 2.0, state
+        return obs * 2.0, state
 
     def value_function(self):
         return torch.from_numpy(np.zeros(shape=(self._last_batch_size,)))
