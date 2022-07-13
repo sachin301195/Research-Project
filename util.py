@@ -245,7 +245,7 @@ class TorchParametricActionsModelv5(TorchModelV2):
                  **kw):
         TorchModelV2.__init__(self, obs_space, action_space, num_outputs,
                               model_config, name)
-        self.num_outputs = int(np.product(self.obs_space['state'].shape))
+        self.num_outputs = int(np.product(true_obs_shape))
         self._last_batch_size = None
 
         self.action_model = TorchFC(
