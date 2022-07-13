@@ -11,7 +11,7 @@ sys.path.append('./conveyor_environment/snakes_master')
 
 from ray.rllib import agents
 from util import TorchParametricActionModel, TorchParametricActionsModelv1, TorchParametricActionsModelv2
-from util import TorchParametricActionsModelv3
+from util import TorchParametricActionsModelv3, TorchParametricActionModelv4, TorchParametricActionsModelv5
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v1 import ConveyorEnv_v1
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v0 import ConveyorEnv_v0
 from conveyor_environment.conveyor_environment.envs.conveyor_network_v2 import ConveyorEnv_v2
@@ -126,6 +126,11 @@ parser.add_argument(
     default=False,
     type=bool,
     help="Use the extended form of the state vector or not")
+parser.add_argument(
+    "--lstm",
+    default=False,
+    type=bool,
+    help="Use LSTM or not")
 parser.add_argument(
     "--local-mode",
     help="Init Ray in local mode for easier debugging.",
@@ -258,6 +263,22 @@ if __name__ == '__main__':
         ModelCatalog.register_custom_model(
             "env_cfms_joint", TorchParametricActionsModelv3
         )
+    if args.lstm:
+        ModelCatalog.register_custom_model(
+            "env_cfms_A", TorchParametricActionsModelv5
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_B", TorchParametricActionsModelv5
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_C", TorchParametricActionsModelv5
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_D", TorchParametricActionsModelv5
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_joint", TorchParametricActionsModelv5
+        )
 
     if args.algo == 'DQN':
         cfg = {
@@ -283,7 +304,7 @@ if __name__ == '__main__':
                 'state_extension': args.state_extension,
             },
             "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-            "num_workers": 32,  # parallelism
+            "num_workers": 1,  # parallelism
             "framework": 'torch',
             "rollout_fragment_length": 125,
             "train_batch_size": 4000,
@@ -310,6 +331,9 @@ if __name__ == '__main__':
             algo_config = dqn.DEFAULT_CONFIG.copy()
         algo_config.update(config)
         algo_config['model']['fcnet_activation'] = 'relu'
+        if args.lstm:
+            algo_config['model']['use_lstm'] = True
+            algo_config['model']['lstm_cell_size'] = 64
         algo_config['evaluation_interval'] = 50
         # algo_config['evaluation_duration'] = 10
         algo_config["evaluation_parallel_to_training"]: True

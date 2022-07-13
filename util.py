@@ -223,6 +223,52 @@ class TorchParametricActionsModelv3(DQNTorchModel):
     def value_function(self):
         return self.action_model.value_function()
 
+class TorchParametricActionsModelv5(DQNTorchModel):
+    """
+    : This network to be used with action_masking and LSTM
+    """
+    def __init__(self,
+                 obs_space,
+                 action_space,
+                 num_outputs,
+                 model_config,
+                 name,
+                 true_obs_shape=(66, ),
+                 action_embed_size=4,
+                 **kw):
+        DQNTorchModel.__init__(self, obs_space, action_space, num_outputs,
+                               model_config, name, **kw)
+        self.num_outputs = int(np.product(self.obs_space['state'].shape))
+        self._last_batch_size = None
+
+        self.action_model = TorchFC(
+            obs_space = Box(0, 1, shape=true_obs_shape), # oder Box(0, 1, ...) wie im medium Artikel
+            action_space = action_space,
+            num_outputs = action_embed_size,
+            model_config = model_config,
+            name = name + "_action_embed")
+
+    def forward(self, input_dict, state, seq_lens):
+        # Extract the available actions tensor from the observation.
+        # avail_actions = input_dict["obs"]["avail_action"]
+        action_mask = input_dict["obs"]["action_mask"]
+        # print('action_mask', action_mask)
+
+        # Mask out invalid actions (use -inf to tag invalid).
+        # These are then recognized by the EpsilonGreedy exploration component
+        # as invalid actions that are not to be chosen.
+        inf_mask = torch.clamp(torch.log(action_mask), FLOAT_MIN, FLOAT_MAX)
+
+        # Compute the predicted action embedding
+        action_embed, _ = self.action_model({"obs": input_dict["obs"]["state"]})
+        self._last_batch_size = (action_embed + inf_mask).shape[0]
+
+        # state is empty
+        return (action_embed + inf_mask) * 2.0, state
+
+    def value_function(self):
+        return torch.from_numpy(np.zeros(shape=(self._last_batch_size,)))
+
 
 class CustomPlot:
 
