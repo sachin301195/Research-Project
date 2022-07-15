@@ -61,7 +61,7 @@ time_begin = time.time()
 episode_save_counter = 0
 best_avg_reward = -1000000
 episode_completion_time = []
-mask = False
+mask = True
 
 for n in range(NUM_EPISODES):
     done = False
@@ -93,6 +93,7 @@ for n in range(NUM_EPISODES):
             actions = obs['action_mask']
         if len(info) > 0:
             logger.info(info)
+            print(info)
         # info = env.render()
         # AVG_THROUGHPUT.append(avg_throughput)
         # ORDER_THROUGHPUT.append(order_throughput)
