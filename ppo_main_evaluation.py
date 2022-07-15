@@ -369,7 +369,7 @@ if __name__ == '__main__':
             },
             "env_config": {
                 "version": "full",
-                "final_reward": args.final_reward,
+                "final_reward": tune.grid_search(['A', 'B', 'C']),
                 "mask": True,
                 "no_of_jobs": args.no_of_jobs,
                 "init_jobs": args.init_jobs,
