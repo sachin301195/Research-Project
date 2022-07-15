@@ -720,13 +720,10 @@ class ConveyorEnv_D(gym.Env):
         #                     self.info['avg_total_time_units'] = self.avg_time_units
         #                     self.info['avg_throughput'] = self.avg_throughput
         #             break
-        if self.done:
-            info = {'token': self.current_token, 'all_tokens': self.token}
-        elif self.termination:
-            info = {'token': self.current_token}
+        if self.termination:
+            info = {'token': self.current_token, 'steps': {self.step_count}}
         else:
             info = {}
-
         return info
 
     def _get_obs(self):
@@ -758,14 +755,19 @@ class ConveyorEnv_D(gym.Env):
         if self.final_reward == 'A':
             self.reward = -self.current_token[0][-1] * (1 / 100100) * (not self.error) * (not self.done) - \
                           0.002 * self.error - \
-                          5 * self.terminating_in_middle + self.diff * self.exit_count * self.termination \
-                          + 10 * self.done * (not self.terminating_in_middle)
+                          5 * self.terminating_in_middle + ((25 / self.no_of_jobs) * self.termination) \
+                          + 5 * self.done * (not self.terminating_in_middle)
+            # self.reward = -self.current_token[0][-1] * (1 / 100100) * (not self.error) * (not self.done) - \
+            #               0.002 * self.error - \
+            #               5 * self.terminating_in_middle + self.diff * self.exit_count * self.termination \
+            #               + 10 * self.done * (not self.terminating_in_middle)
         elif self.final_reward == 'B':
-            self.reward = - 0.001 * (not self.error) - 0.002 * self.error * (not self.done) \
-                          - 5 * self.terminating_in_middle + self.diff * self.exit_count * self.termination \
-                          + 10 * self.done * (not self.terminating_in_middle)
-            # self.reward = - 0.002 * (not self.error) - 0.01 * self.error * (not self.done) \
-            #               - 5 * self.terminating_in_middle + ((30/self.no_of_jobs) * self.termination)
+            self.reward = - 0.002 * (not self.error) - 0.01 * self.error * (not self.done) \
+                          - 5 * self.terminating_in_middle + ((25 / self.no_of_jobs) * self.termination) \
+                          + 5 * self.done * (not self.terminating_in_middle)
+            # self.reward = - 0.001 * (not self.error) - 0.002 * self.error * (not self.done) \
+            #               - 5 * self.terminating_in_middle + self.diff * self.exit_count * self.termination \
+            #               + 10 * self.done * (not self.terminating_in_middle)
         else:
             if self.current_token[0][-2] in [1, 2, 3]:
                 if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1:
@@ -794,8 +796,10 @@ class ConveyorEnv_D(gym.Env):
                         self.reward = -0.001
                 else:
                     self.reward = -0.001
-            self.reward += (-0.002 * self.error - 5 * self.terminating_in_middle + self.diff * self.exit_count *
-                            self.termination + 10 * self.done * (not self.terminating_in_middle))
+            self.reward += (-0.001 * self.error - 5 * self.terminating_in_middle + ((25 / self.no_of_jobs) *
+                            self.termination) + 10 * self.done * (not self.terminating_in_middle))
+            # self.reward += (-0.001 * self.error - 5 * self.terminating_in_middle + self.diff * self.exit_count *
+            #                 self.termination + 10 * self.done * (not self.terminating_in_middle))
         # self.reward = np.clip(self.reward, a_min=-30, a_max=30)
 
         return self.reward
@@ -810,6 +814,11 @@ class ConveyorEnv_D(gym.Env):
         else:
             # print(f'Returning done as False')
             if self.current_token[0][-1] > 1000:
+                self.terminating_in_middle = True
+                print(f"Termination_in_middle with steps: {self.step_count}")
+
+                return True
+            elif self.step_count >= self.no_of_jobs * 1000:
                 self.terminating_in_middle = True
                 print(f"Termination_in_middle with steps: {self.step_count}")
 

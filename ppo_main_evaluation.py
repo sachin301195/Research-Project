@@ -366,7 +366,6 @@ if __name__ == '__main__':
             "model": {
                 "custom_model": f"env_cfms_{args.env[-1]}",
                 "vf_share_layers": True,
-                # "fcnet_hiddens": [256, 256, 256]
             },
             "env_config": {
                 "version": "full",
