@@ -224,7 +224,7 @@ class ConveyorEnv_A(gym.Env):
         if self.state_extension:
             places += 30
         else:
-            places += 3
+            places += 4
         obs_space = spaces.Box(-1, 1, shape=(places,))
         # Action space represents possible transitions
         self.action_space = spaces.Discrete(4)
@@ -296,7 +296,7 @@ class ConveyorEnv_A(gym.Env):
                 self.binding[place] = {}
         self.binding['T'] = {}
         if self.state_extension:
-            self.token_state = [0 for _ in range(30)]
+            self.token_state = [0 for _ in range(40)]
             for idx, job in enumerate(self.jobs):
                 self.token[f"token_{idx}"] = {}
                 self.token[f"token_{idx}"]["dir"] = 0
@@ -306,7 +306,7 @@ class ConveyorEnv_A(gym.Env):
                 self.token[f"token_{idx}"]["p_place"] = None
                 self.token[f"token_{idx}"]["count"] = 0
                 self.token[f"token_{idx}"]["steps"] = 0
-                self.token_state[idx * 3 + 2] = job
+                self.token_state[idx * 4 + 2] = job
         else:
             for idx, job in enumerate(self.jobs):
                 self.token[f"token_{idx}"] = {}
@@ -357,16 +357,17 @@ class ConveyorEnv_A(gym.Env):
                     else:
                         state.append(0)
             if self.start:
-                for token, detail in self.token.items():
-                    idx = int(token[-1]) * 3 + 2
+                for token_no, detail in self.token.items():
+                    idx = int(token_no[-1]) * 4 + 2
                     self.token_state[idx] = (self.token_state[idx]) / 15
                 state.extend(self.token_state)
                 mask = np.array((1, 0, 0, 0))
             else:
-                idx = int(token[-1]) * 3
+                idx = int(token[-1]) * 4
                 c_state = details['c_state'] / 15
                 self.token_state[idx] = details['dir']
                 self.token_state[idx + 1] = c_state
+                self.token_state[idx + 3] = details['count'] / 1000
                 state.extend(self.token_state)
                 if self.version == 'trial':
                     transition = np.array(list(ACTION_MAPPING_TRIAL[self.next_place].values()))
@@ -421,12 +422,13 @@ class ConveyorEnv_A(gym.Env):
                         state.append(0)
             if self.start:
                 f_state = (int(self.current_token['f']) - 1) / 14
-                state.extend([0, 0, f_state])
+                state.extend([0, 0, f_state, 0])
                 mask = np.array((1, 0, 0, 0))
             else:
                 c_state = details['c_state'] / 15
                 f_state = (details['job'] - 1) / 14
-                state.extend([details['dir'], c_state, f_state])
+                count = np.clip(details['count'] / 1000, 0, 1)
+                state.extend([details['dir'], c_state, f_state, count])
                 if self.version == 'trial':
                     transition = np.array(list(ACTION_MAPPING_TRIAL[self.next_place].values()))
                 elif self.version == 'trial_compact':
