@@ -343,7 +343,7 @@ if __name__ == '__main__':
 
     stop = {
         "training_iteration": 100 * args.no_of_jobs,
-        "episode_reward_mean": 30 - (40 * args.no_of_jobs * 0.002),
+        # "episode_reward_mean": 30 - (40 * args.no_of_jobs * 0.002),
     }
     plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, args.env, timestamp)
 

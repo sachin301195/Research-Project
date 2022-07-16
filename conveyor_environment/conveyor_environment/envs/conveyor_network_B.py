@@ -764,7 +764,7 @@ class ConveyorEnv_B(gym.Env):
             #               5 * self.terminating_in_middle + self.diff * self.exit_count * self.termination \
             #               + 10 * self.done * (not self.terminating_in_middle)
         elif self.final_reward == 'B':
-            self.reward = - 0.002 * (not self.error) - 0.01 * self.error * (not self.done) \
+            self.reward = - 0.001 * (not self.error) - 0.002 * self.error * (not self.done) \
                           - 5 * self.terminating_in_middle + ((25 / self.no_of_jobs) * self.termination) \
                           + 5 * self.done * (not self.terminating_in_middle)
             # self.reward = - 0.001 * (not self.error) - 0.002 * self.error * (not self.done) \
