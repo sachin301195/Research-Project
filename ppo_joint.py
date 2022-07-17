@@ -353,11 +353,7 @@ if __name__ == '__main__':
           '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
     result = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
                       checkpoint_at_end=True, checkpoint_freq=50, reuse_actors=False, verbose=3,
-                      checkpoint_score_attr='min-episode_len_mean', restore='PPO_CHECKPOINTS/'
-                                                                            'PPO_env_cfms_joint_75712_00001_1_'
-                                                                            'final_reward=B,vf_loss_coeff='
-                                                                            '0.0005_2022-07-16_22-13-02/'
-                                                                            'checkpoint_000450/checkpoint-450')
+                      checkpoint_score_attr='min-episode_len_mean')
     logger.info(result)
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')
