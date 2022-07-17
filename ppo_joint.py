@@ -165,17 +165,17 @@ def setup(algo, no_of_jobs, env, timestamp):
 
 class MultiEnv(gym.Env, ABC):
     def __init__(self, env_config):
-        if env_config.worker_index % 4 == 0:
-            self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-                                      'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
-                                      'state_extension': args.state_extension, })
-            self.name = "ConveyorEnv_A"
-        elif env_config.worker_index % 4 == 1:
+        # if env_config.worker_index % 3 == 0:
+        #     self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+        #                               'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
+        #                               'state_extension': args.state_extension, })
+        #     self.name = "ConveyorEnv_A"
+        if env_config.worker_index % 3 == 0:
             self.env = ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
                                       'state_extension': args.state_extension, })
             self.name = 'ConveyorEnv_B'
-        elif env_config.worker_index % 4 == 2:
+        elif env_config.worker_index % 3 == 1:
             self.env = ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
                                       'state_extension': args.state_extension, })
@@ -304,10 +304,10 @@ if __name__ == '__main__':
                 'state_extension': args.state_extension,
             },
             "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-            "num_workers": 32,  # parallelism
+            "num_workers": 33,  # parallelism
             "framework": 'torch',
             "rollout_fragment_length": 125,
-            "train_batch_size": 4000,
+            "train_batch_size": 4125,
             # "sgd_minibatch_size": 512,
             # "num_sgd_iter": 20,
             "vf_loss_coeff": 0.0005,
