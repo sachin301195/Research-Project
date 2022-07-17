@@ -1,0 +1,2885 @@
+jobs [14 15 15  7  4 12  9 10], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 4, c: 4, f: 4, count: 357
+
+ Termination of token  
+ token : 7, c: 10, f: 10, count: 460
+Termination_in_middle with steps: 6801
+jobs [ 6 13  5 13  2 10  9  9], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 13, f: 13, count: 853
+Termination_in_middle with steps: 7963
+jobs [10  4 12  7  9  1  2  8], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 12, f: 12, count: 231
+
+ Termination of token  
+ token : 7, c: 8, f: 8, count: 734
+
+ Termination of token  
+ token : 0, c: 10, f: 10, count: 830
+Termination_in_middle with steps: 6939
+jobs [ 2  9  8 14  9 11 10  7], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 8, f: 8, count: 170
+
+ Termination of token  
+ token : 0, c: 2, f: 2, count: 309
+
+ Termination of token  
+ token : 4, c: 9, f: 9, count: 409
+
+ Termination of token  
+ token : 7, c: 7, f: 7, count: 902
+
+ Termination of token  
+ token : 5, c: 11, f: 11, count: 966
+Termination_in_middle with steps: 5792
+jobs [15  8  6 11 10 15 14  4], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 6, f: 6, count: 820
+Termination_in_middle with steps: 7839
+jobs [12  7  6  5  1 12  9  1], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 7, f: 7, count: 874
+
+ Termination of token  
+ token : 3, c: 5, f: 5, count: 954
+Termination_in_middle with steps: 7890
+jobs [ 7 11  6 12 11 10 15 11], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 12, f: 12, count: 172
+
+ Termination of token  
+ token : 4, c: 11, f: 11, count: 809
+
+ Termination of token  
+ token : 0, c: 7, f: 7, count: 816
+Termination_in_middle with steps: 6861
+jobs [ 8 13 10 13 12 14 13  5], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 8, f: 8, count: 641
+
+ Termination of token  
+ token : 3, c: 13, f: 13, count: 707
+Termination_in_middle with steps: 7519
+jobs [ 4 14 10 11  1  4  6  1], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 14, f: 14, count: 722
+Termination_in_middle with steps: 7784
+jobs [ 1  4 15  9  7  2 14 11], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 9, f: 9, count: 703
+
+ Termination of token  
+ token : 7, c: 11, f: 11, count: 970
+Termination_in_middle with steps: 7747
+jobs [ 1  9  9  8  8  3  5 14], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 8, f: 8, count: 137
+
+ Termination of token  
+ token : 1, c: 9, f: 9, count: 366
+Termination_in_middle with steps: 6541
+jobs [14 10  8  3 11  8  4 14], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 14, f: 14, count: 153
+
+ Termination of token  
+ token : 5, c: 8, f: 8, count: 448
+
+ Termination of token  
+ token : 6, c: 4, f: 4, count: 578
+
+ Termination of token  
+ token : 3, c: 3, f: 3, count: 643
+
+ Termination of token  
+ token : 2, c: 8, f: 8, count: 727
+Termination_in_middle with steps: 5671
+jobs [12 15 11  6 11 11  2  5], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 15, f: 15, count: 219
+
+ Termination of token  
+ token : 6, c: 2, f: 2, count: 300
+
+ Termination of token  
+ token : 4, c: 11, f: 11, count: 563
+
+ Termination of token  
+ token : 0, c: 12, f: 12, count: 694
+
+ Termination of token  
+ token : 2, c: 11, f: 11, count: 877
+Termination_in_middle with steps: 5758
+jobs [ 3  3 15 10  4  6 10  4], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 15, f: 15, count: 317
+
+ Termination of token  
+ token : 1, c: 3, f: 3, count: 362
+
+ Termination of token  
+ token : 7, c: 4, f: 4, count: 364
+Termination_in_middle with steps: 6138
+jobs [11  6 15 11  1  9 13 13], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 15, f: 15, count: 147
+Termination_in_middle with steps: 7114
+jobs [ 9 12  5 13  3  7  9  1], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 12, f: 12, count: 554
+
+ Termination of token  
+ token : 4, c: 3, f: 3, count: 652
+
+ Termination of token  
+ token : 0, c: 9, f: 9, count: 798
+
+ Termination of token  
+ token : 2, c: 5, f: 5, count: 913
+Termination_in_middle with steps: 6978
+jobs [ 6  3 15  3  2  4 14  1], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 3, f: 3, count: 163
+
+ Termination of token  
+ token : 0, c: 6, f: 6, count: 221
+
+ Termination of token  
+ token : 6, c: 14, f: 14, count: 368
+
+ Termination of token  
+ token : 7, c: 1, f: 1, count: 691
+
+ Termination of token  
+ token : 5, c: 4, f: 4, count: 705
+Termination_in_middle with steps: 5265
+jobs [ 2  4 10 15 13  7 10  7], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 2, f: 2, count: 54
+
+ Termination of token  
+ token : 1, c: 4, f: 4, count: 321
+
+ Termination of token  
+ token : 3, c: 15, f: 15, count: 541
+
+ Termination of token  
+ token : 5, c: 7, f: 7, count: 593
+
+ Termination of token  
+ token : 4, c: 13, f: 13, count: 706
+
+ Termination of token  
+ token : 2, c: 10, f: 10, count: 814
+Termination_in_middle with steps: 5161
+jobs [15 13 10 12  2  8 12  8], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 15, f: 15, count: 261
+
+ Termination of token  
+ token : 2, c: 10, f: 10, count: 492
+
+ Termination of token  
+ token : 4, c: 2, f: 2, count: 701
+
+ Termination of token  
+ token : 5, c: 8, f: 8, count: 883
+
+ Termination of token  
+ token : 3, c: 12, f: 12, count: 819
+
+ Termination of token  
+ token : 7, c: 8, f: 8, count: 923
+
+ Termination of token  
+ token : 6, c: 12, f: 12, count: 945
+Termination_in_middle with steps: 6226
+jobs [12 14  7  3  5  1 15  2], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 14, f: 14, count: 239
+
+ Termination of token  
+ token : 0, c: 12, f: 12, count: 317
+
+ Termination of token  
+ token : 6, c: 15, f: 15, count: 422
+
+ Termination of token  
+ token : 5, c: 1, f: 1, count: 534
+Termination_in_middle with steps: 5626
+jobs [ 6  3 14  5  9  3  5 11], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 4, c: 9, f: 9, count: 560
+
+ Termination of token  
+ token : 5, c: 3, f: 3, count: 752
+
+ Termination of token  
+ token : 1, c: 3, f: 3, count: 863
+Termination_in_middle with steps: 7249
+jobs [14  8 13  3  6 10  7 11], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 8, f: 8, count: 172
+
+ Termination of token  
+ token : 6, c: 7, f: 7, count: 233
+
+ Termination of token  
+ token : 3, c: 3, f: 3, count: 260
+
+ Termination of token  
+ token : 7, c: 11, f: 11, count: 257
+
+ Termination of token  
+ token : 5, c: 10, f: 10, count: 318
+
+ Termination of token  
+ token : 2, c: 13, f: 13, count: 982
+Termination_in_middle with steps: 4454
+jobs [ 5  6  4  4  8 11  3  5], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 6, c: 3, f: 3, count: 358
+
+ Termination of token  
+ token : 5, c: 11, f: 11, count: 500
+
+ Termination of token  
+ token : 4, c: 8, f: 8, count: 485
+
+ Termination of token  
+ token : 3, c: 4, f: 4, count: 796
+
+ Termination of token  
+ token : 0, c: 5, f: 5, count: 783
+Termination_in_middle with steps: 6144
+jobs [ 7 13 14  4  8  4 10  6], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 4, f: 4, count: 114
+
+ Termination of token  
+ token : 6, c: 10, f: 10, count: 133
+
+ Termination of token  
+ token : 1, c: 13, f: 13, count: 153
+
+ Termination of token  
+ token : 2, c: 14, f: 14, count: 244
+
+ Termination of token  
+ token : 7, c: 6, f: 6, count: 253
+
+ Termination of token  
+ token : 5, c: 4, f: 4, count: 385
+Termination_in_middle with steps: 3392
+jobs [11  1  7  9  8  7  1  8], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 7, c: 8, f: 8, count: 451
+
+ Termination of token  
+ token : 5, c: 7, f: 7, count: 755
+
+ Termination of token  
+ token : 4, c: 8, f: 8, count: 858
+Termination_in_middle with steps: 7298
+jobs [ 5  3  1 13  7 13 12 14], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 4, c: 7, f: 7, count: 335
+
+ Termination of token  
+ token : 5, c: 13, f: 13, count: 526
+
+ Termination of token  
+ token : 6, c: 12, f: 12, count: 727
+Termination_in_middle with steps: 6658
+jobs [ 6 13  8  5  9 11  9  1], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 8, f: 8, count: 193
+
+ Termination of token  
+ token : 7, c: 1, f: 1, count: 269
+
+ Termination of token  
+ token : 0, c: 6, f: 6, count: 435
+
+ Termination of token  
+ token : 1, c: 13, f: 13, count: 741
+
+ Termination of token  
+ token : 5, c: 11, f: 11, count: 744
+
+ Termination of token  
+ token : 3, c: 5, f: 5, count: 902
+Termination_in_middle with steps: 5467
+jobs [13  1 10  5  1  5  2 12], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 13, f: 13, count: 516
+
+ Termination of token  
+ token : 4, c: 1, f: 1, count: 689
+
+ Termination of token  
+ token : 5, c: 5, f: 5, count: 946
+Termination_in_middle with steps: 7351
+jobs [ 1  3  7 13  1  6 15 10], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7979
+jobs [10 11  5 13 14 14 10 14], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 7, c: 14, f: 14, count: 166
+
+ Termination of token  
+ token : 6, c: 10, f: 10, count: 312
+
+ Termination of token  
+ token : 4, c: 14, f: 14, count: 381
+
+ Termination of token  
+ token : 5, c: 14, f: 14, count: 470
+
+ Termination of token  
+ token : 2, c: 5, f: 5, count: 731
+
+ Termination of token  
+ token : 3, c: 13, f: 13, count: 800
+Termination_in_middle with steps: 5201
+jobs [ 2 11  9 14  6  7  6  3], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 11, f: 11, count: 582
+
+ Termination of token  
+ token : 5, c: 7, f: 7, count: 668
+
+ Termination of token  
+ token : 4, c: 6, f: 6, count: 936
+
+ Termination of token  
+ token : 6, c: 6, f: 6, count: 986
+Termination_in_middle with steps: 7556
+jobs [15 11  5  5 12  6  4 11], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 8000
+jobs [ 4 10  3  6  6 10 12  7], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 7, c: 7, f: 7, count: 678
+
+ Termination of token  
+ token : 1, c: 10, f: 10, count: 699
+
+ Termination of token  
+ token : 5, c: 10, f: 10, count: 881
+Termination_in_middle with steps: 7433
+jobs [ 8  6 10  6  1  2  1 15], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 7, c: 15, f: 15, count: 316
+
+ Termination of token  
+ token : 0, c: 8, f: 8, count: 890
+
+ Termination of token  
+ token : 4, c: 1, f: 1, count: 901
+
+ Termination of token  
+ token : 1, c: 6, f: 6, count: 835
+
+ Termination of token  
+ token : 3, c: 6, f: 6, count: 976
+Termination_in_middle with steps: 7313
+jobs [11  1  6  1  9  8 15  9], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 5, c: 8, f: 8, count: 740
+
+ Termination of token  
+ token : 1, c: 1, f: 1, count: 818
+Termination_in_middle with steps: 7791
+jobs [ 1 12 15  9  7 15  8 13], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 5, c: 15, f: 15, count: 468
+
+ Termination of token  
+ token : 1, c: 12, f: 12, count: 498
+
+ Termination of token  
+ token : 6, c: 8, f: 8, count: 537
+
+ Termination of token  
+ token : 4, c: 7, f: 7, count: 557
+Termination_in_middle with steps: 6188
+jobs [ 6 12  2 13 13  4 13  4], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 7, c: 4, f: 4, count: 435
+
+ Termination of token  
+ token : 1, c: 12, f: 12, count: 533
+
+ Termination of token  
+ token : 4, c: 13, f: 13, count: 647
+Termination_in_middle with steps: 6760
+jobs [ 2  3  2  7 12 15  2  5], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 4, c: 12, f: 12, count: 584
+Termination_in_middle with steps: 7688
+jobs [ 6  6  8  8  5 15 11  7], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 8, f: 8, count: 256
+
+ Termination of token  
+ token : 0, c: 6, f: 6, count: 271
+
+ Termination of token  
+ token : 5, c: 15, f: 15, count: 337
+
+ Termination of token  
+ token : 2, c: 8, f: 8, count: 705
+
+ Termination of token  
+ token : 6, c: 11, f: 11, count: 758
+
+ Termination of token  
+ token : 4, c: 5, f: 5, count: 922
+Termination_in_middle with steps: 5517
+jobs [ 9  9  3  6  6 13 11  2], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 9, f: 9, count: 850
+Termination_in_middle with steps: 8000
+jobs [ 4  9  3  3  4  8  3 13], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 9, f: 9, count: 150
+
+ Termination of token  
+ token : 0, c: 4, f: 4, count: 152
+
+ Termination of token  
+ token : 2, c: 3, f: 3, count: 248
+
+ Termination of token  
+ token : 5, c: 8, f: 8, count: 658
+
+ Termination of token  
+ token : 6, c: 3, f: 3, count: 915
+
+ Termination of token  
+ token : 3, c: 3, f: 3, count: 971
+Termination_in_middle with steps: 5288
+jobs [10  2 14  6 11 15  2 12], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 2, f: 2, count: 215
+
+ Termination of token  
+ token : 0, c: 10, f: 10, count: 263
+
+ Termination of token  
+ token : 2, c: 14, f: 14, count: 384
+
+ Termination of token  
+ token : 5, c: 15, f: 15, count: 685
+
+ Termination of token  
+ token : 7, c: 12, f: 12, count: 620
+Termination_in_middle with steps: 5380
+jobs [ 8 15  6 13  8  3 15  9], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 8, f: 8, count: 82
+
+ Termination of token  
+ token : 4, c: 8, f: 8, count: 139
+
+ Termination of token  
+ token : 6, c: 15, f: 15, count: 209
+
+ Termination of token  
+ token : 1, c: 15, f: 15, count: 279
+
+ Termination of token  
+ token : 5, c: 3, f: 3, count: 292
+
+ Termination of token  
+ token : 7, c: 9, f: 9, count: 605
+
+ Termination of token  
+ token : 3, c: 13, f: 13, count: 849
+Termination_in_middle with steps: 3558
+jobs [15 14 14 12  1 13  7 10], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 14, f: 14, count: 110
+
+ Termination of token  
+ token : 0, c: 15, f: 15, count: 141
+
+ Termination of token  
+ token : 3, c: 12, f: 12, count: 266
+
+ Termination of token  
+ token : 4, c: 1, f: 1, count: 300
+Termination_in_middle with steps: 4955
+jobs [ 9  6  1  6 15  8  2 15], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 9, f: 9, count: 139
+
+ Termination of token  
+ token : 5, c: 8, f: 8, count: 158
+
+ Termination of token  
+ token : 3, c: 6, f: 6, count: 969
+
+ Termination of token  
+ token : 4, c: 15, f: 15, count: 899
+Termination_in_middle with steps: 6256
+jobs [ 4 13 10  2 13 10  8 14], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 6, c: 8, f: 8, count: 265
+
+ Termination of token  
+ token : 0, c: 4, f: 4, count: 528
+
+ Termination of token  
+ token : 1, c: 13, f: 13, count: 690
+
+ Termination of token  
+ token : 2, c: 10, f: 10, count: 662
+
+ Termination of token  
+ token : 5, c: 10, f: 10, count: 804
+Termination_in_middle with steps: 6262
+jobs [13 12 14  7 11  9  3 10], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 12, f: 12, count: 128
+
+ Termination of token  
+ token : 0, c: 13, f: 13, count: 173
+
+ Termination of token  
+ token : 7, c: 10, f: 10, count: 368
+
+ Termination of token  
+ token : 6, c: 3, f: 3, count: 553
+
+ Termination of token  
+ token : 3, c: 7, f: 7, count: 649
+Termination_in_middle with steps: 5052
+jobs [ 9 12  9 14 14 14 12  2], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 9, f: 9, count: 90
+
+ Termination of token  
+ token : 1, c: 12, f: 12, count: 159
+
+ Termination of token  
+ token : 4, c: 14, f: 14, count: 347
+
+ Termination of token  
+ token : 2, c: 9, f: 9, count: 356
+
+ Termination of token  
+ token : 6, c: 12, f: 12, count: 378
+
+ Termination of token  
+ token : 5, c: 14, f: 14, count: 841
+Termination_in_middle with steps: 4273
+jobs [ 8  5  9  6  5 12  2 12], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 8, f: 8, count: 228
+
+ Termination of token  
+ token : 5, c: 12, f: 12, count: 302
+
+ Termination of token  
+ token : 1, c: 5, f: 5, count: 526
+
+ Termination of token  
+ token : 7, c: 12, f: 12, count: 536
+Termination_in_middle with steps: 5749
+jobs [ 7 11 12 11  2  2  4  5], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 11, f: 11, count: 217
+
+ Termination of token  
+ token : 6, c: 4, f: 4, count: 300
+
+ Termination of token  
+ token : 2, c: 12, f: 12, count: 300
+
+ Termination of token  
+ token : 7, c: 5, f: 5, count: 657
+Termination_in_middle with steps: 5549
+jobs [14  6  5  4 10 10  3 15], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 4, f: 4, count: 243
+
+ Termination of token  
+ token : 2, c: 5, f: 5, count: 255
+
+ Termination of token  
+ token : 5, c: 10, f: 10, count: 281
+
+ Termination of token  
+ token : 0, c: 14, f: 14, count: 350
+
+ Termination of token  
+ token : 6, c: 3, f: 3, count: 922
+Termination_in_middle with steps: 5291
+jobs [10  6  6 15  2 11  4  4], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 10, f: 10, count: 391
+
+ Termination of token  
+ token : 3, c: 15, f: 15, count: 446
+
+ Termination of token  
+ token : 1, c: 6, f: 6, count: 593
+
+ Termination of token  
+ token : 6, c: 4, f: 4, count: 687
+
+ Termination of token  
+ token : 7, c: 4, f: 4, count: 728
+
+ Termination of token  
+ token : 4, c: 2, f: 2, count: 826
+Termination_in_middle with steps: 5803
+jobs [ 7 15  4  1  3  9  7 10], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 15, f: 15, count: 64
+
+ Termination of token  
+ token : 0, c: 7, f: 7, count: 166
+
+ Termination of token  
+ token : 5, c: 9, f: 9, count: 258
+
+ Termination of token  
+ token : 3, c: 1, f: 1, count: 299
+
+ Termination of token  
+ token : 4, c: 3, f: 3, count: 309
+Termination_in_middle with steps: 4403
+jobs [ 7  2 11 12  8  4 13  8], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 11, f: 11, count: 50
+
+ Termination of token  
+ token : 1, c: 2, f: 2, count: 56
+
+ Termination of token  
+ token : 3, c: 12, f: 12, count: 73
+
+ Termination of token  
+ token : 5, c: 4, f: 4, count: 266
+
+ Termination of token  
+ token : 7, c: 8, f: 8, count: 402
+
+ Termination of token  
+ token : 4, c: 8, f: 8, count: 733
+Termination_in_middle with steps: 3716
+jobs [ 6  3  2  1  5 14  9  4], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 3, f: 3, count: 96
+
+ Termination of token  
+ token : 0, c: 6, f: 6, count: 123
+
+ Termination of token  
+ token : 5, c: 14, f: 14, count: 429
+
+ Termination of token  
+ token : 2, c: 2, f: 2, count: 544
+
+ Termination of token  
+ token : 3, c: 1, f: 1, count: 637
+
+ Termination of token  
+ token : 7, c: 4, f: 4, count: 964
+Termination_in_middle with steps: 4991
+jobs [ 9  3  4 10 14 12  5  2], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 3, f: 3, count: 76
+
+ Termination of token  
+ token : 5, c: 12, f: 12, count: 86
+
+ Termination of token  
+ token : 0, c: 9, f: 9, count: 100
+
+ Termination of token  
+ token : 3, c: 10, f: 10, count: 149
+
+ Termination of token  
+ token : 4, c: 14, f: 14, count: 153
+
+ Termination of token  
+ token : 2, c: 4, f: 4, count: 254
+
+ Termination of token  
+ token : 7, c: 2, f: 2, count: 245
+Termination_in_middle with steps: 2080
+jobs [13  4 11  4  3  2  8 10], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 13, f: 13, count: 92
+
+ Termination of token  
+ token : 2, c: 11, f: 11, count: 154
+
+ Termination of token  
+ token : 6, c: 8, f: 8, count: 179
+
+ Termination of token  
+ token : 1, c: 4, f: 4, count: 266
+
+ Termination of token  
+ token : 4, c: 3, f: 3, count: 294
+
+ Termination of token  
+ token : 7, c: 10, f: 10, count: 354
+Termination_in_middle with steps: 3488
+jobs [ 1  3 11  7  4  4  6  6], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 3, f: 3, count: 100
+
+ Termination of token  
+ token : 3, c: 7, f: 7, count: 352
+
+ Termination of token  
+ token : 6, c: 6, f: 6, count: 362
+
+ Termination of token  
+ token : 5, c: 4, f: 4, count: 389
+
+ Termination of token  
+ token : 4, c: 4, f: 4, count: 414
+Termination_in_middle with steps: 4680
+jobs [1 6 5 5 2 3 2 5], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 1, f: 1, count: 67
+
+ Termination of token  
+ token : 1, c: 6, f: 6, count: 85
+
+ Termination of token  
+ token : 4, c: 2, f: 2, count: 113
+
+ Termination of token  
+ token : 3, c: 5, f: 5, count: 160
+
+ Termination of token  
+ token : 2, c: 5, f: 5, count: 478
+
+ Termination of token  
+ token : 5, c: 3, f: 3, count: 556
+Termination_in_middle with steps: 3559
+jobs [11  5 11  8 10  2 10 11], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 4, c: 10, f: 10, count: 95
+
+ Termination of token  
+ token : 2, c: 11, f: 11, count: 196
+
+ Termination of token  
+ token : 3, c: 8, f: 8, count: 242
+
+ Termination of token  
+ token : 5, c: 2, f: 2, count: 278
+
+ Termination of token  
+ token : 6, c: 10, f: 10, count: 930
+
+ Termination of token  
+ token : 0, c: 11, f: 11, count: 931
+Termination_in_middle with steps: 4841
+jobs [ 8 12  3  9 14 14 12  8], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 12, f: 12, count: 77
+
+ Termination of token  
+ token : 4, c: 14, f: 14, count: 97
+
+ Termination of token  
+ token : 2, c: 3, f: 3, count: 179
+
+ Termination of token  
+ token : 6, c: 12, f: 12, count: 178
+
+ Termination of token  
+ token : 0, c: 8, f: 8, count: 278
+
+ Termination of token  
+ token : 7, c: 8, f: 8, count: 417
+Termination_in_middle with steps: 3372
+jobs [13 13 15  9  7 13  9  4], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 13, f: 13, count: 69
+
+ Termination of token  
+ token : 1, c: 13, f: 13, count: 100
+
+ Termination of token  
+ token : 3, c: 9, f: 9, count: 130
+
+ Termination of token  
+ token : 5, c: 13, f: 13, count: 130
+
+ Termination of token  
+ token : 7, c: 4, f: 4, count: 378
+
+ Termination of token  
+ token : 4, c: 7, f: 7, count: 549
+Termination_in_middle with steps: 3816
+jobs [ 5  4  1  2  8  4  8 12], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 5, f: 5, count: 116
+
+ Termination of token  
+ token : 3, c: 2, f: 2, count: 122
+
+ Termination of token  
+ token : 4, c: 8, f: 8, count: 153
+
+ Termination of token  
+ token : 1, c: 4, f: 4, count: 288
+
+ Termination of token  
+ token : 6, c: 8, f: 8, count: 348
+
+ Termination of token  
+ token : 7, c: 12, f: 12, count: 389
+
+ Termination of token  
+ token : 2, c: 1, f: 1, count: 465
+
+ Termination of token  
+ token : 5, c: 4, f: 4, count: 740
+jobs [ 7  4 10 10  7 10  5  8], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 4, f: 4, count: 86
+
+ Termination of token  
+ token : 3, c: 10, f: 10, count: 170
+
+ Termination of token  
+ token : 5, c: 10, f: 10, count: 170
+
+ Termination of token  
+ token : 7, c: 8, f: 8, count: 563
+Termination_in_middle with steps: 5233
+jobs [ 2  2 11  5 15 15  4  3], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 11, f: 11, count: 64
+
+ Termination of token  
+ token : 0, c: 2, f: 2, count: 84
+
+ Termination of token  
+ token : 3, c: 5, f: 5, count: 128
+
+ Termination of token  
+ token : 7, c: 3, f: 3, count: 189
+
+ Termination of token  
+ token : 1, c: 2, f: 2, count: 307
+
+ Termination of token  
+ token : 5, c: 15, f: 15, count: 308
+
+ Termination of token  
+ token : 6, c: 4, f: 4, count: 794
+
+ Termination of token  
+ token : 4, c: 15, f: 15, count: 764
+jobs [10 10  8 13  4  5  5  5], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 10, f: 10, count: 109
+
+ Termination of token  
+ token : 0, c: 10, f: 10, count: 157
+
+ Termination of token  
+ token : 3, c: 13, f: 13, count: 290
+
+ Termination of token  
+ token : 5, c: 5, f: 5, count: 275
+
+ Termination of token  
+ token : 2, c: 8, f: 8, count: 377
+
+ Termination of token  
+ token : 7, c: 5, f: 5, count: 723
+Termination_in_middle with steps: 4154
+jobs [ 2  6  9  5 13  7 13  9], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 6, f: 6, count: 145
+
+ Termination of token  
+ token : 2, c: 9, f: 9, count: 157
+
+ Termination of token  
+ token : 4, c: 13, f: 13, count: 162
+
+ Termination of token  
+ token : 6, c: 13, f: 13, count: 161
+
+ Termination of token  
+ token : 5, c: 7, f: 7, count: 342
+
+ Termination of token  
+ token : 0, c: 2, f: 2, count: 376
+Termination_in_middle with steps: 3956
+jobs [ 6 15 12 13 15 15 13  6], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 15, f: 15, count: 90
+
+ Termination of token  
+ token : 0, c: 6, f: 6, count: 176
+
+ Termination of token  
+ token : 3, c: 13, f: 13, count: 209
+
+ Termination of token  
+ token : 2, c: 12, f: 12, count: 426
+
+ Termination of token  
+ token : 7, c: 6, f: 6, count: 657
+
+ Termination of token  
+ token : 4, c: 15, f: 15, count: 930
+Termination_in_middle with steps: 4728
+jobs [ 7 13  2  5  2  2  7  5], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 2, f: 2, count: 452
+
+ Termination of token  
+ token : 1, c: 13, f: 13, count: 753
+
+ Termination of token  
+ token : 4, c: 2, f: 2, count: 746
+Termination_in_middle with steps: 7004
+jobs [ 3  9  8  9 13 13  4  8], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 9, f: 9, count: 150
+
+ Termination of token  
+ token : 7, c: 8, f: 8, count: 191
+
+ Termination of token  
+ token : 4, c: 13, f: 13, count: 266
+Termination_in_middle with steps: 5656
+jobs [ 5  8  6 12  3  4 13  9], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 8, f: 8, count: 58
+
+ Termination of token  
+ token : 3, c: 12, f: 12, count: 135
+
+ Termination of token  
+ token : 6, c: 13, f: 13, count: 133
+
+ Termination of token  
+ token : 7, c: 9, f: 9, count: 147
+
+ Termination of token  
+ token : 4, c: 3, f: 3, count: 261
+
+ Termination of token  
+ token : 5, c: 4, f: 4, count: 485
+
+ Termination of token  
+ token : 2, c: 6, f: 6, count: 633
+
+ Termination of token  
+ token : 0, c: 5, f: 5, count: 772
+jobs [ 9  2 11  7 11 15  6  1], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 9, f: 9, count: 177
+
+ Termination of token  
+ token : 4, c: 11, f: 11, count: 190
+
+ Termination of token  
+ token : 1, c: 2, f: 2, count: 271
+
+ Termination of token  
+ token : 5, c: 15, f: 15, count: 358
+
+ Termination of token  
+ token : 7, c: 1, f: 1, count: 381
+
+ Termination of token  
+ token : 6, c: 6, f: 6, count: 412
+
+ Termination of token  
+ token : 2, c: 11, f: 11, count: 671
+
+ Termination of token  
+ token : 3, c: 7, f: 7, count: 682
+jobs [13 14 14 10  7  5  5 12], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 13, f: 13, count: 133
+
+ Termination of token  
+ token : 1, c: 14, f: 14, count: 145
+
+ Termination of token  
+ token : 7, c: 12, f: 12, count: 143
+
+ Termination of token  
+ token : 5, c: 5, f: 5, count: 224
+
+ Termination of token  
+ token : 6, c: 5, f: 5, count: 229
+
+ Termination of token  
+ token : 2, c: 14, f: 14, count: 221
+
+ Termination of token  
+ token : 3, c: 10, f: 10, count: 364
+
+ Termination of token  
+ token : 4, c: 7, f: 7, count: 441
+jobs [ 7  9  1  6  3  5 11 11], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 1, f: 1, count: 114
+
+ Termination of token  
+ token : 0, c: 7, f: 7, count: 163
+
+ Termination of token  
+ token : 7, c: 11, f: 11, count: 266
+
+ Termination of token  
+ token : 4, c: 3, f: 3, count: 355
+
+ Termination of token  
+ token : 3, c: 6, f: 6, count: 367
+
+ Termination of token  
+ token : 1, c: 9, f: 9, count: 583
+
+ Termination of token  
+ token : 6, c: 11, f: 11, count: 921
+
+ Termination of token  
+ token : 5, c: 5, f: 5, count: 824
+jobs [ 8  2  9  1 13  6  5  4], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 2, f: 2, count: 175
+
+ Termination of token  
+ token : 3, c: 1, f: 1, count: 264
+
+ Termination of token  
+ token : 0, c: 8, f: 8, count: 351
+
+ Termination of token  
+ token : 4, c: 13, f: 13, count: 366
+
+ Termination of token  
+ token : 7, c: 4, f: 4, count: 371
+
+ Termination of token  
+ token : 5, c: 6, f: 6, count: 387
+
+ Termination of token  
+ token : 2, c: 9, f: 9, count: 533
+
+ Termination of token  
+ token : 6, c: 5, f: 5, count: 577
+jobs [ 2  5  2 13 13  8 10 13], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 2, f: 2, count: 88
+
+ Termination of token  
+ token : 1, c: 5, f: 5, count: 194
+
+ Termination of token  
+ token : 5, c: 8, f: 8, count: 268
+
+ Termination of token  
+ token : 3, c: 13, f: 13, count: 298
+
+ Termination of token  
+ token : 6, c: 10, f: 10, count: 527
+
+ Termination of token  
+ token : 7, c: 13, f: 13, count: 593
+
+ Termination of token  
+ token : 4, c: 13, f: 13, count: 716
+
+ Termination of token  
+ token : 0, c: 2, f: 2, count: 727
+jobs [ 3  7  6  3  5 13  3  2], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 6, c: 3, f: 3, count: 148
+
+ Termination of token  
+ token : 0, c: 3, f: 3, count: 230
+
+ Termination of token  
+ token : 3, c: 3, f: 3, count: 550
+
+ Termination of token  
+ token : 5, c: 13, f: 13, count: 662
+
+ Termination of token  
+ token : 4, c: 5, f: 5, count: 885
+
+ Termination of token  
+ token : 1, c: 7, f: 7, count: 986
+Termination_in_middle with steps: 5801
+jobs [11 15  1 12  5  1 14 11], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 11, f: 11, count: 109
+
+ Termination of token  
+ token : 1, c: 15, f: 15, count: 119
+
+ Termination of token  
+ token : 5, c: 1, f: 1, count: 154
+
+ Termination of token  
+ token : 2, c: 1, f: 1, count: 237
+
+ Termination of token  
+ token : 3, c: 12, f: 12, count: 508
+
+ Termination of token  
+ token : 7, c: 11, f: 11, count: 456
+Termination_in_middle with steps: 3688
+jobs [ 2 11  2  9 12  9  7  5], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 11, f: 11, count: 128
+
+ Termination of token  
+ token : 3, c: 9, f: 9, count: 130
+
+ Termination of token  
+ token : 6, c: 7, f: 7, count: 195
+
+ Termination of token  
+ token : 4, c: 12, f: 12, count: 207
+
+ Termination of token  
+ token : 7, c: 5, f: 5, count: 342
+
+ Termination of token  
+ token : 5, c: 9, f: 9, count: 461
+
+ Termination of token  
+ token : 2, c: 2, f: 2, count: 564
+
+ Termination of token  
+ token : 0, c: 2, f: 2, count: 648
+jobs [ 4  3 15  9 15  2  1  8], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 15, f: 15, count: 112
+
+ Termination of token  
+ token : 1, c: 3, f: 3, count: 118
+
+ Termination of token  
+ token : 0, c: 4, f: 4, count: 149
+
+ Termination of token  
+ token : 5, c: 2, f: 2, count: 152
+
+ Termination of token  
+ token : 7, c: 8, f: 8, count: 154
+
+ Termination of token  
+ token : 4, c: 15, f: 15, count: 162
+
+ Termination of token  
+ token : 6, c: 1, f: 1, count: 174
+
+ Termination of token  
+ token : 3, c: 9, f: 9, count: 284
+jobs [ 9  3  3  9  9 11 12  9], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 4, c: 9, f: 9, count: 183
+
+ Termination of token  
+ token : 6, c: 12, f: 12, count: 178
+
+ Termination of token  
+ token : 5, c: 11, f: 11, count: 199
+
+ Termination of token  
+ token : 7, c: 9, f: 9, count: 207
+
+ Termination of token  
+ token : 3, c: 9, f: 9, count: 271
+
+ Termination of token  
+ token : 1, c: 3, f: 3, count: 360
+
+ Termination of token  
+ token : 2, c: 3, f: 3, count: 343
+
+ Termination of token  
+ token : 0, c: 9, f: 9, count: 389
+jobs [ 4  3  6  6 15  7 11 14], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 6, f: 6, count: 270
+
+ Termination of token  
+ token : 0, c: 4, f: 4, count: 393
+
+ Termination of token  
+ token : 1, c: 3, f: 3, count: 384
+
+ Termination of token  
+ token : 6, c: 11, f: 11, count: 470
+
+ Termination of token  
+ token : 7, c: 14, f: 14, count: 505
+
+ Termination of token  
+ token : 4, c: 15, f: 15, count: 509
+
+ Termination of token  
+ token : 2, c: 6, f: 6, count: 544
+
+ Termination of token  
+ token : 5, c: 7, f: 7, count: 589
+jobs [11 12  6  2  5  3  1  6], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 12, f: 12, count: 128
+
+ Termination of token  
+ token : 0, c: 11, f: 11, count: 144
+
+ Termination of token  
+ token : 6, c: 1, f: 1, count: 190
+
+ Termination of token  
+ token : 5, c: 3, f: 3, count: 230
+
+ Termination of token  
+ token : 7, c: 6, f: 6, count: 234
+
+ Termination of token  
+ token : 4, c: 5, f: 5, count: 282
+
+ Termination of token  
+ token : 2, c: 6, f: 6, count: 328
+
+ Termination of token  
+ token : 3, c: 2, f: 2, count: 365
+jobs [ 5 12  2 10  6 14 13 13], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 12, f: 12, count: 134
+
+ Termination of token  
+ token : 7, c: 13, f: 13, count: 130
+
+ Termination of token  
+ token : 2, c: 2, f: 2, count: 140
+
+ Termination of token  
+ token : 5, c: 14, f: 14, count: 174
+
+ Termination of token  
+ token : 4, c: 6, f: 6, count: 188
+
+ Termination of token  
+ token : 3, c: 10, f: 10, count: 232
+
+ Termination of token  
+ token : 6, c: 13, f: 13, count: 248
+
+ Termination of token  
+ token : 0, c: 5, f: 5, count: 270
+jobs [ 8  1  3 12  9  2 11 11], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 8, f: 8, count: 149
+
+ Termination of token  
+ token : 1, c: 1, f: 1, count: 163
+
+ Termination of token  
+ token : 6, c: 11, f: 11, count: 158
+
+ Termination of token  
+ token : 7, c: 11, f: 11, count: 163
+
+ Termination of token  
+ token : 2, c: 3, f: 3, count: 209
+
+ Termination of token  
+ token : 5, c: 2, f: 2, count: 244
+
+ Termination of token  
+ token : 3, c: 12, f: 12, count: 285
+
+ Termination of token  
+ token : 4, c: 9, f: 9, count: 292
+jobs [15 13  9 12  1 12  6 11], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 13, f: 13, count: 159
+
+ Termination of token  
+ token : 3, c: 12, f: 12, count: 188
+
+ Termination of token  
+ token : 6, c: 6, f: 6, count: 232
+
+ Termination of token  
+ token : 4, c: 1, f: 1, count: 596
+
+ Termination of token  
+ token : 5, c: 12, f: 12, count: 284
+
+ Termination of token  
+ token : 0, c: 15, f: 15, count: 824
+
+ Termination of token  
+ token : 2, c: 9, f: 9, count: 675
+
+ Termination of token  
+ token : 7, c: 11, f: 11, count: 621
+jobs [ 5  9 10 13  9  1  2 14], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 10, f: 10, count: 152
+
+ Termination of token  
+ token : 7, c: 14, f: 14, count: 226
+
+ Termination of token  
+ token : 6, c: 2, f: 2, count: 261
+
+ Termination of token  
+ token : 5, c: 1, f: 1, count: 241
+
+ Termination of token  
+ token : 1, c: 9, f: 9, count: 292
+
+ Termination of token  
+ token : 4, c: 9, f: 9, count: 291
+
+ Termination of token  
+ token : 0, c: 5, f: 5, count: 324
+
+ Termination of token  
+ token : 3, c: 13, f: 13, count: 350
+jobs [11  3 15  7 12  2 13  8], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 5, c: 2, f: 2, count: 194
+
+ Termination of token  
+ token : 4, c: 12, f: 12, count: 205
+
+ Termination of token  
+ token : 2, c: 15, f: 15, count: 209
+
+ Termination of token  
+ token : 1, c: 3, f: 3, count: 231
+
+ Termination of token  
+ token : 7, c: 8, f: 8, count: 217
+
+ Termination of token  
+ token : 0, c: 11, f: 11, count: 294
+
+ Termination of token  
+ token : 6, c: 13, f: 13, count: 338
+
+ Termination of token  
+ token : 3, c: 7, f: 7, count: 363
+jobs [ 8  8 11 10 10  9 13  6], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 8, f: 8, count: 103
+
+ Termination of token  
+ token : 6, c: 13, f: 13, count: 314
+
+ Termination of token  
+ token : 5, c: 9, f: 9, count: 365
+
+ Termination of token  
+ token : 7, c: 6, f: 6, count: 372
+
+ Termination of token  
+ token : 0, c: 8, f: 8, count: 434
+
+ Termination of token  
+ token : 3, c: 10, f: 10, count: 427
+
+ Termination of token  
+ token : 2, c: 11, f: 11, count: 472
+
+ Termination of token  
+ token : 4, c: 10, f: 10, count: 488
+jobs [ 2 10  6 14 13  3  3 10], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 6, c: 3, f: 3, count: 321
+
+ Termination of token  
+ token : 7, c: 10, f: 10, count: 407
+
+ Termination of token  
+ token : 5, c: 3, f: 3, count: 605
+
+ Termination of token  
+ token : 1, c: 10, f: 10, count: 582
+
+ Termination of token  
+ token : 3, c: 14, f: 14, count: 654
+
+ Termination of token  
+ token : 2, c: 6, f: 6, count: 633
+
+ Termination of token  
+ token : 0, c: 2, f: 2, count: 685
+
+ Termination of token  
+ token : 4, c: 13, f: 13, count: 698
+jobs [ 9  4  1 12  1 15 12 15], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 9, f: 9, count: 107
+
+ Termination of token  
+ token : 1, c: 4, f: 4, count: 183
+
+ Termination of token  
+ token : 3, c: 12, f: 12, count: 180
+
+ Termination of token  
+ token : 6, c: 12, f: 12, count: 263
+
+ Termination of token  
+ token : 4, c: 1, f: 1, count: 246
+
+ Termination of token  
+ token : 7, c: 15, f: 15, count: 309
+
+ Termination of token  
+ token : 2, c: 1, f: 1, count: 293
+
+ Termination of token  
+ token : 5, c: 15, f: 15, count: 345
+jobs [ 3 15  4 15 11  1  1  4], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 7, c: 4, f: 4, count: 138
+
+ Termination of token  
+ token : 6, c: 1, f: 1, count: 244
+
+ Termination of token  
+ token : 5, c: 1, f: 1, count: 238
+
+ Termination of token  
+ token : 2, c: 4, f: 4, count: 263
+
+ Termination of token  
+ token : 3, c: 15, f: 15, count: 264
+
+ Termination of token  
+ token : 0, c: 3, f: 3, count: 276
+
+ Termination of token  
+ token : 1, c: 15, f: 15, count: 265
+
+ Termination of token  
+ token : 4, c: 11, f: 11, count: 305
+jobs [ 3  1 15  5  6  3 10  2], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 5, f: 5, count: 122
+
+ Termination of token  
+ token : 4, c: 6, f: 6, count: 185
+
+ Termination of token  
+ token : 5, c: 3, f: 3, count: 184
+
+ Termination of token  
+ token : 2, c: 15, f: 15, count: 188
+
+ Termination of token  
+ token : 6, c: 10, f: 10, count: 188
+
+ Termination of token  
+ token : 0, c: 3, f: 3, count: 231
+
+ Termination of token  
+ token : 7, c: 2, f: 2, count: 227
+
+ Termination of token  
+ token : 1, c: 1, f: 1, count: 274
+jobs [15  7  9  9  2 10  7  2], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 7, c: 2, f: 2, count: 68
+
+ Termination of token  
+ token : 1, c: 7, f: 7, count: 197
+
+ Termination of token  
+ token : 6, c: 7, f: 7, count: 208
+
+ Termination of token  
+ token : 5, c: 10, f: 10, count: 246
+
+ Termination of token  
+ token : 2, c: 9, f: 9, count: 271
+
+ Termination of token  
+ token : 3, c: 9, f: 9, count: 291
+
+ Termination of token  
+ token : 4, c: 2, f: 2, count: 316
+
+ Termination of token  
+ token : 0, c: 15, f: 15, count: 377
+jobs [ 5 12  4  8 14  8 13  3], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 5, c: 8, f: 8, count: 319
+
+ Termination of token  
+ token : 1, c: 12, f: 12, count: 400
+
+ Termination of token  
+ token : 3, c: 8, f: 8, count: 400
+
+ Termination of token  
+ token : 2, c: 4, f: 4, count: 443
+
+ Termination of token  
+ token : 0, c: 5, f: 5, count: 459
+
+ Termination of token  
+ token : 7, c: 3, f: 3, count: 458
+
+ Termination of token  
+ token : 6, c: 13, f: 13, count: 485
+
+ Termination of token  
+ token : 4, c: 14, f: 14, count: 490
+jobs [12 15 14  6  9 13 12  9], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 7, c: 9, f: 9, count: 373
+
+ Termination of token  
+ token : 4, c: 9, f: 9, count: 486
+
+ Termination of token  
+ token : 2, c: 14, f: 14, count: 522
+
+ Termination of token  
+ token : 0, c: 12, f: 12, count: 530
+
+ Termination of token  
+ token : 3, c: 6, f: 6, count: 496
+
+ Termination of token  
+ token : 6, c: 12, f: 12, count: 540
+
+ Termination of token  
+ token : 1, c: 15, f: 15, count: 535
+
+ Termination of token  
+ token : 5, c: 13, f: 13, count: 582
+jobs [ 2  8  9  1  7 13  5  9], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 8, f: 8, count: 78
+
+ Termination of token  
+ token : 2, c: 9, f: 9, count: 85
+
+ Termination of token  
+ token : 5, c: 13, f: 13, count: 101
+
+ Termination of token  
+ token : 6, c: 5, f: 5, count: 111
+
+ Termination of token  
+ token : 7, c: 9, f: 9, count: 121
+
+ Termination of token  
+ token : 0, c: 2, f: 2, count: 165
+
+ Termination of token  
+ token : 3, c: 1, f: 1, count: 206
+
+ Termination of token  
+ token : 4, c: 7, f: 7, count: 275
+jobs [12  5  8  8 11  7  9  3], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7944
+jobs [11  6 12  2  1  3  1  6], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 6, c: 1, f: 1, count: 150
+
+ Termination of token  
+ token : 5, c: 3, f: 3, count: 154
+
+ Termination of token  
+ token : 4, c: 1, f: 1, count: 615
+
+ Termination of token  
+ token : 3, c: 2, f: 2, count: 630
+
+ Termination of token  
+ token : 7, c: 6, f: 6, count: 691
+
+ Termination of token  
+ token : 2, c: 12, f: 12, count: 747
+
+ Termination of token  
+ token : 0, c: 11, f: 11, count: 741
+
+ Termination of token  
+ token : 1, c: 6, f: 6, count: 782
+jobs [ 3 12 15  6 10  5 13 12], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 4, c: 10, f: 10, count: 368
+
+ Termination of token  
+ token : 7, c: 12, f: 12, count: 388
+
+ Termination of token  
+ token : 1, c: 12, f: 12, count: 422
+
+ Termination of token  
+ token : 5, c: 5, f: 5, count: 430
+
+ Termination of token  
+ token : 0, c: 3, f: 3, count: 460
+
+ Termination of token  
+ token : 6, c: 13, f: 13, count: 505
+
+ Termination of token  
+ token : 3, c: 6, f: 6, count: 522
+
+ Termination of token  
+ token : 2, c: 15, f: 15, count: 494
+jobs [ 1  6 10  6  7 14  4 12], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 10, f: 10, count: 178
+
+ Termination of token  
+ token : 4, c: 7, f: 7, count: 166
+
+ Termination of token  
+ token : 0, c: 1, f: 1, count: 229
+
+ Termination of token  
+ token : 7, c: 12, f: 12, count: 213
+
+ Termination of token  
+ token : 6, c: 4, f: 4, count: 226
+
+ Termination of token  
+ token : 5, c: 14, f: 14, count: 251
+
+ Termination of token  
+ token : 3, c: 6, f: 6, count: 250
+
+ Termination of token  
+ token : 1, c: 6, f: 6, count: 253
+jobs [ 8  3 11  4  4  8  1  7], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 8, f: 8, count: 111
+
+ Termination of token  
+ token : 1, c: 3, f: 3, count: 117
+
+ Termination of token  
+ token : 2, c: 11, f: 11, count: 126
+
+ Termination of token  
+ token : 5, c: 8, f: 8, count: 148
+
+ Termination of token  
+ token : 7, c: 7, f: 7, count: 144
+
+ Termination of token  
+ token : 6, c: 1, f: 1, count: 153
+
+ Termination of token  
+ token : 4, c: 4, f: 4, count: 146
+
+ Termination of token  
+ token : 3, c: 4, f: 4, count: 193
+jobs [ 4  5  5  8 15 12  1 15], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 6, c: 1, f: 1, count: 180
+
+ Termination of token  
+ token : 5, c: 12, f: 12, count: 234
+
+ Termination of token  
+ token : 0, c: 4, f: 4, count: 263
+
+ Termination of token  
+ token : 3, c: 8, f: 8, count: 323
+
+ Termination of token  
+ token : 4, c: 15, f: 15, count: 324
+
+ Termination of token  
+ token : 2, c: 5, f: 5, count: 377
+
+ Termination of token  
+ token : 1, c: 5, f: 5, count: 385
+
+ Termination of token  
+ token : 7, c: 15, f: 15, count: 380
+jobs [ 5 14 15  3  4 11 10  9], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 5, c: 11, f: 11, count: 209
+
+ Termination of token  
+ token : 6, c: 10, f: 10, count: 221
+
+ Termination of token  
+ token : 3, c: 3, f: 3, count: 328
+
+ Termination of token  
+ token : 0, c: 5, f: 5, count: 352
+
+ Termination of token  
+ token : 4, c: 4, f: 4, count: 361
+
+ Termination of token  
+ token : 2, c: 15, f: 15, count: 431
+
+ Termination of token  
+ token : 7, c: 9, f: 9, count: 467
+
+ Termination of token  
+ token : 1, c: 14, f: 14, count: 454
+jobs [ 9  6 12  8  5  4 13 11], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 12, f: 12, count: 137
+
+ Termination of token  
+ token : 5, c: 4, f: 4, count: 150
+
+ Termination of token  
+ token : 0, c: 9, f: 9, count: 157
+
+ Termination of token  
+ token : 4, c: 5, f: 5, count: 154
+
+ Termination of token  
+ token : 6, c: 13, f: 13, count: 172
+
+ Termination of token  
+ token : 3, c: 8, f: 8, count: 190
+
+ Termination of token  
+ token : 7, c: 11, f: 11, count: 213
+
+ Termination of token  
+ token : 1, c: 6, f: 6, count: 258
+jobs [10  7  6 12  5 12 10  5], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 10, f: 10, count: 150
+
+ Termination of token  
+ token : 3, c: 12, f: 12, count: 133
+
+ Termination of token  
+ token : 5, c: 12, f: 12, count: 152
+
+ Termination of token  
+ token : 6, c: 10, f: 10, count: 238
+
+ Termination of token  
+ token : 2, c: 6, f: 6, count: 274
+
+ Termination of token  
+ token : 1, c: 7, f: 7, count: 341
+
+ Termination of token  
+ token : 7, c: 5, f: 5, count: 330
+
+ Termination of token  
+ token : 4, c: 5, f: 5, count: 379
+jobs [ 9  1  5 15  8  9 14  1], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 5, f: 5, count: 376
+
+ Termination of token  
+ token : 4, c: 8, f: 8, count: 369
+
+ Termination of token  
+ token : 5, c: 9, f: 9, count: 403
+
+ Termination of token  
+ token : 0, c: 9, f: 9, count: 458
+
+ Termination of token  
+ token : 7, c: 1, f: 1, count: 469
+
+ Termination of token  
+ token : 6, c: 14, f: 14, count: 440
+
+ Termination of token  
+ token : 3, c: 15, f: 15, count: 511
+
+ Termination of token  
+ token : 1, c: 1, f: 1, count: 510
+jobs [11  5 15  6 14  3  5 12], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 5, f: 5, count: 120
+
+ Termination of token  
+ token : 5, c: 3, f: 3, count: 136
+
+ Termination of token  
+ token : 2, c: 15, f: 15, count: 254
+
+ Termination of token  
+ token : 7, c: 12, f: 12, count: 282
+
+ Termination of token  
+ token : 3, c: 6, f: 6, count: 301
+
+ Termination of token  
+ token : 4, c: 14, f: 14, count: 305
+
+ Termination of token  
+ token : 6, c: 5, f: 5, count: 316
+
+ Termination of token  
+ token : 0, c: 11, f: 11, count: 371
+jobs [ 3 11  3 12 11 14  9 13], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 3, f: 3, count: 198
+
+ Termination of token  
+ token : 3, c: 12, f: 12, count: 206
+
+ Termination of token  
+ token : 1, c: 11, f: 11, count: 213
+
+ Termination of token  
+ token : 7, c: 13, f: 13, count: 217
+
+ Termination of token  
+ token : 2, c: 3, f: 3, count: 254
+
+ Termination of token  
+ token : 6, c: 9, f: 9, count: 290
+
+ Termination of token  
+ token : 5, c: 14, f: 14, count: 257
+
+ Termination of token  
+ token : 4, c: 11, f: 11, count: 327
+jobs [10  8 12  6  2 15 10  3], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 2, c: 12, f: 12, count: 261
+
+ Termination of token  
+ token : 3, c: 6, f: 6, count: 288
+
+ Termination of token  
+ token : 5, c: 15, f: 15, count: 304
+
+ Termination of token  
+ token : 4, c: 2, f: 2, count: 308
+
+ Termination of token  
+ token : 6, c: 10, f: 10, count: 298
+
+ Termination of token  
+ token : 7, c: 3, f: 3, count: 304
+
+ Termination of token  
+ token : 1, c: 8, f: 8, count: 321
+
+ Termination of token  
+ token : 0, c: 10, f: 10, count: 349
+jobs [ 5  4 15  7  2 15  8  9], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7957
+jobs [ 3  8 14 13 12 14 12  4], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 13, f: 13, count: 210
+
+ Termination of token  
+ token : 5, c: 14, f: 14, count: 227
+
+ Termination of token  
+ token : 0, c: 3, f: 3, count: 239
+
+ Termination of token  
+ token : 2, c: 14, f: 14, count: 229
+
+ Termination of token  
+ token : 4, c: 12, f: 12, count: 241
+
+ Termination of token  
+ token : 7, c: 4, f: 4, count: 234
+
+ Termination of token  
+ token : 6, c: 12, f: 12, count: 244
+
+ Termination of token  
+ token : 1, c: 8, f: 8, count: 297
+jobs [10  8  7 15  6  3  5  8], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 5, c: 3, f: 3, count: 362
+
+ Termination of token  
+ token : 1, c: 8, f: 8, count: 380
+
+ Termination of token  
+ token : 2, c: 7, f: 7, count: 383
+
+ Termination of token  
+ token : 7, c: 8, f: 8, count: 377
+
+ Termination of token  
+ token : 4, c: 6, f: 6, count: 393
+
+ Termination of token  
+ token : 6, c: 5, f: 5, count: 397
+
+ Termination of token  
+ token : 3, c: 15, f: 15, count: 479
+
+ Termination of token  
+ token : 0, c: 10, f: 10, count: 489
+jobs [1 5 7 3 6 4 6 1], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 0, c: 1, f: 1, count: 354
+
+ Termination of token  
+ token : 1, c: 5, f: 5, count: 386
+
+ Termination of token  
+ token : 4, c: 6, f: 6, count: 387
+
+ Termination of token  
+ token : 2, c: 7, f: 7, count: 390
+
+ Termination of token  
+ token : 6, c: 6, f: 6, count: 396
+
+ Termination of token  
+ token : 7, c: 1, f: 1, count: 402
+
+ Termination of token  
+ token : 3, c: 3, f: 3, count: 408
+
+ Termination of token  
+ token : 5, c: 4, f: 4, count: 458
+jobs [10  3  9 10  6 10  2  4], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 3, f: 3, count: 322
+
+ Termination of token  
+ token : 2, c: 9, f: 9, count: 350
+
+ Termination of token  
+ token : 3, c: 10, f: 10, count: 354
+
+ Termination of token  
+ token : 6, c: 2, f: 2, count: 352
+
+ Termination of token  
+ token : 5, c: 10, f: 10, count: 368
+
+ Termination of token  
+ token : 7, c: 4, f: 4, count: 363
+
+ Termination of token  
+ token : 4, c: 6, f: 6, count: 403
+
+ Termination of token  
+ token : 0, c: 10, f: 10, count: 400
+jobs [13  9 15  3  8  1 11 15], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 5, c: 1, f: 1, count: 210
+
+ Termination of token  
+ token : 1, c: 9, f: 9, count: 311
+
+ Termination of token  
+ token : 6, c: 11, f: 11, count: 308
+
+ Termination of token  
+ token : 2, c: 15, f: 15, count: 324
+
+ Termination of token  
+ token : 7, c: 15, f: 15, count: 327
+
+ Termination of token  
+ token : 3, c: 3, f: 3, count: 347
+
+ Termination of token  
+ token : 4, c: 8, f: 8, count: 348
+
+ Termination of token  
+ token : 0, c: 13, f: 13, count: 380
+jobs [ 5 10 14  2  4 13  9  8], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 5, c: 13, f: 13, count: 309
+
+ Termination of token  
+ token : 3, c: 2, f: 2, count: 316
+
+ Termination of token  
+ token : 6, c: 9, f: 9, count: 413
+
+ Termination of token  
+ token : 4, c: 4, f: 4, count: 416
+
+ Termination of token  
+ token : 7, c: 8, f: 8, count: 422
+
+ Termination of token  
+ token : 1, c: 10, f: 10, count: 451
+
+ Termination of token  
+ token : 0, c: 5, f: 5, count: 452
+
+ Termination of token  
+ token : 2, c: 14, f: 14, count: 533
+jobs [11 10  8  8 14 10  8  6], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7956
+jobs [ 1 14  8  7  2  3 15  9], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7953
+jobs [ 2 14 12 12 15  2 11  1], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7965
+jobs [ 3 12  3  6  8  7  4  1], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7954
+jobs [ 1 12 14  9  4  8 15 15], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7960
+jobs [ 1  4  9  4 10  5 13  6], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7965
+jobs [ 5  5 10 13  2 11 10 13], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7968
+jobs [ 7  3  9 12  8 13  1  7], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7955
+jobs [14  1 15  2  2 13  5  7], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7971
+jobs [ 9 13 15 13 15  7  1 13], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7964
+jobs [14  7  8  7 13  5  1 14], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7966
+jobs [ 5  9  4  5  6  5  2 11], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7956
+jobs [ 6 10  7 14  5 15  7 12], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7979
+jobs [13 11 15  2 15 13  6  9], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 11, f: 11, count: 172
+
+ Termination of token  
+ token : 2, c: 15, f: 15, count: 183
+
+ Termination of token  
+ token : 4, c: 15, f: 15, count: 292
+
+ Termination of token  
+ token : 3, c: 2, f: 2, count: 306
+
+ Termination of token  
+ token : 5, c: 13, f: 13, count: 306
+
+ Termination of token  
+ token : 0, c: 13, f: 13, count: 365
+
+ Termination of token  
+ token : 7, c: 9, f: 9, count: 356
+
+ Termination of token  
+ token : 6, c: 6, f: 6, count: 362
+jobs [14 13  4 15 13 10  9  4], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 5, c: 10, f: 10, count: 875
+Termination_in_middle with steps: 7843
+jobs [ 3 10 13  4  7  8  7  2], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7964
+jobs [10 11  4 15 14 11 12  1], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7962
+jobs [ 5 13 12 15  6 15  2 15], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 15, f: 15, count: 173
+
+ Termination of token  
+ token : 2, c: 12, f: 12, count: 247
+
+ Termination of token  
+ token : 5, c: 15, f: 15, count: 293
+
+ Termination of token  
+ token : 7, c: 15, f: 15, count: 297
+
+ Termination of token  
+ token : 6, c: 2, f: 2, count: 303
+
+ Termination of token  
+ token : 4, c: 6, f: 6, count: 307
+
+ Termination of token  
+ token : 1, c: 13, f: 13, count: 305
+
+ Termination of token  
+ token : 0, c: 5, f: 5, count: 317
+jobs [ 1 14  3  9  4 10  2 14], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 14, f: 14, count: 154
+
+ Termination of token  
+ token : 2, c: 3, f: 3, count: 275
+
+ Termination of token  
+ token : 3, c: 9, f: 9, count: 396
+
+ Termination of token  
+ token : 4, c: 4, f: 4, count: 397
+
+ Termination of token  
+ token : 6, c: 2, f: 2, count: 399
+
+ Termination of token  
+ token : 0, c: 1, f: 1, count: 420
+
+ Termination of token  
+ token : 5, c: 10, f: 10, count: 417
+
+ Termination of token  
+ token : 7, c: 14, f: 14, count: 459
+jobs [ 3  2  2 12  9  4 12  1], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7971
+jobs [12  1  1 15  7 15 12  3], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7966
+jobs [ 2 15  6 12  4  3  6 12], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 12, f: 12, count: 445
+
+ Termination of token  
+ token : 4, c: 4, f: 4, count: 560
+
+ Termination of token  
+ token : 2, c: 6, f: 6, count: 569
+
+ Termination of token  
+ token : 6, c: 6, f: 6, count: 585
+
+ Termination of token  
+ token : 5, c: 3, f: 3, count: 589
+
+ Termination of token  
+ token : 7, c: 12, f: 12, count: 615
+
+ Termination of token  
+ token : 0, c: 2, f: 2, count: 732
+
+ Termination of token  
+ token : 1, c: 15, f: 15, count: 800
+jobs [ 2 14  6 13  4 11 13  5], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 1, c: 14, f: 14, count: 417
+
+ Termination of token  
+ token : 2, c: 6, f: 6, count: 516
+
+ Termination of token  
+ token : 0, c: 2, f: 2, count: 522
+
+ Termination of token  
+ token : 3, c: 13, f: 13, count: 543
+
+ Termination of token  
+ token : 6, c: 13, f: 13, count: 548
+
+ Termination of token  
+ token : 4, c: 4, f: 4, count: 552
+
+ Termination of token  
+ token : 5, c: 11, f: 11, count: 551
+
+ Termination of token  
+ token : 7, c: 5, f: 5, count: 555
+jobs [ 1  8  1  5 12  9  3  4], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7953
+jobs [15 11  6  9  6 12 13  2], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7972
+jobs [ 4  1 12 15  6  5  4 10], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7969
+jobs [11 10 14 13  7  2  4 15], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 3, c: 13, f: 13, count: 662
+
+ Termination of token  
+ token : 2, c: 14, f: 14, count: 752
+
+ Termination of token  
+ token : 1, c: 10, f: 10, count: 758
+
+ Termination of token  
+ token : 6, c: 4, f: 4, count: 766
+
+ Termination of token  
+ token : 5, c: 2, f: 2, count: 754
+
+ Termination of token  
+ token : 4, c: 7, f: 7, count: 774
+
+ Termination of token  
+ token : 7, c: 15, f: 15, count: 758
+
+ Termination of token  
+ token : 0, c: 11, f: 11, count: 782
+jobs [12  6  3  3  3 10  4  7], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7958
+jobs [ 4 15 10 14  1  4 15 12], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7943
+jobs [13  5  3 15 11  1 12  3], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7928
+jobs [ 3  6 15  8  8  7 11 11], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+
+ Termination of token  
+ token : 7, c: 11, f: 11, count: 550
+
+ Termination of token  
+ token : 5, c: 7, f: 7, count: 722
+
+ Termination of token  
+ token : 6, c: 11, f: 11, count: 730
+
+ Termination of token  
+ token : 1, c: 6, f: 6, count: 776
+
+ Termination of token  
+ token : 2, c: 15, f: 15, count: 789
+
+ Termination of token  
+ token : 0, c: 3, f: 3, count: 791
+
+ Termination of token  
+ token : 3, c: 8, f: 8, count: 796
+
+ Termination of token  
+ token : 4, c: 8, f: 8, count: 797
+jobs [15 15  5  1  9  5  8  1], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7947
+jobs [ 7  3 13 14  3 10  5 10], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7931
+jobs [ 4  5 13  6  2 11 11 12], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7790
+jobs [ 1  5  6  1 12  8 13 13], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7943
+jobs [15  2  5  1 11 13 13 12], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7973
+jobs [12  4  9  7  8  1 11  6], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7949
+jobs [ 8 10  1 11 12 12 14  8], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7926
+jobs [15 15  6  6  6  5  9  6], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7974
+jobs [ 2  1  7  9 15 15  1  8], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7904
+jobs [ 7 12  8  5  9  5 10  8], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7967
+jobs [ 1 13 15  8  1 12  8  6], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7941
+jobs [ 2 12  4  6  6  6 15  1], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
+Termination_in_middle with steps: 7841
+jobs [ 2 14 11  6  3 12 10 13], resources [8, 1, 1, 1, 1], quantity [1 1 1 1 1 1 1 1]
+................................................
+                       A                        
+................................................
