@@ -297,7 +297,7 @@ if __name__ == '__main__':
             },
             "env_config": {
                 "version": "full",
-                "final_reward": tune.grid_search(['A', 'C']),
+                "final_reward": tune.grid_search(['B']),
                 "mask": True,
                 "no_of_jobs": args.no_of_jobs,
                 "init_jobs": args.init_jobs,
@@ -314,7 +314,7 @@ if __name__ == '__main__':
             # "vf_loss_coeff": tune.grid_search([0.0005, 0.0009]),
             # "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
-            "lr": 0.0001,
+            "lr": 0.00005,
             # "optimizer": "SGD",
             # "entropy_coeff": tune.grid_search([tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
             #                                    tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
@@ -353,7 +353,11 @@ if __name__ == '__main__':
           '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
     result = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
                       checkpoint_at_end=True, checkpoint_freq=50, reuse_actors=False, verbose=3,
-                      checkpoint_score_attr='min-episode_len_mean')
+                      checkpoint_score_attr='min-episode_len_mean', restore=r"PPO_CHECKPOINTS/"
+                                                                            r"PPO_env_cfms_joint_75712_00001_1_"
+                                                                            r"final_reward=B,vf_loss_coeff=0.0005_2022-"
+                                                                            r"07-16_22-13-02/checkpoint_000450/"
+                                                                            r"checkpoint-450")
     logger.info(result)
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')
