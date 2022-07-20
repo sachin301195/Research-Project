@@ -165,17 +165,17 @@ def setup(algo, no_of_jobs, env, timestamp):
 
 class MultiEnv(gym.Env, ABC):
     def __init__(self, env_config):
-        if env_config.worker_index % 5 == 0 or env_config.worker_index % 5 == 1:
+        if env_config.worker_index % 4 == 0:
             self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
                                       'state_extension': args.state_extension, })
             self.name = "ConveyorEnv_A"
-        elif env_config.worker_index % 5 == 2:
+        elif env_config.worker_index % 4 == 1:
             self.env = ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
                                       'state_extension': args.state_extension, })
             self.name = 'ConveyorEnv_B'
-        elif env_config.worker_index % 5 == 3:
+        elif env_config.worker_index % 4 == 2:
             self.env = ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
                                       'state_extension': args.state_extension, })
