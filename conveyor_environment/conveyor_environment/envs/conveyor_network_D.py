@@ -528,12 +528,12 @@ class ConveyorEnv_D(gym.Env):
                               f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, '
                               f'f: {self.modes[0]["f"]}, count: {self.modes[0]["count"]}')
                         self.exit_count += 1
-                    value = 0.05
+                    threshold = 0.05
                     if self.trans_fire == 's1':
                         self.trans_fire = 'SN1'
                         self.modes = self.net.transition('SN1').modes()
                         self.net.transition('SN1').fire(self.modes[0])
-                    if self.remaining_jobs > 0 and value > np.random.random():
+                    if self.remaining_jobs > 0 and threshold > np.random.random():
                         # fixed (1) token introduced after termination
                         if self.remaining_jobs > 1:
                             init_tokens = np.random.randint(low=1, high=self.remaining_jobs + 1)
