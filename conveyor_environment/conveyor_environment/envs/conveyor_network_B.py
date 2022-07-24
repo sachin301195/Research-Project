@@ -779,9 +779,9 @@ class ConveyorEnv_B(gym.Env):
                         #     self.reward = -0.0001
                         # else:
                         #     self.reward = -0.001
-                        self.reward = -0.0001
+                        self.reward = -self.current_token[0][-1] * (1 / 100100)
                     else:
-                        self.reward = -0.001
+                        self.reward = -2 * self.current_token[0][-1] * (1 / 100100)
                 elif self.current_token[0][-2] in [4, 8, 12]:
                     if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W2:
                         # if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
@@ -789,9 +789,9 @@ class ConveyorEnv_B(gym.Env):
                         #     self.reward = -0.0001
                         # else:
                         #     self.reward = -0.001
-                        self.reward = -0.0001
+                        self.reward = -self.current_token[0][-1] * (1 / 100100)
                     else:
-                        self.reward = -0.001
+                        self.reward = -2 * self.current_token[0][-1] * (1 / 100100)
                 else:
                     if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1_W2:
                         # if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
@@ -799,11 +799,11 @@ class ConveyorEnv_B(gym.Env):
                         #     self.reward = -0.0001
                         # else:
                         #     self.reward = -0.001
-                        self.reward = -0.0001
+                        self.reward = -self.current_token[0][-1] * (1 / 100100)
                     else:
-                        self.reward = -0.001
+                        self.reward = -2 * self.current_token[0][-1] * (1 / 100100)
                 self.reward += (5 * self.terminating_in_middle + ((25 / self.no_of_jobs) * self.termination) +
-                                10 * self.done * (not self.terminating_in_middle))
+                                5 * self.done * (not self.terminating_in_middle))
             else:
                 self.reward = -0.002
 

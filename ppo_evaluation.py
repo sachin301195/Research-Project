@@ -139,7 +139,7 @@ parser.add_argument(
 parser.add_argument(
     "--algo",
     type=str,
-    default="A3C",
+    default="PPO",
     choices=["PPO", "SAC", "A2C", "A3C", "DQN", "DDPG", "APEX", "APEX_DDPG", "PG"],
     help="The RLlib-registered algorithm to use.")
 parser.add_argument(
@@ -184,13 +184,13 @@ parser.add_argument(
 )
 parser.add_argument(
     "--no_of_jobs",
-    default=4,
+    default=10,
     type=int,
     help="Number of tokens to run in an environment."
 )
 parser.add_argument(
     "--init_jobs",
-    default=2,
+    default=4,
     type=int,
     help="Number of tokens to initialize in an environment. This should be greater than or equal to self.no_of_jobs."
 )
@@ -206,8 +206,11 @@ def evaluate(algo, algo_config: dir, plots_save_path):
     #                 f.append(os.path.join(root, name))
     #     cnt += 1
     # f = [r'./agents_runs/ConveyorEnv_A/PPO/4/checkpoint_000400/checkpoint-400']
-    f = [r'A3C_CHECKPOINTS/A3C_env_cfms_A_74810_00001_1_vf_loss_coeff=0.0005_2022-07-07_17-01-34/'
-         r'checkpoint_000400/checkpoint-400']
+    f = [r'PPO_CHECKPOINTS/'
+         'PPO_env_cfms_joint_75712_00001_1_'
+         'final_reward=B,vf_loss_coeff='
+         '0.0005_2022-07-16_22-13-02/'
+         'checkpoint_000450/checkpoint-450']
     for no, path in enumerate(f):
         # try:
         #     # ppo_config['lr'] = VALUE[no]['lr']
