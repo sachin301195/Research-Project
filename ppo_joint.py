@@ -212,7 +212,7 @@ class MultiEnv(gym.Env, ABC):
 
 def curriculum_learning(config, reporter):
 
-    agent_B = ppo.PPO(env = "env_cfms_B", config = config)
+    agent_B = ppo.PPOTrainer(env = "env_cfms_B", config = config)
     for _ in range(200):
         result = agent_B.train()
         result['phase'] = 1
@@ -221,7 +221,7 @@ def curriculum_learning(config, reporter):
     state_B = agent_B.save()
     agent_B.stop()
 
-    agent_C = ppo.PPO(env="env_cfms_C", config=config)
+    agent_C = ppo.PPOTrainer(env="env_cfms_C", config=config)
     agent_C.restore(state_B)
     for _ in range(200):
         result = agent_C.train()
@@ -232,7 +232,7 @@ def curriculum_learning(config, reporter):
     state_C = agent_C.save()
     agent_C.stop()
 
-    agent_D = ppo.PPO(env="env_cfms_D", config=config)
+    agent_D = ppo.PPOTrainer(env="env_cfms_D", config=config)
     agent_D.restore(state_C)
     for _ in range(200):
         result = agent_D.train()
@@ -243,7 +243,7 @@ def curriculum_learning(config, reporter):
     state_D = agent_D.save()
     agent_D.stop()
 
-    agent_A = ppo.PPO(env="env_cfms_A", config=config)
+    agent_A = ppo.PPOTrainer(env="env_cfms_A", config=config)
     agent_A.restore(state_D)
     for _ in range(200):
         result = agent_A.train()
@@ -255,7 +255,7 @@ def curriculum_learning(config, reporter):
     agent_A.stop()
 
     config['lr'] = 0.00005
-    agent_J = ppo.PPO(env="env_cfms_joint", config=config)
+    agent_J = ppo.PPOTrainer(env="env_cfms_joint", config=config)
     agent_J.restore(state_A)
     for _ in range(200):
         result = agent_J.train()
