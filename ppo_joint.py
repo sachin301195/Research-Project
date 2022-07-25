@@ -217,7 +217,7 @@ def curriculum_learning(config, reporter):
         result = agent_B.train()
         result['phase'] = 1
         reporter(**result)
-        phase1_time = result["time_steps"]
+        phase1_time = result["timesteps_total"]
     state_B = agent_B.save()
     agent_B.stop()
 
@@ -228,7 +228,7 @@ def curriculum_learning(config, reporter):
         result['phase'] = 2
         result["timesteps_total"] += phase1_time  # keep time moving forward
         reporter(**result)
-        phase2_time = result["time_steps"] + phase1_time
+        phase2_time = result["timesteps_total"]
     state_C = agent_C.save()
     agent_C.stop()
 
@@ -239,7 +239,7 @@ def curriculum_learning(config, reporter):
         result['phase'] = 3
         result["timesteps_total"] += phase2_time  # keep time moving forward
         reporter(**result)
-        phase3_time = result["time_steps"] + phase2_time
+        phase3_time = result["timesteps_total"]
     state_D = agent_D.save()
     agent_D.stop()
 
@@ -250,7 +250,7 @@ def curriculum_learning(config, reporter):
         result['phase'] = 4
         result["timesteps_total"] += phase3_time  # keep time moving forward
         reporter(**result)
-        phase4_time = result["time_steps"] + phase3_time
+        phase4_time = result["timesteps_total"]
     state_A = agent_A.save()
     agent_A.stop()
 
