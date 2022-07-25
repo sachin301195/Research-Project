@@ -210,6 +210,63 @@ class MultiEnv(gym.Env, ABC):
     def step(self, action):
         return self.env.step(action)
 
+def curriculum_learning(config, reporter):
+
+    agent_B = ppo.PPO(env = "env_cfms_B", config = config)
+    for _ in range(200):
+        result = agent_B.train()
+        result['phase'] = 1
+        reporter(**result)
+        phase1_time = result["time_steps"]
+    state_B = agent_B.save()
+    agent_B.stop()
+
+    agent_C = ppo.PPO(env="env_cfms_C", config=config)
+    agent_C.restore(state_B)
+    for _ in range(200):
+        result = agent_C.train()
+        result['phase'] = 2
+        result["timesteps_total"] += phase1_time  # keep time moving forward
+        reporter(**result)
+        phase2_time = result["time_steps"] + phase1_time
+    state_C = agent_C.save()
+    agent_C.stop()
+
+    agent_D = ppo.PPO(env="env_cfms_D", config=config)
+    agent_D.restore(state_C)
+    for _ in range(200):
+        result = agent_D.train()
+        result['phase'] = 3
+        result["timesteps_total"] += phase2_time  # keep time moving forward
+        reporter(**result)
+        phase3_time = result["time_steps"] + phase2_time
+    state_D = agent_D.save()
+    agent_D.stop()
+
+    agent_A = ppo.PPO(env="env_cfms_A", config=config)
+    agent_A.restore(state_D)
+    for _ in range(200):
+        result = agent_A.train()
+        result['phase'] = 4
+        result["timesteps_total"] += phase3_time  # keep time moving forward
+        reporter(**result)
+        phase4_time = result["time_steps"] + phase3_time
+    state_A = agent_A.save()
+    agent_A.stop()
+
+    config['lr'] = 0.00005
+    agent_J = ppo.PPO(env="env_cfms_joint", config=config)
+    agent_J.restore(state_A)
+    for _ in range(200):
+        result = agent_J.train()
+        result['phase'] = 5
+        result["timesteps_total"] += phase4_time  # keep time moving forward
+        reporter(**result)
+    state_J = agent_J.save()
+    agent_J.stop()
+
+
+
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -290,14 +347,14 @@ if __name__ == '__main__':
 
     if args.algo == 'PPO' or args.algo == 'A3C':
         config = dict({
-            "env": 'env_cfms_joint',
+            # "env": 'env_cfms_joint',
             "model": {
                 "custom_model": "env_cfms_joint",
                 "vf_share_layers": True,
             },
             "env_config": {
                 "version": "full",
-                "final_reward": tune.grid_search(['B']),
+                "final_reward": 'A',
                 "mask": True,
                 "no_of_jobs": args.no_of_jobs,
                 "init_jobs": args.init_jobs,
@@ -314,7 +371,7 @@ if __name__ == '__main__':
             # "vf_loss_coeff": tune.grid_search([0.0005, 0.0009]),
             # "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
-            "lr": 0.00005,
+            "lr": 0.0001,
             # "optimizer": "SGD",
             # "entropy_coeff": tune.grid_search([tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
             #                                    tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
@@ -351,13 +408,9 @@ if __name__ == '__main__':
     print("Training with Ray Tune.")
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
-    result = tune.run(args.algo, config=algo_config, stop=stop, local_dir=best_agent_save_path, log_to_file=True,
+    result = tune.run(curriculum_learning, config=algo_config, local_dir=best_agent_save_path, log_to_file=True,
                       checkpoint_at_end=True, checkpoint_freq=50, reuse_actors=False, verbose=3,
-                      checkpoint_score_attr='min-episode_len_mean', restore=r"PPO_CHECKPOINTS/"
-                                                                            r"PPO_env_cfms_joint_75712_00001_1_"
-                                                                            r"final_reward=B,vf_loss_coeff=0.0005_2022-"
-                                                                            r"07-16_22-13-02/checkpoint_000450/"
-                                                                            r"checkpoint-450")
+                      checkpoint_score_attr='min-episode_len_mean')
     logger.info(result)
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')
