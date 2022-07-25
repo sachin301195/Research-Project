@@ -531,7 +531,10 @@ class ConveyorEnv_C(gym.Env):
                         if self.remaining_jobs > 0:
                             # Random token introduced after termination
                             if self.remaining_jobs > 1:
-                                init_tokens = np.random.randint(low= 1, high= self.remaining_jobs + 1)
+                                if self.remaining_jobs <= 4:
+                                    init_tokens = np.random.randint(low= 1, high= self.remaining_jobs + 1)
+                                else:
+                                    init_tokens = np.random.randint(low=1, high=49)
                             else:
                                 init_tokens = 1
                             self._token_insertion(init_tokens)
