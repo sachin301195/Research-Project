@@ -221,49 +221,49 @@ def curriculum_learning(config, reporter):
     state_B = agent_B.save()
     agent_B.stop()
 
-    agent_C = ppo.PPOTrainer(env="env_cfms_C", config=config)
-    agent_C.restore(state_B)
-    for _ in range(200):
-        result = agent_C.train()
-        result['phase'] = 2
-        result["timesteps_total"] += phase1_time  # keep time moving forward
-        reporter(**result)
-        phase2_time = result["time_steps"] + phase1_time
-    state_C = agent_C.save()
-    agent_C.stop()
-
-    agent_D = ppo.PPOTrainer(env="env_cfms_D", config=config)
-    agent_D.restore(state_C)
-    for _ in range(200):
-        result = agent_D.train()
-        result['phase'] = 3
-        result["timesteps_total"] += phase2_time  # keep time moving forward
-        reporter(**result)
-        phase3_time = result["time_steps"] + phase2_time
-    state_D = agent_D.save()
-    agent_D.stop()
-
-    agent_A = ppo.PPOTrainer(env="env_cfms_A", config=config)
-    agent_A.restore(state_D)
-    for _ in range(200):
-        result = agent_A.train()
-        result['phase'] = 4
-        result["timesteps_total"] += phase3_time  # keep time moving forward
-        reporter(**result)
-        phase4_time = result["time_steps"] + phase3_time
-    state_A = agent_A.save()
-    agent_A.stop()
-
-    config['lr'] = 0.00005
-    agent_J = ppo.PPOTrainer(env="env_cfms_joint", config=config)
-    agent_J.restore(state_A)
-    for _ in range(200):
-        result = agent_J.train()
-        result['phase'] = 5
-        result["timesteps_total"] += phase4_time  # keep time moving forward
-        reporter(**result)
-    state_J = agent_J.save()
-    agent_J.stop()
+    # agent_C = ppo.PPOTrainer(env="env_cfms_C", config=config)
+    # agent_C.restore(state_B)
+    # for _ in range(200):
+    #     result = agent_C.train()
+    #     result['phase'] = 2
+    #     result["timesteps_total"] += phase1_time  # keep time moving forward
+    #     reporter(**result)
+    #     phase2_time = result["time_steps"] + phase1_time
+    # state_C = agent_C.save()
+    # agent_C.stop()
+    #
+    # agent_D = ppo.PPOTrainer(env="env_cfms_D", config=config)
+    # agent_D.restore(state_C)
+    # for _ in range(200):
+    #     result = agent_D.train()
+    #     result['phase'] = 3
+    #     result["timesteps_total"] += phase2_time  # keep time moving forward
+    #     reporter(**result)
+    #     phase3_time = result["time_steps"] + phase2_time
+    # state_D = agent_D.save()
+    # agent_D.stop()
+    #
+    # agent_A = ppo.PPOTrainer(env="env_cfms_A", config=config)
+    # agent_A.restore(state_D)
+    # for _ in range(200):
+    #     result = agent_A.train()
+    #     result['phase'] = 4
+    #     result["timesteps_total"] += phase3_time  # keep time moving forward
+    #     reporter(**result)
+    #     phase4_time = result["time_steps"] + phase3_time
+    # state_A = agent_A.save()
+    # agent_A.stop()
+    #
+    # config['lr'] = 0.00005
+    # agent_J = ppo.PPOTrainer(env="env_cfms_joint", config=config)
+    # agent_J.restore(state_A)
+    # for _ in range(200):
+    #     result = agent_J.train()
+    #     result['phase'] = 5
+    #     result["timesteps_total"] += phase4_time  # keep time moving forward
+    #     reporter(**result)
+    # state_J = agent_J.save()
+    # agent_J.stop()
 
 
 
