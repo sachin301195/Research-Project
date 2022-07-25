@@ -410,7 +410,8 @@ if __name__ == '__main__':
           '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
     result = tune.run(curriculum_learning, config=algo_config, local_dir=best_agent_save_path, log_to_file=True,
                       checkpoint_at_end=True, checkpoint_freq=50, reuse_actors=False, verbose=3,
-                      checkpoint_score_attr='min-episode_len_mean', resources_per_trial={'cpu': 33})
+                      checkpoint_score_attr='min-episode_len_mean', resources_per_trial=
+                      ppo.PPOTrainer.default_resource_request(algo_config))
     logger.info(result)
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')

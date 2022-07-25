@@ -441,8 +441,8 @@ if __name__ == '__main__':
         logger.info('Training with Ray Tune.')
         config = ppo.DEFAULT_CONFIG.copy()
         config.update(updated_config)
-        result = tune.run(experiment, config=config, resources_per_trial=ppo.PPOTrainer.default_resource_request(config)
-                          , )
+        result = tune.run(experiment, config=config,
+                          resources_per_trial=ppo.PPOTrainer.default_resource_request(config))
 
         # if args.as_test:
         #     print("Checking if the learning goals are achieved")
