@@ -477,7 +477,7 @@ class ConveyorEnv_A(gym.Env):
         return self.state
 
     def step(self, action):
-        print(self.marking.keys())
+        # print(self.marking.keys())
         self._take_action(action, self.current_place)
         self.marking = self.net.get_marking()
         self.step_count += 1
@@ -524,7 +524,7 @@ class ConveyorEnv_A(gym.Env):
         #     self.c += 1
         # if self.termination or self.terminating_in_middle:
         #     print(self.c)
-        print("next place: ", self.next_place)
+        # print("next place: ", self.next_place)
         if not self.done:
             self.state = self._next_observation()
 
@@ -541,7 +541,7 @@ class ConveyorEnv_A(gym.Env):
         else:
             self.trans_fire = ACTION_MAPPING[place][action]
 
-        print("curr_place: ", place, "\ttransition: ", self.trans_fire)
+        # print("curr_place: ", place, "\ttransition: ", self.trans_fire)
         if self.trans_fire is not 'Nan':
             self.termination = False
             if self.trans_fire == 'w1' or self.trans_fire == 'w2':

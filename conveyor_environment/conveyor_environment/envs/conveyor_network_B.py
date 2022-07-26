@@ -536,7 +536,7 @@ class ConveyorEnv_B(gym.Env):
             self.trans_fire = ACTION_MAPPING_COMPACT[place][action]
         else:
             self.trans_fire = ACTION_MAPPING[place][action]
-        print("curr_place: ", place, "\ttransition: ", self.trans_fire )
+        # print("curr_place: ", place, "\ttransition: ", self.trans_fire )
         if self.trans_fire is not 'Nan':
             self.termination = False
             if self.trans_fire == 'w1' or self.trans_fire == 'w2':
