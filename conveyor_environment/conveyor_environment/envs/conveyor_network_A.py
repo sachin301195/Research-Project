@@ -335,27 +335,39 @@ class ConveyorEnv_A(gym.Env):
             if self.version == 'trial':
                 for place in ACTION_MAPPING_TRIAL.keys():
                     if place in set(self.marking.keys()):
-                        state.append(1)
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
                     else:
-                        state.append(0)
+                        state.append(-1)
             elif self.version == 'trial_compact':
                 for place in ACTION_MAPPING_TRIAL_COMPACT.keys():
                     if place in set(self.marking.keys()):
-                        state.append(1)
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
                     else:
-                        state.append(0)
+                        state.append(-1)
             elif self.version == 'full':
                 for place in ACTION_MAPPING.keys():
                     if place in set(self.marking.keys()):
-                        state.append(1)
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
                     else:
-                        state.append(0)
+                        state.append(-1)
             else:
                 for place in ACTION_MAPPING_COMPACT.keys():
                     if place in set(self.marking.keys()):
-                        state.append(1)
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
                     else:
-                        state.append(0)
+                        state.append(-1)
             if self.start:
                 for token_no, detail in self.token.items():
                     idx = int(token_no[-1]) * 4 + 2
@@ -399,27 +411,39 @@ class ConveyorEnv_A(gym.Env):
             if self.version == 'trial':
                 for place in ACTION_MAPPING_TRIAL.keys():
                     if place in set(self.marking.keys()):
-                        state.append(1)
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
                     else:
-                        state.append(0)
+                        state.append(-1)
             elif self.version == 'trial_compact':
                 for place in ACTION_MAPPING_TRIAL_COMPACT.keys():
                     if place in set(self.marking.keys()):
-                        state.append(1)
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
                     else:
-                        state.append(0)
+                        state.append(-1)
             elif self.version == 'full':
                 for place in ACTION_MAPPING.keys():
                     if place in set(self.marking.keys()):
-                        state.append(1)
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
                     else:
-                        state.append(0)
+                        state.append(-1)
             else:
                 for place in ACTION_MAPPING_COMPACT.keys():
                     if place in set(self.marking.keys()):
-                        state.append(1)
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
                     else:
-                        state.append(0)
+                        state.append(-1)
             if self.start:
                 f_state = (int(self.current_token['f']) - 1) / 14
                 state.extend([0, 0, f_state, 0])
@@ -453,6 +477,7 @@ class ConveyorEnv_A(gym.Env):
         return self.state
 
     def step(self, action):
+        print(self.marking.keys())
         self._take_action(action, self.current_place)
         self.marking = self.net.get_marking()
         self.step_count += 1
@@ -491,7 +516,7 @@ class ConveyorEnv_A(gym.Env):
             self.next_place = self.marking_list[-1 - self.eps_step]
         self.done = self._done_status()
         self.info = self._data()
-        self.reward = self._calculate_reward
+        self.reward = self._calculate_reward()
         # if self.start:
         #     self.c = 0
         self.start = False
@@ -499,6 +524,7 @@ class ConveyorEnv_A(gym.Env):
         #     self.c += 1
         # if self.termination or self.terminating_in_middle:
         #     print(self.c)
+        print("next place: ", self.next_place)
         if not self.done:
             self.state = self._next_observation()
 
@@ -515,6 +541,7 @@ class ConveyorEnv_A(gym.Env):
         else:
             self.trans_fire = ACTION_MAPPING[place][action]
 
+        print("curr_place: ", place, "\ttransition: ", self.trans_fire)
         if self.trans_fire is not 'Nan':
             self.termination = False
             if self.trans_fire == 'w1' or self.trans_fire == 'w2':
@@ -726,7 +753,7 @@ class ConveyorEnv_A(gym.Env):
         # if self.done:
         #     info = {'token': self.current_token, 'all_tokens': self.token}
         if self.termination:
-            info = {'token': self.current_token, 'steps': {self.step_count}}
+            info = {'token': self.current_token}
         else:
             info = {}
 
@@ -736,7 +763,6 @@ class ConveyorEnv_A(gym.Env):
 
         return self.state
 
-    @property
     def _calculate_reward(self):
         # if not self.error:
         #     if self.terminating_in_middle:
