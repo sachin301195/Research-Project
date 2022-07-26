@@ -162,6 +162,26 @@ def setup(algo, no_of_jobs, env, timestamp):
 
     return plots_save_path, agent_save_path, best_agent_save_path
 
+class MultiEnv_v1(gym.Env, ABC):
+    def __init__(self, env_config):
+        if env_config.worker_index % 2 == 1:
+            self.env = ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+                                      'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
+                                      'state_extension': args.state_extension, })
+            self.name = 'ConveyorEnv_B'
+        elif env_config.worker_index % 2 == 0:
+            self.env = ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+                                      'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
+                                      'state_extension': args.state_extension, })
+            self.name = 'ConveyorEnv_C'
+        self.action_space = self.env.action_space
+        self.observation_space = self.env.observation_space
+
+    def reset(self):
+        return self.env.reset()
+
+    def step(self, action):
+        return self.env.step(action)
 
 class MultiEnv(gym.Env, ABC):
     def __init__(self, env_config):
@@ -265,6 +285,24 @@ def curriculum_learning(config, reporter):
     state_J = agent_J.save()
     agent_J.stop()
 
+def joint_learning(config, reporter):
+    agent_j1 = ppo.PPOTrainer(env="env_cfms_joint", config=config)
+    for _ in range(400):
+        result = agent_j1.train()
+        result['phase'] = 1
+        reporter(**result)
+    state_j1 = agent_j1.save()
+    agent_j1.stop()
+
+    agent_J = ppo.PPOTrainer(env="env_cfms_joint_1", config=config)
+    agent_J.restore(state_j1)
+    for _ in range(400):
+        result = agent_J.train()
+        result['phase'] = 2
+        reporter(**result)
+    state_J = agent_J.save()
+    agent_J.stop()
+
 
 
 
@@ -287,6 +325,7 @@ if __name__ == '__main__':
                                                         'mask': True, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_joint", lambda c: MultiEnv(c))
+    register_env("env_cfms_joint_1", lambda c: MultiEnv_v1(c))
 
     if not args.state_extension:
         ModelCatalog.register_custom_model(
@@ -304,6 +343,9 @@ if __name__ == '__main__':
         ModelCatalog.register_custom_model(
             "env_cfms_joint", TorchParametricActionsModelv2
         )
+        ModelCatalog.register_custom_model(
+            "env_cfms_joint_1", TorchParametricActionsModelv2
+        )
     else:
         ModelCatalog.register_custom_model(
             "env_cfms_A", TorchParametricActionsModelv3
@@ -319,6 +361,9 @@ if __name__ == '__main__':
         )
         ModelCatalog.register_custom_model(
             "env_cfms_joint", TorchParametricActionsModelv3
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_joint_1", TorchParametricActionsModelv3
         )
     if args.lstm:
         ModelCatalog.register_custom_model(
@@ -336,6 +381,9 @@ if __name__ == '__main__':
         ModelCatalog.register_custom_model(
             "env_cfms_joint", TorchParametricActionsModelv5
         )
+        ModelCatalog.register_custom_model(
+            "env_cfms_joint_1", TorchParametricActionsModelv5
+        )
 
     if args.algo == 'DQN':
         cfg = {
@@ -347,7 +395,7 @@ if __name__ == '__main__':
 
     if args.algo == 'PPO' or args.algo == 'A3C':
         config = dict({
-            "env": 'env_cfms_joint',
+            # "env": 'env_cfms_joint',
             "model": {
                 "custom_model": "env_cfms_joint",
                 "vf_share_layers": True,
@@ -408,9 +456,10 @@ if __name__ == '__main__':
     print("Training with Ray Tune.")
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
-    result = tune.run(args.algo, config=algo_config, local_dir=best_agent_save_path, log_to_file=True,
+    result = tune.run(joint_learning, config=algo_config, local_dir=best_agent_save_path, log_to_file=True,
                       checkpoint_at_end=True, checkpoint_freq=50, reuse_actors=False, verbose=3,
-                      checkpoint_score_attr='min-episode_len_mean')
+                      checkpoint_score_attr='min-episode_len_mean',
+                      resources_per_trial=ppo.PPOTrainer.default_resource_request(algo_config))
     # , resources_per_trial = ppo.PPOTrainer.default_resource_request(algo_config)
     logger.info(result)
     print('...............................................................................\n'
