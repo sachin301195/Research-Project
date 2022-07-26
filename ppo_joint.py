@@ -395,14 +395,14 @@ if __name__ == '__main__':
 
     if args.algo == 'PPO' or args.algo == 'A3C':
         config = dict({
-            # "env": 'env_cfms_joint',
+            "env": 'env_cfms_joint',
             "model": {
                 "custom_model": "env_cfms_joint",
                 "vf_share_layers": True,
             },
             "env_config": {
                 "version": "full",
-                "final_reward": 'A',
+                "final_reward": tune.grid_search(['A', 'B']),
                 "mask": True,
                 "no_of_jobs": args.no_of_jobs,
                 "init_jobs": args.init_jobs,
@@ -447,7 +447,7 @@ if __name__ == '__main__':
         algo_config = None
 
     stop = {
-        "training_iteration": 400 * args.no_of_jobs,
+        "training_iteration": 100 * args.no_of_jobs,
         # "episode_reward_mean": 30 - (40 * args.no_of_jobs * 0.002),
     }
     plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, args.env, timestamp)
@@ -456,7 +456,7 @@ if __name__ == '__main__':
     print("Training with Ray Tune.")
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Starts Here\n\n\n......................................')
-    result = tune.run(joint_learning, config=algo_config, local_dir=best_agent_save_path, log_to_file=True,
+    result = tune.run(args.algo, config=algo_config, local_dir=best_agent_save_path, log_to_file=True,
                       checkpoint_at_end=True, checkpoint_freq=50, reuse_actors=False, verbose=3,
                       checkpoint_score_attr='min-episode_len_mean',
                       resources_per_trial=ppo.PPOTrainer.default_resource_request(algo_config))
