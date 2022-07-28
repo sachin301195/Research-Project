@@ -402,7 +402,7 @@ if __name__ == '__main__':
             },
             "env_config": {
                 "version": "full",
-                "final_reward": tune.grid_search(['A', 'B']),
+                "final_reward": args.final_reward,
                 "mask": True,
                 "no_of_jobs": args.no_of_jobs,
                 "init_jobs": args.init_jobs,
@@ -419,7 +419,7 @@ if __name__ == '__main__':
             # "vf_loss_coeff": tune.grid_search([0.0005, 0.0009]),
             # "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
-            "lr": 0.0001,
+            "lr": tune.grid_search([0.00009, 0.00005]),
             # "optimizer": "SGD",
             # "entropy_coeff": tune.grid_search([tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
             #                                    tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
@@ -440,14 +440,14 @@ if __name__ == '__main__':
         if args.lstm:
             algo_config['model']['use_lstm'] = True
             algo_config['model']['lstm_cell_size'] = 64
-        algo_config['evaluation_interval'] = 50
+        algo_config['evaluation_interval'] = 100
         # algo_config['evaluation_duration'] = 10
         algo_config["evaluation_parallel_to_training"]: True
     else:
         algo_config = None
 
     stop = {
-        "training_iteration": 100 * args.no_of_jobs,
+        "training_iteration": 150 * args.no_of_jobs,
         # "episode_reward_mean": 30 - (40 * args.no_of_jobs * 0.002),
     }
     plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, args.env, timestamp)
