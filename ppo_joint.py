@@ -419,7 +419,7 @@ if __name__ == '__main__':
             # "vf_loss_coeff": tune.grid_search([0.0005, 0.0009]),
             # "vf_clip_param": 10,
             # "lr": tune.grid_search([0.001, 0.0001])
-            "lr": tune.grid_search([0.00009, 0.00005]),
+            "lr": 0.0001,
             # "optimizer": "SGD",
             # "entropy_coeff": tune.grid_search([tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
             #                                    tune.uniform(0.0001, 0.001), tune.uniform(0.0001, 0.001),
@@ -447,7 +447,7 @@ if __name__ == '__main__':
         algo_config = None
 
     stop = {
-        "training_iteration": 150 * args.no_of_jobs,
+        "training_iteration": 200 * args.no_of_jobs,
         # "episode_reward_mean": 30 - (40 * args.no_of_jobs * 0.002),
     }
     plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, args.env, timestamp)
@@ -463,7 +463,8 @@ if __name__ == '__main__':
     # , resources_per_trial = ppo.PPOTrainer.default_resource_request(algo_config)
     result = tune.run(args.algo, config=algo_config, local_dir=best_agent_save_path, log_to_file=True,
                       checkpoint_at_end=True, checkpoint_freq=50, reuse_actors=False, verbose=3,
-                      checkpoint_score_attr='min-episode_len_mean', stop=stop)
+                      checkpoint_score_attr='min-episode_len_mean', stop=stop,
+                      restore=r"PPO_CHECKPOINTS/checkpoint_001750/checkpoint-1750")
     logger.info(result)
     print('...............................................................................\n'
           '\n\n\t\t\t\t\t\t\t\t Training Ends Here\n\n\n........................................')
