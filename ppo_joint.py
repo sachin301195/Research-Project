@@ -234,6 +234,7 @@ class MultiEnv(gym.Env, ABC):
 def curriculum_learning(config, reporter):
     c = {"env_config": {"no_of_jobs": 1}}
     config.update(c)
+    print(config)
     agent = ppo.PPOTrainer(env = 'env_cfms_A', config = config)
     for _ in range(100):
         result = agent.train()
