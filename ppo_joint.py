@@ -240,6 +240,8 @@ def curriculum_learning(config, reporter):
         result = agent.train()
         result['phase'] = 1
         reporter(**result)
+        if result["episode_len_mean"] <= 31:
+            break
     state = agent.save()
     agent.stop()
 
@@ -247,10 +249,12 @@ def curriculum_learning(config, reporter):
     # config.update(c)
     agent = ppo.PPOTrainer(env='env_cfms_A2', config=config)
     agent.restore(state)
-    for _ in range(100):
+    for _ in range(200):
         result = agent.train()
         result['phase'] = 2 # keep time moving forward
         reporter(**result)
+        if result["episode_len_mean"] <= 62:
+            break
     state = agent.save()
     agent.stop()
 
@@ -258,10 +262,12 @@ def curriculum_learning(config, reporter):
     # config.update(c)
     agent = ppo.PPOTrainer(env='env_cfms_A3', config=config)
     agent.restore(state)
-    for _ in range(100):
+    for _ in range(300):
         result = agent.train()
         result['phase'] = 3 # keep time moving forward
         reporter(**result)
+        if result["episode_len_mean"] <= 93:
+            break
     state = agent.save()
     agent.stop()
 
@@ -269,10 +275,12 @@ def curriculum_learning(config, reporter):
     # config.update(c)
     agent = ppo.PPOTrainer(env='env_cfms_A4', config=config)
     agent.restore(state)
-    for _ in range(100):
+    for _ in range(400):
         result = agent.train()
         result['phase'] = 4 # keep time moving forward
         reporter(**result)
+        if result["episode_len_mean"] <= 128:
+            break
     state = agent.save()
     agent.stop()
 
@@ -280,10 +288,12 @@ def curriculum_learning(config, reporter):
     # config.update(c)
     agent = ppo.PPOTrainer(env='env_cfms_A5', config=config)
     agent.restore(state)
-    for _ in range(100):
+    for _ in range(500):
         result = agent.train()
         result['phase'] = 5 # keep time moving forward
         reporter(**result)
+        if result["episode_len_mean"] <= 160:
+            break
     state = agent.save()
     agent.stop()
 
@@ -291,10 +301,12 @@ def curriculum_learning(config, reporter):
     # config.update(c)
     agent = ppo.PPOTrainer(env='env_cfms_A6', config=config)
     agent.restore(state)
-    for _ in range(100):
+    for _ in range(600):
         result = agent.train()
         result['phase'] = 6 # keep time moving forward
         reporter(**result)
+        if result["episode_len_mean"] <= 195:
+            break
     state = agent.save()
     agent.stop()
 
@@ -302,10 +314,12 @@ def curriculum_learning(config, reporter):
     # config.update(c)
     agent = ppo.PPOTrainer(env='env_cfms_A7', config=config)
     agent.restore(state)
-    for _ in range(100):
+    for _ in range(700):
         result = agent.train()
         result['phase'] = 7 # keep time moving forward
         reporter(**result)
+        if result["episode_len_mean"] <= 226:
+            break
     state = agent.save()
     agent.stop()
 
@@ -313,10 +327,12 @@ def curriculum_learning(config, reporter):
     # config.update(c)
     agent = ppo.PPOTrainer(env='env_cfms_A8', config=config)
     agent.restore(state)
-    for _ in range(100):
+    for _ in range(800):
         result = agent.train()
         result['phase'] = 8 # keep time moving forward
         reporter(**result)
+        if result["episode_len_mean"] <= 260:
+            break
     state = agent.save()
     agent.stop()
 
