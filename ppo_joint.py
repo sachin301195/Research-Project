@@ -232,10 +232,10 @@ class MultiEnv(gym.Env, ABC):
 
 
 def curriculum_learning(config, reporter):
-    c = {"env_config": {"no_of_jobs": 1}}
-    config.update(c)
-    print(config)
-    agent = ppo.PPOTrainer(env = 'env_cfms_A', config = config)
+    # c = {"env_config": {"no_of_jobs": 1}}
+    # config.update(c)
+    # print(config)
+    agent = ppo.PPOTrainer(env = 'env_cfms_A1', config = config)
     for _ in range(100):
         result = agent.train()
         result['phase'] = 1
@@ -243,9 +243,9 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    c = {"env_config": {"no_of_jobs": 2}}
-    config.update(c)
-    agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
+    # c = {"env_config": {"no_of_jobs": 2}}
+    # config.update(c)
+    agent = ppo.PPOTrainer(env='env_cfms_A2', config=config)
     agent.restore(state)
     for _ in range(100):
         result = agent.train()
@@ -254,9 +254,9 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    c = {"env_config": {"no_of_jobs": 3}}
-    config.update(c)
-    agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
+    # c = {"env_config": {"no_of_jobs": 3}}
+    # config.update(c)
+    agent = ppo.PPOTrainer(env='env_cfms_A3', config=config)
     agent.restore(state)
     for _ in range(100):
         result = agent.train()
@@ -265,9 +265,9 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    c = {"env_config": {"no_of_jobs": 4}}
-    config.update(c)
-    agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
+    # c = {"env_config": {"no_of_jobs": 4}}
+    # config.update(c)
+    agent = ppo.PPOTrainer(env='env_cfms_A4', config=config)
     agent.restore(state)
     for _ in range(100):
         result = agent.train()
@@ -276,9 +276,9 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    c = {"env_config": {"no_of_jobs": 5}}
-    config.update(c)
-    agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
+    # c = {"env_config": {"no_of_jobs": 5}}
+    # config.update(c)
+    agent = ppo.PPOTrainer(env='env_cfms_A5', config=config)
     agent.restore(state)
     for _ in range(100):
         result = agent.train()
@@ -287,9 +287,9 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    c = {"env_config": {"no_of_jobs": 6}}
-    config.update(c)
-    agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
+    # c = {"env_config": {"no_of_jobs": 6}}
+    # config.update(c)
+    agent = ppo.PPOTrainer(env='env_cfms_A6', config=config)
     agent.restore(state)
     for _ in range(100):
         result = agent.train()
@@ -298,9 +298,9 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    c = {"env_config": {"no_of_jobs": 7}}
-    config.update(c)
-    agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
+    # c = {"env_config": {"no_of_jobs": 7}}
+    # config.update(c)
+    agent = ppo.PPOTrainer(env='env_cfms_A7', config=config)
     agent.restore(state)
     for _ in range(100):
         result = agent.train()
@@ -309,9 +309,9 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    c = {"env_config": {"no_of_jobs": 8}}
-    config.update(c)
-    agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
+    # c = {"env_config": {"no_of_jobs": 8}}
+    # config.update(c)
+    agent = ppo.PPOTrainer(env='env_cfms_A8', config=config)
     agent.restore(state)
     for _ in range(100):
         result = agent.train()
@@ -363,6 +363,30 @@ if __name__ == '__main__':
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_joint", lambda c: MultiEnv(c))
     register_env("env_cfms_joint_1", lambda c: MultiEnv_v1(c))
+    register_env("env_cfms_A1", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
+                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'no_of_jobs': 1, 'init_jobs': args.init_jobs}))
+    register_env("env_cfms_A2", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
+                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'no_of_jobs': 2, 'init_jobs': args.init_jobs}))
+    register_env("env_cfms_A3", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
+                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'no_of_jobs': 3, 'init_jobs': args.init_jobs}))
+    register_env("env_cfms_A4", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
+                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'no_of_jobs': 4, 'init_jobs': args.init_jobs}))
+    register_env("env_cfms_A5", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
+                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'no_of_jobs': 5, 'init_jobs': args.init_jobs}))
+    register_env("env_cfms_A6", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
+                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'no_of_jobs': 6, 'init_jobs': args.init_jobs}))
+    register_env("env_cfms_A7", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
+                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'no_of_jobs': 7, 'init_jobs': args.init_jobs}))
+    register_env("env_cfms_A8", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
+                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'no_of_jobs': 8, 'init_jobs': args.init_jobs}))
 
     if not args.state_extension:
         ModelCatalog.register_custom_model(
@@ -382,6 +406,30 @@ if __name__ == '__main__':
         )
         ModelCatalog.register_custom_model(
             "env_cfms_joint_1", TorchParametricActionsModelv2
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_A1", TorchParametricActionsModelv2
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_A2", TorchParametricActionsModelv2
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_A3", TorchParametricActionsModelv2
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_A4", TorchParametricActionsModelv2
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_A5", TorchParametricActionsModelv2
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_A6", TorchParametricActionsModelv2
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_A7", TorchParametricActionsModelv2
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_A8", TorchParametricActionsModelv2
         )
     else:
         ModelCatalog.register_custom_model(
