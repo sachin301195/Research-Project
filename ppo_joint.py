@@ -232,7 +232,8 @@ class MultiEnv(gym.Env, ABC):
 
 
 def curriculum_learning(config, reporter):
-    config['env_config']['no_of_jobs'] = 1
+    c = {"env_config": {"no_of_jobs": 1}}
+    config.update(c)
     agent = ppo.PPOTrainer(env = 'env_cfms_A', config = config)
     for _ in range(100):
         result = agent.train()
@@ -241,7 +242,8 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    config['env_config']['no_of_jobs'] = 2
+    c = {"env_config": {"no_of_jobs": 2}}
+    config.update(c)
     agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
     agent.restore(state)
     for _ in range(100):
@@ -251,7 +253,8 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    config['env_config']['no_of_jobs'] = 3
+    c = {"env_config": {"no_of_jobs": 3}}
+    config.update(c)
     agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
     agent.restore(state)
     for _ in range(100):
@@ -261,7 +264,8 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    config['env_config']['no_of_jobs'] = 4
+    c = {"env_config": {"no_of_jobs": 4}}
+    config.update(c)
     agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
     agent.restore(state)
     for _ in range(100):
@@ -271,7 +275,8 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    config['env_config']['no_of_jobs'] = 5
+    c = {"env_config": {"no_of_jobs": 5}}
+    config.update(c)
     agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
     agent.restore(state)
     for _ in range(100):
@@ -281,7 +286,8 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    config['env_config']['no_of_jobs'] = 6
+    c = {"env_config": {"no_of_jobs": 6}}
+    config.update(c)
     agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
     agent.restore(state)
     for _ in range(100):
@@ -291,7 +297,8 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    config['env_config']['no_of_jobs'] = 7
+    c = {"env_config": {"no_of_jobs": 7}}
+    config.update(c)
     agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
     agent.restore(state)
     for _ in range(100):
@@ -301,7 +308,8 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    config['env_config']['no_of_jobs'] = 8
+    c = {"env_config": {"no_of_jobs": 8}}
+    config.update(c)
     agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
     agent.restore(state)
     for _ in range(100):
