@@ -208,7 +208,7 @@ class ConveyorEnv_A(gym.Env):
         self.init_jobs = env_config["init_jobs"]
         self.state_extension = env_config['state_extension']
         self.remaining_jobs = 0
-        self.diff = 40 / (self.no_of_jobs * (self.no_of_jobs - 1))
+        # self.diff = 40 / (self.no_of_jobs * (self.no_of_jobs - 1))
         self.start = True
         self.token_state = None
         self.exit_count = -1
