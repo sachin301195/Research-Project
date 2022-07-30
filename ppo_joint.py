@@ -230,21 +230,19 @@ class MultiEnv(gym.Env, ABC):
     def step(self, action):
         return self.env.step(action)
 
-def curriculum_learning(config, reporter):
 
-    agent = ppo.PPOTrainer(env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-                                      'no_of_jobs': 1, 'init_jobs': args.init_jobs,
-                                      'state_extension': args.state_extension, }), config = config)
+def curriculum_learning(config, reporter):
+    config['env_config']['no_of_jobs'] = 1
+    agent = ppo.PPOTrainer(env = 'env_cfms_A', config = config)
     for _ in range(100):
         result = agent.train()
         result['phase'] = 1
         reporter(**result)
-    state = agent_B.save()
+    state = agent.save()
     agent.stop()
 
-    agent = ppo.PPOTrainer(env=ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-                                      'no_of_jobs': 2, 'init_jobs': args.init_jobs,
-                                      'state_extension': args.state_extension, }), config=config)
+    config['env_config']['no_of_jobs'] = 2
+    agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
     agent.restore(state)
     for _ in range(100):
         result = agent.train()
@@ -253,9 +251,8 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    agent = ppo.PPOTrainer(env=ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-                                      'no_of_jobs': 3, 'init_jobs': args.init_jobs,
-                                      'state_extension': args.state_extension, }), config=config)
+    config['env_config']['no_of_jobs'] = 3
+    agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
     agent.restore(state)
     for _ in range(100):
         result = agent.train()
@@ -264,9 +261,8 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    agent = ppo.PPOTrainer(env=ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-                                      'no_of_jobs': 4, 'init_jobs': args.init_jobs,
-                                      'state_extension': args.state_extension, }), config=config)
+    config['env_config']['no_of_jobs'] = 4
+    agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
     agent.restore(state)
     for _ in range(100):
         result = agent.train()
@@ -275,9 +271,8 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    agent = ppo.PPOTrainer(env=ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-                                      'no_of_jobs': 5, 'init_jobs': args.init_jobs,
-                                      'state_extension': args.state_extension, }), config=config)
+    config['env_config']['no_of_jobs'] = 5
+    agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
     agent.restore(state)
     for _ in range(100):
         result = agent.train()
@@ -286,9 +281,8 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    agent = ppo.PPOTrainer(env=ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-                                      'no_of_jobs': 6, 'init_jobs': args.init_jobs,
-                                      'state_extension': args.state_extension, }), config=config)
+    config['env_config']['no_of_jobs'] = 6
+    agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
     agent.restore(state)
     for _ in range(100):
         result = agent.train()
@@ -297,9 +291,8 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    agent = ppo.PPOTrainer(env=ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-                                      'no_of_jobs': 7, 'init_jobs': args.init_jobs,
-                                      'state_extension': args.state_extension, }), config=config)
+    config['env_config']['no_of_jobs'] = 7
+    agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
     agent.restore(state)
     for _ in range(100):
         result = agent.train()
@@ -308,9 +301,8 @@ def curriculum_learning(config, reporter):
     state = agent.save()
     agent.stop()
 
-    agent = ppo.PPOTrainer(env=ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
-                                      'no_of_jobs': 8, 'init_jobs': args.init_jobs,
-                                      'state_extension': args.state_extension, }), config=config)
+    config['env_config']['no_of_jobs'] = 8
+    agent = ppo.PPOTrainer(env='env_cfms_A', config=config)
     agent.restore(state)
     for _ in range(100):
         result = agent.train()
