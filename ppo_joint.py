@@ -132,6 +132,11 @@ parser.add_argument(
     type=bool,
     help="Use LSTM or not")
 parser.add_argument(
+    "--masking",
+    default=True,
+    type=bool,
+    help="Use LSTM or not")
+parser.add_argument(
     "--local-mode",
     help="Init Ray in local mode for easier debugging.",
     action="store_true"
@@ -186,22 +191,22 @@ class MultiEnv_v1(gym.Env, ABC):
 class MultiEnv(gym.Env, ABC):
     def __init__(self, env_config):
         if env_config.worker_index % 4 == 0:
-            self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+            self.env = ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward, 'mask': args.masking,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
                                       'state_extension': args.state_extension, })
             self.name = "ConveyorEnv_A"
         elif env_config.worker_index % 4 == 1:
-            self.env = ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+            self.env = ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward, 'mask': args.masking,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
                                       'state_extension': args.state_extension, })
             self.name = 'ConveyorEnv_B'
         elif env_config.worker_index % 4 == 2:
-            self.env = ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+            self.env = ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward, 'mask': args.masking,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
                                       'state_extension': args.state_extension, })
             self.name = 'ConveyorEnv_C'
         else:
-            self.env = ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward, 'mask': True,
+            self.env = ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward, 'mask': args.masking,
                                       'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs,
                                       'state_extension': args.state_extension, })
             self.name = 'ConveyorEnv_D'
@@ -366,42 +371,42 @@ if __name__ == '__main__':
 
     ray.init(local_mode=args.local_mode, object_store_memory=1000000000)
     register_env("env_cfms_A", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'mask': args.masking, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_B", lambda _: ConveyorEnv_B({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'mask': args.masking, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_C", lambda _: ConveyorEnv_C({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'mask': args.masking, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_D", lambda _: ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'mask': args.masking, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_joint", lambda c: MultiEnv(c))
     register_env("env_cfms_joint_1", lambda c: MultiEnv_v1(c))
     register_env("env_cfms_A1", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'mask': args.masking, 'state_extension': args.state_extension,
                                                         'no_of_jobs': 1, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_A2", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'mask': args.masking, 'state_extension': args.state_extension,
                                                         'no_of_jobs': 2, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_A3", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'mask': args.masking, 'state_extension': args.state_extension,
                                                         'no_of_jobs': 3, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_A4", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'mask': args.masking, 'state_extension': args.state_extension,
                                                         'no_of_jobs': 4, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_A5", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'mask': args.masking, 'state_extension': args.state_extension,
                                                         'no_of_jobs': 5, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_A6", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'mask': args.masking, 'state_extension': args.state_extension,
                                                         'no_of_jobs': 6, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_A7", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'mask': args.masking, 'state_extension': args.state_extension,
                                                         'no_of_jobs': 7, 'init_jobs': args.init_jobs}))
     register_env("env_cfms_A8", lambda _: ConveyorEnv_A({'version': 'full', 'final_reward': args.final_reward,
-                                                        'mask': True, 'state_extension': args.state_extension,
+                                                        'mask': args.masking, 'state_extension': args.state_extension,
                                                         'no_of_jobs': 8, 'init_jobs': args.init_jobs}))
 
     if not args.state_extension:
@@ -504,7 +509,7 @@ if __name__ == '__main__':
             "env_config": {
                 "version": "full",
                 "final_reward": args.final_reward,
-                "mask": True,
+                "mask": args.masking,
                 "no_of_jobs": args.no_of_jobs,
                 "init_jobs": args.init_jobs,
                 'state_extension': args.state_extension,
