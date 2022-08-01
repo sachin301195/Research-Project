@@ -133,9 +133,9 @@ parser.add_argument(
     help="Use LSTM or not")
 parser.add_argument(
     "--masking",
-    default=True,
+    default=False,
     type=bool,
-    help="Use LSTM or not")
+    help="Use masking or not")
 parser.add_argument(
     "--local-mode",
     help="Init Ray in local mode for easier debugging.",
