@@ -409,7 +409,7 @@ if __name__ == '__main__':
                                                         'mask': args.masking, 'state_extension': args.state_extension,
                                                         'no_of_jobs': 8, 'init_jobs': args.init_jobs}))
 
-    if not args.state_extension:
+    if not args.state_extension and args.masking and (not args.lstm):
         ModelCatalog.register_custom_model(
             "env_cfms_A", TorchParametricActionsModelv2
         )
@@ -452,7 +452,7 @@ if __name__ == '__main__':
         ModelCatalog.register_custom_model(
             "env_cfms_A8", TorchParametricActionsModelv2
         )
-    else:
+    elif args.state_extension and args.masking and (not args.lstm):
         ModelCatalog.register_custom_model(
             "env_cfms_A", TorchParametricActionsModelv3
         )
@@ -471,7 +471,7 @@ if __name__ == '__main__':
         ModelCatalog.register_custom_model(
             "env_cfms_joint_1", TorchParametricActionsModelv3
         )
-    if args.lstm:
+    elif args.lstm:
         ModelCatalog.register_custom_model(
             "env_cfms_A", TorchParametricActionsModelv5
         )
@@ -489,6 +489,22 @@ if __name__ == '__main__':
         )
         ModelCatalog.register_custom_model(
             "env_cfms_joint_1", TorchParametricActionsModelv5
+        )
+    else:
+        ModelCatalog.register_custom_model(
+            "env_cfms_A", TorchParametricActionModel
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_B", TorchParametricActionModel
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_C", TorchParametricActionModel
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_D", TorchParametricActionModel
+        )
+        ModelCatalog.register_custom_model(
+            "env_cfms_joint", TorchParametricActionModel
         )
 
     if args.algo == 'DQN':
