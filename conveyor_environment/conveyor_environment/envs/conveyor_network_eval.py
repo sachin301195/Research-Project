@@ -140,19 +140,28 @@ REWARD_MAPPING_W1_W2 = {'N1': ['S1', 'S'], 'A1': ['N1'], 'A2': ['A1'], 'A3': ['A
                         'N8': ['M3'], 'N0': ['O3'], 'O1': ['N8'], 'O2': ['O1'], 'O3': ['O2'], 'T1': ['N0']}
 
 
-def generate_random_N_orders(version, no_of_token, seed):
+def generate_random_N_orders(version, no_of_token, job_no, seed):
     """ Generates random N orders for the conveying network """
     np.random.seed(seed)
-    if version == 'trial' or version == 'trial_compact':
-        jobs = np.random.randint(1, 4, size=no_of_token)
-        quantity = np.ones(len(jobs), dtype=np.int16)
-        red = 1
-        green = 1
-        resources = [no_of_token, red, green]
+    if job_no == 0:
+        if version == 'trial' or version == 'trial_compact':
+            jobs = np.random.randint(1, 4, size=no_of_token)
+            quantity = np.ones(len(jobs), dtype=np.int16)
+            red = 1
+            green = 1
+            resources = [no_of_token, red, green]
 
-        print(f'jobs {jobs}, resources {resources}, quantity {quantity}')
+            print(f'jobs {jobs}, resources {resources}, quantity {quantity}')
+        else:
+            jobs = np.random.randint(1, 16, size=no_of_token)
+            quantity = np.ones(len(jobs), dtype=np.int16)
+            red = 1
+            green = 1
+            blue = 1
+            violet = 1
+            resources = [no_of_token, red, green, blue, violet]
     else:
-        jobs = np.random.randint(1, 16, size=no_of_token)
+        jobs = [job_no for _ in range(no_of_token)]
         quantity = np.ones(len(jobs), dtype=np.int16)
         red = 1
         green = 1
@@ -204,7 +213,8 @@ class ConveyorEnv_eval(gym.Env):
         self.final_reward = env_config["final_reward"]
         self.no_of_jobs = env_config["no_of_jobs"]
         self.mask = env_config["mask"]
-        self.init_jobs = env_config["init_jobs"]
+        self.init_jobs = 4
+        self.job_no = env_config["job_no"]
         self.state_extension = env_config['state_extension']
         self.remaining_jobs = self.no_of_jobs - self.init_jobs
         self.diff = 40 / (self.no_of_jobs * (self.no_of_jobs - 1))
@@ -243,10 +253,11 @@ class ConveyorEnv_eval(gym.Env):
         self.start = True
         self.exit_count = -1
         self.no_of_jobs = self.env_config["no_of_jobs"]
-        self.init_jobs = self.env_config["init_jobs"]
+        self.init_jobs = 4
         self.remaining_jobs = self.no_of_jobs - self.init_jobs
         np.random.seed(self.seed)
-        self.jobs, self.res, self.quantity = generate_random_N_orders(self.version, self.no_of_jobs, self.seed)
+        self.jobs, self.res, self.quantity = generate_random_N_orders(self.version, self.no_of_jobs, self.job_no,
+                                                                      self.seed)
         if self.version == "trial" or self.version == "trial_compact":
             self.network = TrialConveyorNetwork(self.jobs[:self.init_jobs], self.res, self.quantity)
             self.net, self.trans = self.network.trial_conveyor_petrinet()

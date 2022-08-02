@@ -57,13 +57,13 @@ parser.add_argument(
 )
 parser.add_argument(
     "--no_of_jobs",
-    default=20,
+    default=8,
     type=int,
     help="Number of tokens to run in an environment."
 )
 parser.add_argument(
-    "--init_jobs",
-    default=4,
+    "--job-no",
+    default=15,
     type=int,
     help="Number of tokens to initialize in an environment. This should be greater than or equal to self.no_of_jobs."
 )
@@ -103,11 +103,11 @@ def evaluate(algo, algo_config: dir, plots_save_path):
         # # print(policy.model.variables())
         # print(policy.model.action_model)
         # time.sleep(600)
-        logger.info(f"Evaluating algo: {algo} with no_of_jobs: {args.no_of_jobs} and init_jobs: {args.init_jobs}")
+        logger.info(f"Evaluating algo: {algo} with no_of_jobs: {args.no_of_jobs} and job_no: {args.job_no}")
         curr_episode = 1
         max_episode = 10
         env = ConveyorEnv_eval({'version': 'full', 'final_reward': 'B', 'mask': True, 'no_of_jobs': args.no_of_jobs,
-                                'init_jobs': args.init_jobs, 'state_extension': args.state_extension})
+                                'job_no': args.job_no, 'state_extension': args.state_extension})
         SCORE_OVERALL = []
         AVG_SCORE_EPISODE = []
         JOBS = []
@@ -212,7 +212,7 @@ if __name__ == '__main__':
     register_env("env_cfms_eval", lambda _: ConveyorEnv_eval({'version': 'full', 'final_reward': args.final_reward,
                                                               'mask': True, 'state_extension': args.state_extension,
                                                               'no_of_jobs': args.no_of_jobs,
-                                                              'init_jobs': args.init_jobs}))
+                                                              'job_no': args.job_no}))
     if not args.state_extension:
         ModelCatalog.register_custom_model(
             "env_cfms_eval", TorchParametricActionsModelv2
@@ -243,7 +243,7 @@ if __name__ == '__main__':
                 "mask": True,
                 'state_extension': args.state_extension,
                 "no_of_jobs": args.no_of_jobs,
-                "init_jobs": args.init_jobs,
+                "job_no": args.job_no
             },
             "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
             "num_workers": 0,  # parallelism
