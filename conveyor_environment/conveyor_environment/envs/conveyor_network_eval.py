@@ -117,6 +117,28 @@ ACTION_MAPPING = {'S': {0: 's1', 1: 'Nan', 2: 'Nan', 3: 'Nan'}, 'S1': {0: 'SN1',
                   'N7': {0: 'P_P1', 1: 'P_I1', 2: 'Nan', 3: 'N_Q3'}, 'N8': {0: 'P_M1', 1: 'P_Q1', 2: 'P_O1', 3: 'Nan'},
                   'W2': {0: 'Nan', 1: 'P_L1', 2: 'N_M3', 3: 'Nan'}}
 
+REWARD_MAPPING_W1 = {'N1': ['S1', 'S'], 'A1': ['N1'], 'A2': ['A1'], 'A3': ['A2'], 'N2': ['A3'], 'C1': ['N2'],
+                     'C2': ['C1'], 'C3': ['C2'], 'W1': ['C3'], 'D3': ['W1'], 'D2': ['D3'], 'D1': ['D2'],
+                     'N4': ['D3'],  'J3': ['N6'], 'J2': ['J3'], 'J1': ['J2'], 'N9': ['J3'], 'F3': ['N4'], 'F2': ['F3'],
+                     'F1': ['F2'], 'N3': ['F3'], 'H3': ['N4'], 'H2': ['H3'], 'H1': ['H2'], 'N5': ['H3'], 'L3': ['N5'],
+                     'L2': ['L3'], 'L1': ['L2'], 'W2': ['L3'], 'M3': ['W2'], 'M2': ['M3'], 'M1': ['M2'], 'N8': ['M3'],
+                     'G3': ['N3'], 'G2': ['G3'], 'G1': ['G2'], 'N6': ['G3'], 'K3': ['N9'], 'K2': ['K3'], 'K1': ['K2'],
+                     'N0': ['K3', 'O3'], 'O1': ['N8'], 'O2': ['O1'], 'O3': ['O2'], 'T1': ['N0']}
+
+REWARD_MAPPING_W2 = {'N1': ['S1', 'S'], 'A1': ['N1'], 'A2': ['A1'], 'A3': ['A2'], 'N2': ['A3'], 'C1': ['N2'],
+                     'C2': ['C1'], 'C3': ['C2'], 'W1': ['C3'], 'D3': ['W1'], 'D2': ['D3'], 'D1': ['D2'],
+                     'N4': ['D3'], 'H3': ['N4'], 'H2': ['H3'], 'H1': ['H2'], 'N5': ['H3', 'P3'], 'L3': ['N5'],
+                     'L2': ['L3'], 'L1': ['L2'], 'W2': ['L3'], 'M3': ['W2'], 'M2': ['M3'], 'M1': ['M2'], 'N8': ['M3'],
+                     'B3': ['N1'], 'B2': ['B3'], 'B1': ['B2'], 'N9': ['B3'], 'I3': ['N6'], 'I2': ['I3'], 'I1': ['I2'],
+                     'N7': ['I3'], 'N0': ['O3'], 'O1': ['N8'], 'O2': ['O1'], 'O3': ['O2'], 'T1': ['N0'], 'J1': ['N9'],
+                     'J2': ['J1'], 'J3': ['J2'], 'N6': ['J3'], 'P1': ['N7'], 'P2': ['P1'], 'P3': ['P2']}
+
+REWARD_MAPPING_W1_W2 = {'N1': ['S1', 'S'], 'A1': ['N1'], 'A2': ['A1'], 'A3': ['A2'], 'N2': ['A3'], 'C1': ['N2'],
+                        'C2': ['C1'], 'C3': ['C2'], 'W1': ['C3'], 'D3': ['W1'], 'D2': ['D3'], 'D1': ['D2'],
+                        'N4': ['D3'], 'H3': ['N4'], 'H2': ['H3'], 'H1': ['H2'], 'N5': ['H3', 'P3'], 'L3': ['N5'],
+                        'L2': ['L3'], 'L1': ['L2'], 'W2': ['L3'], 'M3': ['W2'], 'M2': ['M3'], 'M1': ['M2'],
+                        'N8': ['M3'], 'N0': ['O3'], 'O1': ['N8'], 'O2': ['O1'], 'O3': ['O2'], 'T1': ['N0']}
+
 
 def generate_random_N_orders(version, no_of_token, seed):
     """ Generates random N orders for the conveying network """
@@ -139,6 +161,9 @@ def generate_random_N_orders(version, no_of_token, seed):
         resources = [no_of_token, red, green, blue, violet]
 
         print(f'jobs {jobs}, resources {resources}, quantity {quantity}')
+        print('................................................')
+        print('                       B                        ')
+        print('................................................')
 
     return jobs, resources, quantity
 
@@ -162,25 +187,31 @@ def current_token(token, trans, action, place, step_count, error):
         details['count'] = token[-1]
         token = [tuple(token)]
     else:
-        details = {}
+        token = list(token[0])
+        details = {'count': token[-1], 'p_place': place, 'c_place': place, 'c_state': token[2],
+                   'steps': step_count}
+        token = [tuple(token)]
 
     return token, details
 
 
-class ConveyorEnv_B(gym.Env):
+class ConveyorEnv_eval(gym.Env):
     metadata = {"render.modes": ["Human"]}
 
     def __init__(self, env_config: dict):
-        self.marking_list = None
-        self.current_token = None
         self.env_config = env_config
         self.version = env_config["version"]
         self.final_reward = env_config["final_reward"]
         self.no_of_jobs = env_config["no_of_jobs"]
         self.mask = env_config["mask"]
         self.init_jobs = env_config["init_jobs"]
+        self.state_extension = env_config['state_extension']
         self.remaining_jobs = self.no_of_jobs - self.init_jobs
+        self.diff = 40 / (self.no_of_jobs * (self.no_of_jobs - 1))
+        self.token_state = None
         self.start = True
+        self.exit_count = -1
+        self.seed = 45
         if self.version == 'trial':
             places = 38
         elif self.version == 'trial_compact':
@@ -190,7 +221,10 @@ class ConveyorEnv_B(gym.Env):
         else:
             places = 13
         # Observation space represents places:
-        places += 3
+        if self.state_extension:
+            places += 30
+        else:
+            places += 4
         obs_space = spaces.Box(-1, 1, shape=(places,))
         # Action space represents possible transitions
         self.action_space = spaces.Discrete(4)
@@ -204,9 +238,10 @@ class ConveyorEnv_B(gym.Env):
             self.observation_space = obs_space
 
     def reset(self):
-        self.seed = seeding.create_seed(max_bytes=4)
+        self.seed += 46
         self.done = False
         self.start = True
+        self.exit_count = -1
         self.no_of_jobs = self.env_config["no_of_jobs"]
         self.init_jobs = self.env_config["init_jobs"]
         self.remaining_jobs = self.no_of_jobs - self.init_jobs
@@ -233,6 +268,7 @@ class ConveyorEnv_B(gym.Env):
         self.order_time = 0
         self.termination = False
         self.error = False
+        self.marking = self.net.get_marking()
         self.modes = self.net.transition('s1').modes()
         self.current_token = self.modes[0]
         self.object_no = 0
@@ -240,7 +276,6 @@ class ConveyorEnv_B(gym.Env):
         self.terminating_in_middle = False
         self.transition_log = []
         self.episode_time_begin = time.time()
-        self.marking = self.net.get_marking()
         self.max_length = 0
         self.eps_step = 0
         self.unit_step = 1
@@ -260,15 +295,28 @@ class ConveyorEnv_B(gym.Env):
             for place in ACTION_MAPPING_COMPACT.keys():
                 self.binding[place] = {}
         self.binding['T'] = {}
-        for idx, job in enumerate(self.jobs[:self.init_jobs]):
-            self.token[f"token_{idx}"] = {}
-            self.token[f"token_{idx}"]["dir"] = 0
-            self.token[f"token_{idx}"]["job"] = job
-            self.token[f"token_{idx}"]["c_state"] = 0
-            self.token[f"token_{idx}"]["c_place"] = 'S'
-            self.token[f"token_{idx}"]["p_place"] = None
-            self.token[f"token_{idx}"]["count"] = 0
-            self.token[f"token_{idx}"]["steps"] = 0
+        if self.state_extension:
+            self.token_state = [0 for _ in range(30)]
+            for idx, job in enumerate(self.jobs):
+                self.token[f"token_{idx}"] = {}
+                self.token[f"token_{idx}"]["dir"] = 0
+                self.token[f"token_{idx}"]["job"] = job
+                self.token[f"token_{idx}"]["c_state"] = 0
+                self.token[f"token_{idx}"]["c_place"] = 'S'
+                self.token[f"token_{idx}"]["p_place"] = None
+                self.token[f"token_{idx}"]["count"] = 0
+                self.token[f"token_{idx}"]["steps"] = 0
+                self.token_state[idx * 3 + 2] = job
+        else:
+            for idx, job in enumerate(self.jobs):
+                self.token[f"token_{idx}"] = {}
+                self.token[f"token_{idx}"]["dir"] = 0
+                self.token[f"token_{idx}"]["job"] = job
+                self.token[f"token_{idx}"]["c_state"] = 0
+                self.token[f"token_{idx}"]["c_place"] = 'S'
+                self.token[f"token_{idx}"]["p_place"] = None
+                self.token[f"token_{idx}"]["count"] = 0
+                self.token[f"token_{idx}"]["steps"] = 0
         for key, value in self.token.items():
             self.binding['S'].update({key: value})
         state = self._next_observation()
@@ -276,64 +324,154 @@ class ConveyorEnv_B(gym.Env):
         return state
 
     def _next_observation(self):
-        # total_time = float(str(self.total_time_units) + "." + str(self.step_count))
-        state = []
-        details = {}
-        if not self.start:
-            token = list(self.binding[self.next_place].items())[0][0]
-            details = list(self.binding[self.next_place].items())[0][1]
-            # print(token, details)
-        if self.version == 'trial':
-            for place in ACTION_MAPPING_TRIAL.keys():
-                if place in set(self.marking.keys()):
-                    state.append(1)
-                else:
-                    state.append(0)
-        elif self.version == 'trial_compact':
-            for place in ACTION_MAPPING_TRIAL_COMPACT.keys():
-                if place in set(self.marking.keys()):
-                    state.append(1)
-                else:
-                    state.append(0)
-        elif self.version == 'full':
-            for place in ACTION_MAPPING.keys():
-                if place in set(self.marking.keys()):
-                    state.append(1)
-                else:
-                    state.append(0)
-        else:
-            for place in ACTION_MAPPING_COMPACT.keys():
-                if place in set(self.marking.keys()):
-                    state.append(1)
-                else:
-                    state.append(0)
-        if self.start:
-            state.extend([0, 0, int(self.current_token['f'])])
-            mask = np.array((1, 0, 0, 0))
-        else:
-            c_state = details['c_state']/15
-            f_state = (details['job'] - 1)/14
-            state.extend([details['dir'], c_state, f_state])
+        if self.state_extension:
+            state = []
+            details = {}
+            if not self.start:
+                token = list(self.binding[self.next_place].items())[0][0]
+                details = list(self.binding[self.next_place].items())[0][1]
+                # print(token, details)
             if self.version == 'trial':
-                transition = np.array(list(ACTION_MAPPING_TRIAL[self.next_place].values()))
+                for place in ACTION_MAPPING_TRIAL.keys():
+                    if place in set(self.marking.keys()):
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
+                    else:
+                        state.append(-1)
             elif self.version == 'trial_compact':
-                transition = np.array(list(ACTION_MAPPING_TRIAL_COMPACT[self.next_place].values()))
+                for place in ACTION_MAPPING_TRIAL_COMPACT.keys():
+                    if place in set(self.marking.keys()):
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
+                    else:
+                        state.append(-1)
             elif self.version == 'full':
-                transition = np.array(list(ACTION_MAPPING[self.next_place].values()))
+                for place in ACTION_MAPPING.keys():
+                    if place in set(self.marking.keys()):
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
+                    else:
+                        state.append(-1)
             else:
-                transition = np.array(list(ACTION_MAPPING_COMPACT[self.next_place].values()))
-            mask = np.where(transition == 'Nan', 0, 1)
-        state = np.array(state, dtype=np.int16)
+                for place in ACTION_MAPPING_COMPACT.keys():
+                    if place in set(self.marking.keys()):
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
+                    else:
+                        state.append(-1)
+            if self.start:
+                for token_no, detail in self.token.items():
+                    idx = int(token_no[-1]) * 4 + 2
+                    self.token_state[idx] = (self.token_state[idx]) / 15
+                state.extend(self.token_state)
+                mask = np.array((1, 0, 0, 0))
+            else:
+                idx = int(token[-1]) * 4
+                c_state = details['c_state'] / 15
+                self.token_state[idx] = details['dir']
+                self.token_state[idx + 1] = c_state
+                self.token_state[idx + 3] = details['count'] / 1000
+                state.extend(self.token_state)
+                if self.version == 'trial':
+                    transition = np.array(list(ACTION_MAPPING_TRIAL[self.next_place].values()))
+                elif self.version == 'trial_compact':
+                    transition = np.array(list(ACTION_MAPPING_TRIAL_COMPACT[self.next_place].values()))
+                elif self.version == 'full':
+                    transition = np.array(list(ACTION_MAPPING[self.next_place].values()))
+                else:
+                    transition = np.array(list(ACTION_MAPPING_COMPACT[self.next_place].values()))
+                mask = np.where(transition == 'Nan', 0, 1)
+            state = np.array(state, dtype=np.float32)
 
-        if self.mask:
-            self.state = {
-                "action_mask": mask,
-                "avail_actions": np.ones(4),
-                "state": state
-            }
+            if self.mask:
+                self.state = {
+                    "action_mask": mask,
+                    "avail_actions": np.ones(4),
+                    "state": state
+                }
+            else:
+                self.state = state
+            self.current_place = self.next_place
         else:
-            self.state = state
-        self.current_place = self.next_place
+            state = []
+            details = {}
+            if not self.start:
+                token = list(self.binding[self.next_place].items())[0][0]
+                details = list(self.binding[self.next_place].items())[0][1]
+                # print(token, details)
+            if self.version == 'trial':
+                for place in ACTION_MAPPING_TRIAL.keys():
+                    if place in set(self.marking.keys()):
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
+                    else:
+                        state.append(-1)
+            elif self.version == 'trial_compact':
+                for place in ACTION_MAPPING_TRIAL_COMPACT.keys():
+                    if place in set(self.marking.keys()):
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
+                    else:
+                        state.append(-1)
+            elif self.version == 'full':
+                for place in ACTION_MAPPING.keys():
+                    if place in set(self.marking.keys()):
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
+                    else:
+                        state.append(-1)
+            else:
+                for place in ACTION_MAPPING_COMPACT.keys():
+                    if place in set(self.marking.keys()):
+                        if place == self.next_place:
+                            state.append(1)
+                        else:
+                            state.append(0)
+                    else:
+                        state.append(-1)
+            if self.start:
+                f_state = (int(self.current_token['f']) - 1) / 14
+                state.extend([0, 0, f_state, 0])
+                mask = np.array((1, 0, 0, 0))
+            else:
+                c_state = details['c_state'] / 15
+                f_state = (details['job'] - 1) / 14
+                count = np.clip(details['count'] / 1000, 0, 1)
+                state.extend([details['dir'], c_state, f_state, count])
+                if self.version == 'trial':
+                    transition = np.array(list(ACTION_MAPPING_TRIAL[self.next_place].values()))
+                elif self.version == 'trial_compact':
+                    transition = np.array(list(ACTION_MAPPING_TRIAL_COMPACT[self.next_place].values()))
+                elif self.version == 'full':
+                    transition = np.array(list(ACTION_MAPPING[self.next_place].values()))
+                else:
+                    transition = np.array(list(ACTION_MAPPING_COMPACT[self.next_place].values()))
+                mask = np.where(transition == 'Nan', 0, 1)
+            state = np.array(state, dtype=np.float32)
+
+            if self.mask:
+                self.state = {
+                    "action_mask": mask,
+                    "avail_actions": np.ones(4),
+                    "state": state
+                }
+            else:
+                self.state = state
+            self.current_place = self.next_place
 
         return self.state
 
@@ -345,7 +483,7 @@ class ConveyorEnv_B(gym.Env):
         self.current_token, token_dir = current_token(self.current_token, self.trans_fire, action, self.current_place,
                                                       self.step_count, self.error)
         self.token[f"token_{self.current_token[0][1]}"].update(token_dir)
-        if len(token_dir) > 0:
+        if not self.error:
             self.binding[token_dir["c_place"]].update(
                 {f"token_{self.current_token[0][1]}": self.binding[token_dir['p_place']].
                     pop(f"token_{self.current_token[0][1]}")})
@@ -375,15 +513,15 @@ class ConveyorEnv_B(gym.Env):
         else:
             self.next_place = self.marking_list[-1-self.eps_step]
         self.done = self._done_status()
-        self.info = self.token
+        self.info = self._data()
         self.reward = self._calculate_reward()
-        if self.start:
-            self.c = 0
+        # if self.start:
+        #     self.c = 0
         self.start = False
-        if self.error:
-            self.c += 1
-        if self.termination or self.terminating_in_middle:
-            print(self.c)
+        # if self.error:
+        #     self.c += 1
+        # if self.termination or self.terminating_in_middle:
+        #     print(self.c)
         if not self.done:
             self.state = self._next_observation()
 
@@ -399,10 +537,10 @@ class ConveyorEnv_B(gym.Env):
             self.trans_fire = ACTION_MAPPING_COMPACT[place][action]
         else:
             self.trans_fire = ACTION_MAPPING[place][action]
-
+        # print("curr_place: ", place, "\ttransition: ", self.trans_fire )
         if self.trans_fire is not 'Nan':
             self.termination = False
-            if self.trans_fire == 'w1' or 'w2':
+            if self.trans_fire == 'w1' or self.trans_fire == 'w2':
                 self.trans_fire = self._resolve_workstations(self.trans_fire, action)
             self.modes = self.net.transition(self.trans_fire).modes()
             if len(self.modes) != 0:
@@ -419,6 +557,7 @@ class ConveyorEnv_B(gym.Env):
                         print(f'\n Termination of token ',
                               f'\n token : {self.modes[0]["sq_no"]}, c: {self.modes[0]["c"]}, '
                               f'f: {self.modes[0]["f"]}, count: {self.modes[0]["count"]}')
+                        self.exit_count += 1
                         if self.remaining_jobs > 0:
                             # fixed (1) token introduced after termination
                             init_tokens = 1
@@ -432,18 +571,54 @@ class ConveyorEnv_B(gym.Env):
                 except ConstraintError:
                     # print(f'{e1}')
                     self.error = True
+                    self.current_token[0] = list(self.current_token[0])
+                    self.current_token[0][-1] += 1
+                    self.current_token[0] = tuple(self.current_token[0])
                     self.net.place(place).add(self.current_token)
                 except ValueError:
                     # print(f'{e2}: {trans_fire} is not provided with valid substitution.')
                     self.error = True
+                    self.current_token[0] = list(self.current_token[0])
+                    self.current_token[0][-1] += 1
+                    self.current_token[0] = tuple(self.current_token[0])
                     self.net.place(place).add(self.current_token)
-                except:
+                except Exception:
                     # print(f'{place} and {trans_fire}, something went wrong!!!')
                     self.error = True
+                    self.current_token[0] = list(self.current_token[0])
+                    self.current_token[0][-1] += 1
+                    self.current_token[0] = tuple(self.current_token[0])
                     self.net.place(place).add(self.current_token)
             else:
                 self.error = True
         else:
+            # print(place)
+            # print(self.net.get_marking())
+            for trans in list(ACTION_MAPPING[place].values()):
+                if trans != 'Nan' and trans != 'P_J1' and trans != 'P_J2':
+                    # print(trans)
+                    if trans == 'w1':
+                        if place == 'D3':
+                            self.modes = self.net.transition('D0W1').modes()
+                        else:
+                            self.modes = self.net.transition('C0W1').modes()
+                    elif trans == 'w2':
+                        if place == 'L1':
+                            self.modes = self.net.transition('L0W2').modes()
+                        else:
+                            self.modes = self.net.transition('M0W2').modes()
+                    else:
+                        self.modes = self.net.transition(trans).modes()
+                    # print(self.modes)
+                    self.current_token = [(self.modes[0]['dir'], self.modes[0]['sq_no'], self.modes[0]['c'],
+                                           self.modes[0]['f'], self.modes[0]['count'] + 1)]
+                    self.current_token[0] = tuple(self.current_token[0])
+                    if place == 'S':
+                        self.net.transition(self.trans_fire).fire(self.modes[0])
+                    else:
+                        self.net.place(place).empty()
+                    self.net.place(place).add(self.current_token)
+                    break
             self.error = True
 
     def _resolve_workstations(self, trans, action):
@@ -518,7 +693,7 @@ class ConveyorEnv_B(gym.Env):
 
     def _token_insertion(self, tokens):
         for seq in range(tokens):
-            idx = self.no_of_jobs - self.remaining_jobs + seq
+            idx = self.no_of_jobs - self.remaining_jobs
             new_token = [(0, idx, 0, self.jobs[-self.remaining_jobs], 0)]
             self.net.place('S').add(new_token)
             self.token[f"token_{idx}"] = {}
@@ -571,8 +746,14 @@ class ConveyorEnv_B(gym.Env):
         #                     self.info['avg_total_time_units'] = self.avg_time_units
         #                     self.info['avg_throughput'] = self.avg_throughput
         #             break
+        # if self.done:
+        #     info = {'token': self.current_token, 'all_tokens': self.token}
+        if self.termination:
+            info = {'token': self.current_token}
+        else:
+            info = {}
 
-        return self.info
+        return info
 
     def _get_obs(self):
 
@@ -600,9 +781,62 @@ class ConveyorEnv_B(gym.Env):
         #         return self.reward
         # else:
         #     self.reward = -1
-        self.reward = -self.current_token[0][-1]*(1/100100)*(not self.error) - \
-                      0.01*self.error -\
-                      5*self.terminating_in_middle + (30/self.no_of_jobs)*self.termination
+        if self.final_reward == 'A':
+            self.reward = -self.current_token[0][-1] * (1 / 100100) * (not self.error) - \
+                          0.002 * self.error * (not self.done) - \
+                          5 * self.terminating_in_middle + ((25 / self.no_of_jobs) * self.termination) \
+                          + 5 * self.done * (not self.terminating_in_middle)
+            # self.reward = -self.current_token[0][-1] * (1 / 100100) * (not self.error) * (not self.done) - \
+            #               0.002 * self.error - \
+            #               5 * self.terminating_in_middle + self.diff * self.exit_count * self.termination \
+            #               + 10 * self.done * (not self.terminating_in_middle)
+        elif self.final_reward == 'B':
+            self.reward = - 0.001 * (not self.error) - 0.002 * self.error * (not self.done) \
+                          - 5 * self.terminating_in_middle + ((25 / self.no_of_jobs) * self.termination) \
+                          + 5 * self.done * (not self.terminating_in_middle)
+            # self.reward = - 0.001 * (not self.error) - 0.002 * self.error * (not self.done) \
+            #               - 5 * self.terminating_in_middle + self.diff * self.exit_count * self.termination \
+            #               + 10 * self.done * (not self.terminating_in_middle)
+        else:
+            if not self.error:
+                if self.current_token[0][-2] in [1, 2, 3]:
+                    if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1:
+                        # if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
+                        #         REWARD_MAPPING_W1_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
+                        #     self.reward = -0.0001
+                        # else:
+                        #     self.reward = -0.001
+                        self.reward = -self.current_token[0][-1] * (1 / 100100)
+                    else:
+                        self.reward = -2 * self.current_token[0][-1] * (1 / 100100)
+                elif self.current_token[0][-2] in [4, 8, 12]:
+                    if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W2:
+                        # if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
+                        #         REWARD_MAPPING_W1_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
+                        #     self.reward = -0.0001
+                        # else:
+                        #     self.reward = -0.001
+                        self.reward = -self.current_token[0][-1] * (1 / 100100)
+                    else:
+                        self.reward = -2 * self.current_token[0][-1] * (1 / 100100)
+                else:
+                    if self.token[f"token_{self.current_token[0][1]}"]['c_place'] in REWARD_MAPPING_W1_W2:
+                        # if self.token[f"token_{self.current_token[0][1]}"]['p_place'] in \
+                        #         REWARD_MAPPING_W1_W2[self.token[f"token_{self.current_token[0][1]}"]['c_place']]:
+                        #     self.reward = -0.0001
+                        # else:
+                        #     self.reward = -0.001
+                        self.reward = -self.current_token[0][-1] * (1 / 100100)
+                    else:
+                        self.reward = -2 * self.current_token[0][-1] * (1 / 100100)
+                self.reward += (5 * self.terminating_in_middle + ((25 / self.no_of_jobs) * self.termination) +
+                                5 * self.done * (not self.terminating_in_middle))
+            else:
+                self.reward = -0.002
+
+            # self.reward += (-0.001 * self.error - 5 * self.terminating_in_middle + self.diff * self.exit_count *
+            #                 self.termination + 10 * self.done * (not self.terminating_in_middle))
+        # self.reward = np.clip(self.reward, a_min=-30, a_max=30)
 
         return self.reward
 
@@ -614,11 +848,6 @@ class ConveyorEnv_B(gym.Env):
 
             return True
         else:
-            # print(f'Returning done as False')
-            if self.current_token[0][-1] > 1000:
-                self.terminating_in_middle = True
-
-                return True
 
             return False
 
@@ -635,4 +864,5 @@ class ConveyorEnv_B(gym.Env):
         : avg_throughput: self.avg_throughput (float)
         """
         info = self._data()
+
         return info.values()
