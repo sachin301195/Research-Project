@@ -57,13 +57,13 @@ parser.add_argument(
 )
 parser.add_argument(
     "--no_of_jobs",
-    default=8,
+    default=15,
     type=int,
     help="Number of tokens to run in an environment."
 )
 parser.add_argument(
     "--job-no",
-    default=15,
+    default=0       ,
     type=int,
     help="Number of tokens to initialize in an environment. This should be greater than or equal to self.no_of_jobs."
 )
@@ -89,7 +89,7 @@ def evaluate(algo, algo_config: dir, plots_save_path):
     #                 f.append(os.path.join(root, name))
     #     cnt += 1
     # f = [r'./agents_runs/ConveyorEnv_A/PPO/4/checkpoint_000400/checkpoint-400']
-    f = [r'PPO_CHECKPOINTS/final/checkpoint_000200/checkpoint-200']
+    f = [r'PPO_CHECKPOINTS/checkpoint_000850/checkpoint-850']
     for no, path in enumerate(f):
         if algo == 'PPO':
             agent = ppo.PPOTrainer(config=algo_config, env='env_cfms_eval')

@@ -391,19 +391,74 @@ if __name__ == '__main__':
             # "timesteps_per_batch": 2048,
         },
             **cfg)
-        if args.algo == 'PPO':
-            algo_config = ppo.DEFAULT_CONFIG.copy()
-        elif args.algo == 'A3C':
-            algo_config = a3c.DEFAULT_CONFIG.copy()
-        else:
-            algo_config = dqn.DEFAULT_CONFIG.copy()
-        algo_config.update(config)
-        algo_config['model']['fcnet_activation'] = 'relu'
-        algo_config['evaluation_interval'] = 50
-        # algo_config['evaluation_duration'] = 10
-        algo_config["evaluation_parallel_to_training"]: True
     else:
-        algo_config = None
+        config = dict({
+            "env": "env_cfms",
+            "model": {
+                "custom_model": "env_cfms",
+            },
+            "env_config": {
+                "version": "full",
+                "final_reward": args.final_reward,
+                "mask": True,
+                "no_of_jobs": args.no_of_jobs,
+                "init_jobs": args.init_jobs,
+                'state_extension': args.state_extension,
+            },
+            "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
+            "num_workers": 1,  # parallelism
+            "framework": 'torch',
+            "num_atoms": 1,
+            "v_min": -10,
+            "v_max": 10,
+            "noisy": False,
+            "sigma0": 0.5,
+            # "dueling": False,
+            # "hiddens": [],
+            "double_q": True,
+            "n_step": 2,
+            "target_network_update_freq": 500,
+            "exploration_config": {
+                "type": "EpsilonGreedy",
+                "initial_epsilon": 1,
+                "final_epsilon": 0.02,
+                "epsilon_timesteps": 1000,
+                # "temperature": None
+            },
+            "buffer_size": 50000,
+            "prioritized_replay": True,
+            "prioritized_replay_alpha": 0.6,
+            "prioritized_replay_beta": 0.4,
+            "final_prioritized_replay_beta": 0.4,
+            "prioritized_replay_beta_annealing_timesteps": 20000,
+            "prioritized_replay_eps": 1.00E-06,
+            # "compress_observation": False,
+            "before_learn_on_batch": None,
+            "training_intensity": None,
+            "lr": 5.00E-04,
+            "lr_schedule": None,
+            "adam_epsilon": 1.00E-08,
+            "grad_clip": 40,
+            "learning_starts": 1000,
+            "rollout_fragment_length": 32,
+            "train_batch_size": 128,
+            # "num_workers": 32,
+            "worker_side_prioritization": False,
+            "min_iter_time_s": 30,
+            "timesteps_per_iteration": 1000
+        },
+            **cfg)
+    if args.algo == 'PPO':
+        algo_config = ppo.DEFAULT_CONFIG.copy()
+    elif args.algo == 'A3C':
+        algo_config = a3c.DEFAULT_CONFIG.copy()
+    else:
+        algo_config = dqn.DEFAULT_CONFIG.copy()
+    algo_config.update(config)
+    algo_config['model']['fcnet_activation'] = 'relu'
+    algo_config['evaluation_interval'] = 50
+    # algo_config['evaluation_duration'] = 10
+    algo_config["evaluation_parallel_to_training"]: True
 
     stop = {
         "training_iteration": 100 * args.no_of_jobs
