@@ -476,7 +476,8 @@ if __name__ == '__main__':
     algo_config["evaluation_parallel_to_training"]: True
 
     stop = {
-        "training_iteration": 100 * args.no_of_jobs
+        "training_iteration": 100 * args.no_of_jobs,
+        "reward": 29.65
     }
     plots_save_path, agent_save_path, best_agent_save_path = setup(args.algo, args.no_of_jobs, args.env, timestamp)
 
