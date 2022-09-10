@@ -85,7 +85,7 @@ parser.add_argument(
 parser.add_argument(
     "--algo",
     type=str,
-    default="PPO",
+    default="DQN",
     choices=["PPO", "SAC", "A2C", "A3C", "DQN", "DDPG", "APEX", "APEX_DDPG", "PG"],
     help="The RLlib-registered algorithm to use.")
 parser.add_argument(
@@ -130,13 +130,13 @@ parser.add_argument(
 )
 parser.add_argument(
     "--no_of_jobs",
-    default=4,
+    default=8,
     type=int,
     help="Number of tokens to run in an environment."
 )
 parser.add_argument(
     "--init_jobs",
-    default=2,
+    default=4,
     type=int,
     help="Number of tokens to initialize in an environment. This should be greater than or equal to self.no_of_jobs."
 )
@@ -325,7 +325,7 @@ if __name__ == '__main__':
     register_env("env_cfms_D", lambda _: ConveyorEnv_D({'version': 'full', 'final_reward': args.final_reward,
                                                         'mask': True, 'state_extension': args.state_extension,
                                                         'no_of_jobs': args.no_of_jobs, 'init_jobs': args.init_jobs}))
-    if not args.state_extension:
+    if args.algo == 'DQN':
         ModelCatalog.register_custom_model(
             "env_cfms_A", TorchParametricActionsModelv2
         )
@@ -338,19 +338,34 @@ if __name__ == '__main__':
         ModelCatalog.register_custom_model(
             "env_cfms_D", TorchParametricActionsModelv2
         )
+
     else:
-        ModelCatalog.register_custom_model(
-            "env_cfms_A", TorchParametricActionsModelv3
-        )
-        ModelCatalog.register_custom_model(
-            "env_cfms_B", TorchParametricActionsModelv3
-        )
-        ModelCatalog.register_custom_model(
-            "env_cfms_C", TorchParametricActionsModelv3
-        )
-        ModelCatalog.register_custom_model(
-            "env_cfms_D", TorchParametricActionsModelv3
-        )
+        if not args.state_extension:
+            ModelCatalog.register_custom_model(
+                "env_cfms_A", TorchParametricActionsModelv2
+            )
+            ModelCatalog.register_custom_model(
+                "env_cfms_B", TorchParametricActionsModelv2
+            )
+            ModelCatalog.register_custom_model(
+                "env_cfms_C", TorchParametricActionsModelv2
+            )
+            ModelCatalog.register_custom_model(
+                "env_cfms_D", TorchParametricActionsModelv2
+            )
+        else:
+            ModelCatalog.register_custom_model(
+                "env_cfms_A", TorchParametricActionsModelv3
+            )
+            ModelCatalog.register_custom_model(
+                "env_cfms_B", TorchParametricActionsModelv3
+            )
+            ModelCatalog.register_custom_model(
+                "env_cfms_C", TorchParametricActionsModelv3
+            )
+            ModelCatalog.register_custom_model(
+                "env_cfms_D", TorchParametricActionsModelv3
+            )
 
     if args.algo == 'DQN':
         cfg = {
@@ -393,9 +408,9 @@ if __name__ == '__main__':
             **cfg)
     else:
         config = dict({
-            "env": "env_cfms",
+            "env": f"env_cfms_{args.env[-1]}",
             "model": {
-                "custom_model": "env_cfms",
+                "custom_model": f"env_cfms_{args.env[-1]}",
             },
             "env_config": {
                 "version": "full",
