@@ -826,7 +826,7 @@ class ConveyorEnv_B(gym.Env):
                         self.reward = -self.current_token[0][-1] * (1 / 100100)
                     else:
                         self.reward = -2 * self.current_token[0][-1] * (1 / 100100)
-                self.reward += (5 * self.terminating_in_middle + ((25 / self.no_of_jobs) * self.termination) +
+                self.reward += (-5 * self.terminating_in_middle + ((25 / self.no_of_jobs) * self.termination) +
                                 5 * self.done * (not self.terminating_in_middle))
             else:
                 self.reward = -0.002
