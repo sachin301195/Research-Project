@@ -8,8 +8,12 @@ This repository contains the code and resources for my research project titled "
 
 In this project, I addressed the challenges of optimizing routing within Flexible Manufacturing Systems. The goal was to find efficient routes for objects in complex conveyor networks, ensuring smooth operations and avoiding collisions while minimizing the overall travel distance and time. To achieve this, I employed the Proximal Policy Optimization (PPO) algorithm, a powerful reinforcement learning technique.
 
-The conveyor network considered for the project was obtained from [Hang Li, "Improve the Performance of a Complex FMS with a Hybrid Machine Learning Algorithm.", *Journal of Software Engineering and Applications, Vol.10 No.3*, March 2017.](https://www.scirp.org/journal/paperinformation.aspx?paperid=74672) And figure below is taken from that.
-![Conveyor Network]()
+The conveyor network considered for the project was obtained from [Hang Li, "Improve the Performance of a Complex FMS with a Hybrid Machine Learning Algorithm.", *Journal of Software Engineering and Applications, Vol.10 No.3*, March 2017.](https://www.scirp.org/journal/paperinformation.aspx?paperid=74672) And figure below is the adaptation of that.   
+![Conveyor Network](https://github.com/sachin301195/Research-Project/blob/main/Conveyor-Network.png)
+
+- *Custom Environment:-*   
+   A custom environment is created in Python language and it uses Petri-Nets to simulate the conveyor network. The figure below shows one junction (highlighted with Green) of the conveyor network converted into a Petri-Net structure.
+  ![Conveyor Node, marked with Green box](https://github.com/sachin301195/Research-Project/blob/main/PetriNet_Node.png)
 
 ### Key Features
 
@@ -48,7 +52,4 @@ This project is licensed under the [MIT License](LICENSE).-->
 
 ## Acknowledgments
 
-I would like to express my gratitude to [mention any individuals, organizations, or libraries/tools that were instrumental in your research].
-
-![image](https://github.com/sachin301195/Research-Project/assets/48790456/1822d349-bd86-4158-9790-de9621a80039)
-![alt text](https://github.com/sachin301195/Research-Project/blob/main/Upodated%20PERTINET%20(1).jpg)
+I would like to express my gratitude to Dr. Stefan Windmann, Dr. Markus Lage-Heggerman, Technische Hochschule Ostwesfalen-Lippe, and Fraunhofer IOSB-INA.
