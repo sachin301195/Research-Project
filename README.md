@@ -12,7 +12,7 @@ The conveyor network considered for the project was obtained from [Hang Li, "Imp
 ![Conveyor Network](https://github.com/sachin301195/Research-Project/blob/main/Conveyor-Network.png)
 
 - *Custom Environment:-*   
-   A custom environment is created in Python language and it uses Petri-Nets to simulate the conveyor network. The figure below shows one junction (highlighted with Green) of the conveyor network converted into a Petri-Net structure.
+   A custom environment is created in Python language and it uses Petri-Nets to simulate the conveyor network. The figure below shows one junction (highlighted with Green) of the conveyor network converted into a Petri-Net structure.   
   ![Conveyor Node, marked with Green box](https://github.com/sachin301195/Research-Project/blob/main/PetriNet_Node.png)
 
 ### Key Features
